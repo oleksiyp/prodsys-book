@@ -1,0 +1,54 @@
+<div class="dg-figure" data-fig="fig-3-2" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 384" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-3-2-title fig-3-2-desc">
+<title id="fig-3-2-title">What the pre-warm costs a year</title>
+<desc id="fig-3-2-desc">Engineer-hours per year spent on the on-sale pre-warm against the number of on-sales a year. The wiki page took 70 to 120 minutes each time, so at 160 on-sales it cost roughly 190 to 320 hours. The script cut that to about 12 minutes, 32 hours; curtain-up needs about 5 minutes of review, some 13 hours. Every generation still grows with the number of on-sales.</desc>
+<defs><marker id="fig-3-2-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-3-2-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-3-2-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<rect class="dg-paper" width="100%" height="100%" rx="8"/>
+<line class="dg-grid" x1="72" y1="304.0" x2="792" y2="304.0"/>
+<line class="dg-grid" x1="72" y1="238.0" x2="792" y2="238.0"/>
+<line class="dg-grid" x1="72" y1="172.0" x2="792" y2="172.0"/>
+<line class="dg-grid" x1="72" y1="106.0" x2="792" y2="106.0"/>
+<line class="dg-grid" x1="72" y1="40.0" x2="792" y2="40.0"/>
+<line class="dg-axis" x1="72" y1="304" x2="792" y2="304"/>
+<line class="dg-axis" x1="72" y1="304" x2="72" y2="40"/>
+<line class="dg-axis" x1="72.0" y1="304" x2="72.0" y2="308"/>
+<text class="dg-tick" x="72.0" y="320" text-anchor="middle">0</text>
+<line class="dg-axis" x1="216.0" y1="304" x2="216.0" y2="308"/>
+<text class="dg-tick" x="216.0" y="320" text-anchor="middle">40</text>
+<line class="dg-axis" x1="360.0" y1="304" x2="360.0" y2="308"/>
+<text class="dg-tick" x="360.0" y="320" text-anchor="middle">80</text>
+<line class="dg-axis" x1="504.0" y1="304" x2="504.0" y2="308"/>
+<text class="dg-tick" x="504.0" y="320" text-anchor="middle">120</text>
+<line class="dg-axis" x1="648.0" y1="304" x2="648.0" y2="308"/>
+<text class="dg-tick" x="648.0" y="320" text-anchor="middle">160</text>
+<line class="dg-axis" x1="792.0" y1="304" x2="792.0" y2="308"/>
+<text class="dg-tick" x="792.0" y="320" text-anchor="middle">200</text>
+<text class="dg-tick" x="64" y="307.0" text-anchor="end">0</text>
+<text class="dg-tick" x="64" y="241.0" text-anchor="end">100</text>
+<text class="dg-tick" x="64" y="175.0" text-anchor="end">200</text>
+<text class="dg-tick" x="64" y="109.0" text-anchor="end">300</text>
+<text class="dg-tick" x="64" y="43.0" text-anchor="end">400</text>
+<text class="dg-axis-label" x="792" y="336" text-anchor="end">ON-SALES A YEAR</text>
+<text class="dg-axis-label" x="72" y="30" text-anchor="start">ENGINEER-HOURS A YEAR</text>
+<polygon class="dg-area dg-ar-soft" points="72.0,304.0 792.0,40.0 792.0,150.0"/>
+<rect class="dg-mask" x="656" y="245.2" width="104" height="12" rx="2"/><text class="dg-label" x="708" y="254.2">ENCORE: ABOUT 160</text>
+<rect class="dg-mask" x="516.0" y="77.8" width="124" height="12" rx="2"/><text class="dg-label" x="578.0" y="86.8">WIKI, SLOW DAY: 320 H</text>
+<rect class="dg-mask" x="528.0" y="165.8" width="112" height="12" rx="2"/><text class="dg-label" x="584.0" y="174.8">WIKI, 70 MIN: 187 H</text>
+<rect class="dg-mask" x="544.0" y="267.9" width="96" height="12" rx="2"/><text class="dg-label" x="592.0" y="276.9">PREWARM.PY: 32 H</text>
+<rect class="dg-mask" x="656.0" y="300.2" width="136" height="12" rx="2"/><text class="dg-label dg-l-accent" x="724.0" y="309.2">CURTAIN-UP REVIEW: 13 H</text>
+<polyline class="dg-series dg-s-ink" points="72.0,304.0 792.0,150.0"/>
+<polyline class="dg-series dg-s-ink" points="72.0,304.0 792.0,40.0" stroke-dasharray="5 4"/>
+<polyline class="dg-series dg-s-ink" points="72.0,304.0 792.0,277.6"/>
+<polyline class="dg-series dg-s-accent" points="72.0,304.0 792.0,293.0"/>
+<line class="dg-series dg-s-soft" x1="648.0" y1="40" x2="648.0" y2="304" stroke-dasharray="5 4"/>
+<circle class="dg-dot dg-dot-ink" cx="648.0" cy="180.8" r="4"/>
+<circle class="dg-dot dg-dot-ink" cx="648.0" cy="92.8" r="4"/>
+<circle class="dg-dot dg-dot-ink" cx="648.0" cy="282.9" r="4"/>
+<circle class="dg-dot dg-dot-ink" cx="648.0" cy="295.2" r="4"/>
+<line class="dg-rule" x1="24" y1="344" x2="840" y2="344"/>
+<line class="dg-a dg-a-muted" x1="24" y1="360" x2="48" y2="360" marker-end="url(#fig-3-2-m-muted)"/>
+<text class="dg-legend" x="56" y="363">Wiki page, 70 to 120 minutes</text>
+<line class="dg-a dg-a-muted" x1="240" y1="360" x2="264" y2="360" marker-end="url(#fig-3-2-m-muted)"/>
+<text class="dg-legend" x="272" y="363">Script, 12 minutes</text>
+<line class="dg-a dg-a-accent" x1="400" y1="360" x2="424" y2="360" marker-end="url(#fig-3-2-m-accent)"/>
+<text class="dg-legend" x="432" y="363">Curtain-up, 5 minutes of review</text>
+</svg></div></div>

@@ -1,0 +1,48 @@
+<div class="dg-figure" data-fig="fig-7-1" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 372" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-7-1-title fig-7-1-desc">
+<title id="fig-7-1-title">Three governors on one lever</title>
+<desc id="fig-7-1-desc">A sketch of Catalog&#x27;s replica count over half an hour. An engineer scales it from 20 to 60; within a minute the GitOps agent restores the manifest&#x27;s 20; the autoscaler then trims the idle pods toward its floor of 12, and the GitOps agent resets them to 20 again, drawing a sawtooth while the engineer believes the service is at 60.</desc>
+<defs><marker id="fig-7-1-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-7-1-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-7-1-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<rect class="dg-paper" width="100%" height="100%" rx="8"/>
+<line class="dg-grid" x1="72" y1="272.0" x2="816" y2="272.0"/>
+<line class="dg-grid" x1="72" y1="232.2" x2="816" y2="232.2"/>
+<line class="dg-grid" x1="72" y1="205.7" x2="816" y2="205.7"/>
+<line class="dg-grid" x1="72" y1="139.4" x2="816" y2="139.4"/>
+<line class="dg-grid" x1="72" y1="73.1" x2="816" y2="73.1"/>
+<line class="dg-axis" x1="72" y1="272" x2="816" y2="272"/>
+<line class="dg-axis" x1="72" y1="272" x2="72" y2="40"/>
+<line class="dg-axis" x1="72.0" y1="272" x2="72.0" y2="276"/>
+<text class="dg-tick" x="72.0" y="288" text-anchor="middle">0</text>
+<line class="dg-axis" x1="196.0" y1="272" x2="196.0" y2="276"/>
+<text class="dg-tick" x="196.0" y="288" text-anchor="middle">6</text>
+<line class="dg-axis" x1="320.0" y1="272" x2="320.0" y2="276"/>
+<text class="dg-tick" x="320.0" y="288" text-anchor="middle">12</text>
+<line class="dg-axis" x1="444.0" y1="272" x2="444.0" y2="276"/>
+<text class="dg-tick" x="444.0" y="288" text-anchor="middle">18</text>
+<line class="dg-axis" x1="568.0" y1="272" x2="568.0" y2="276"/>
+<text class="dg-tick" x="568.0" y="288" text-anchor="middle">24</text>
+<line class="dg-axis" x1="692.0" y1="272" x2="692.0" y2="276"/>
+<text class="dg-tick" x="692.0" y="288" text-anchor="middle">30</text>
+<line class="dg-axis" x1="816.0" y1="272" x2="816.0" y2="276"/>
+<text class="dg-tick" x="816.0" y="288" text-anchor="middle">36</text>
+<text class="dg-tick" x="64" y="275.0" text-anchor="end">0</text>
+<text class="dg-tick" x="64" y="235.2" text-anchor="end">12</text>
+<text class="dg-tick" x="64" y="208.7" text-anchor="end">20</text>
+<text class="dg-tick" x="64" y="142.4" text-anchor="end">40</text>
+<text class="dg-tick" x="64" y="76.1" text-anchor="end">60</text>
+<text class="dg-axis-label" x="816" y="304" text-anchor="end">MINUTES</text>
+<text class="dg-axis-label" x="72" y="30" text-anchor="start">CATALOG REPLICAS</text>
+<rect class="dg-mask" x="530.08" y="53.1429" width="152" height="12" rx="2"/><text class="dg-label" x="606.08" y="62.1429">WHAT THE ENGINEER BELIEVED</text>
+<rect class="dg-mask" x="733.68" y="240.229" width="60" height="12" rx="2"/><text class="dg-label" x="763.68" y="249.229">HPA FLOOR</text>
+<rect class="dg-mask" x="142.0" y="56.1" width="108" height="12" rx="2"/><text class="dg-label dg-l-accent" x="196.0" y="65.1">KUBECTL SCALE → 60</text>
+<rect class="dg-mask" x="162.7" y="133.4" width="112" height="12" rx="2"/><text class="dg-label" x="218.7" y="142.4">GITOPS REVERTS → 20</text>
+<rect class="dg-mask" x="162.7" y="233.3" width="112" height="12" rx="2"/><text class="dg-label" x="218.7" y="242.3">HPA TRIMS IDLE PODS</text>
+<rect class="dg-mask" x="324.0" y="186.7" width="108" height="12" rx="2"/><text class="dg-label" x="378.0" y="195.7">GITOPS RESETS → 20</text>
+<line class="dg-series dg-s-soft" x1="72" y1="73.1" x2="816" y2="73.1" stroke-dasharray="5 4"/>
+<line class="dg-series dg-s-soft" x1="72" y1="232.2" x2="816" y2="232.2" stroke-dasharray="5 4"/>
+<polyline class="dg-series dg-s-accent" points="72.0,205.7 134.0,205.7 134.0,73.1 154.7,73.1 154.7,205.7 258.0,205.7 258.0,212.3 278.7,212.3 278.7,219.0 299.3,219.0 299.3,225.6 320.0,225.6 320.0,205.7 423.3,205.7 423.3,212.3 444.0,212.3 444.0,219.0 464.7,219.0 464.7,225.6 506.0,225.6 506.0,205.7 609.3,205.7 609.3,212.3 630.0,212.3 630.0,219.0 650.7,219.0 650.7,225.6 692.0,225.6 692.0,205.7 795.3,205.7 795.3,212.3 816.0,212.3"/>
+<line class="dg-rule" x1="24" y1="332" x2="840" y2="332"/>
+<line class="dg-a dg-a-accent" x1="24" y1="348" x2="48" y2="348" marker-end="url(#fig-7-1-m-accent)"/>
+<text class="dg-legend" x="56" y="351">Actual replicas</text>
+<line class="dg-a dg-a-muted dg-dash" x1="168" y1="348" x2="192" y2="348" marker-end="url(#fig-7-1-m-muted)"/>
+<text class="dg-legend" x="200" y="351">Belief and floor</text>
+</svg></div></div>

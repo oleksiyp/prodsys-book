@@ -1,0 +1,38 @@
+<div class="dg-figure" data-fig="fig-13-5" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 412" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-13-5-title fig-13-5-desc">
+<title id="fig-13-5-title">The hierarchy of controls at Encore</title>
+<desc id="fig-13-5-desc">An inverted pyramid of five kinds of remedy, from the most reliable at the top to the least at the bottom: eliminate the hazard, substitute something safer, engineer a barrier, add procedure and training, and remind people. Beside each level sits the Encore change from the Vesper Hale review that belongs there; the bottom level holds a reminder, which is a wish.</desc>
+<defs><marker id="fig-13-5-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-13-5-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-13-5-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<rect class="dg-paper" width="100%" height="100%" rx="8"/>
+<polygon class="dg-ill-fill" points="40,52 360,52 336,104 64,104"/>
+<polygon class="dg-ill-fill" points="68,112 332,112 308,164 92,164"/>
+<polygon class="dg-ill-fill" points="96,172 304,172 280,224 120,224"/>
+<polygon class="dg-ill-fill" points="124,232 276,232 252,284 148,284"/>
+<polygon class="dg-ill-fill-accent" points="152,292 248,292 224,344 176,344"/>
+<path class="dg-a dg-a-muted" d="M 352,78 L 392,78"/>
+<path class="dg-a dg-a-muted" d="M 324,138 L 392,138"/>
+<path class="dg-a dg-a-muted" d="M 296,198 L 392,198"/>
+<path class="dg-a dg-a-muted" d="M 268,258 L 392,258"/>
+<path class="dg-a dg-a-muted" d="M 240,318 L 392,318"/>
+<rect class="dg-mask" x="108" y="32" width="184" height="12" rx="2"/><text class="dg-label" x="200" y="41">WORKS EVEN WHEN NOBODY REMEMBERS</text>
+<rect class="dg-mask" x="110" y="352" width="180" height="12" rx="2"/><text class="dg-label dg-l-accent" x="200" y="361">WORKS ONLY IF SOMEONE REMEMBERS</text>
+<text class="dg-name" x="200" y="82">Eliminate</text>
+<text class="dg-name" x="200" y="142">Substitute</text>
+<text class="dg-name" x="200" y="202">Engineer</text>
+<text class="dg-name" x="200" y="262">Procedure</text>
+<text class="dg-name" x="200" y="322">Remind</text>
+<text class="dg-note" x="400" y="75">Nodes hosting shard leaders are never drained during a sale</text>
+<text class="dg-note" x="400" y="89">(the hazard is gone, whoever is on call)</text>
+<text class="dg-note" x="400" y="135">Freeze scope derived from the traced dependency graph,</text>
+<text class="dg-note" x="400" y="149">not a hand-kept list of services</text>
+<text class="dg-note" x="400" y="195">Reconciler reads the calendar and holds from T−2h; cold-cache</text>
+<text class="dg-note" x="400" y="209">test gates admission changes; bot rule drops to observe-only</text>
+<text class="dg-note" x="400" y="255">Exception register reviewed monthly; readiness review asks</text>
+<text class="dg-note" x="400" y="269">about cache state; every bot rule has an owner and a review date</text>
+<text class="dg-note" x="400" y="315">“Remind engineers to check cache state”</text>
+<text class="dg-note" x="400" y="329">a wish, not a control</text>
+<line class="dg-rule" x1="24" y1="372" x2="840" y2="372"/>
+<rect class="dg-n dg-n-backend" x="24" y="383" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="46" y="391">Kind of remedy, most reliable at the top</text>
+<rect class="dg-n dg-n-focal" x="298" y="383" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="320" y="391">Depends on someone remembering</text>
+</svg></div></div>

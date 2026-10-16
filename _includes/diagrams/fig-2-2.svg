@@ -1,0 +1,51 @@
+<div class="dg-figure" data-fig="fig-2-2" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 364" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-2-2-title fig-2-2-desc">
+<title id="fig-2-2-title">The retry storm through the cheese</title>
+<desc id="fig-2-2-desc">Reason&#x27;s Swiss cheese model applied to Encore&#x27;s first big outage. A slow payment provider is the trigger; four defenses stand between it and the fans: retries, connection pools, health checks and the autoscaler. Each has holes left by latent conditions set far from the sharp end, and on the day they lined up, letting the slowdown through to an outage of the purchase path.</desc>
+<defs><marker id="fig-2-2-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-2-2-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-2-2-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<rect class="dg-paper" width="100%" height="100%" rx="8"/>
+<polygon class="dg-ill-fill" points="220,64 260,48 260,224 220,240"/>
+<ellipse class="dg-mask" cx="240" cy="96" rx="9" ry="15"/><ellipse class="dg-ill-soft" cx="240" cy="96" rx="9" ry="15"/>
+<ellipse class="dg-mask" cx="240" cy="200" rx="9" ry="15"/><ellipse class="dg-ill-soft" cx="240" cy="200" rx="9" ry="15"/>
+<ellipse class="dg-mask" cx="240" cy="152" rx="10" ry="17"/><ellipse class="dg-ill-soft" cx="240" cy="152" rx="10" ry="17"/>
+<polygon class="dg-ill-fill" points="348,64 388,48 388,224 348,240"/>
+<ellipse class="dg-mask" cx="368" cy="80" rx="9" ry="15"/><ellipse class="dg-ill-soft" cx="368" cy="80" rx="9" ry="15"/>
+<ellipse class="dg-mask" cx="368" cy="212" rx="9" ry="15"/><ellipse class="dg-ill-soft" cx="368" cy="212" rx="9" ry="15"/>
+<ellipse class="dg-mask" cx="368" cy="152" rx="10" ry="17"/><ellipse class="dg-ill-soft" cx="368" cy="152" rx="10" ry="17"/>
+<polygon class="dg-ill-fill" points="476,64 516,48 516,224 476,240"/>
+<ellipse class="dg-mask" cx="496" cy="104" rx="9" ry="15"/><ellipse class="dg-ill-soft" cx="496" cy="104" rx="9" ry="15"/>
+<ellipse class="dg-mask" cx="496" cy="196" rx="9" ry="15"/><ellipse class="dg-ill-soft" cx="496" cy="196" rx="9" ry="15"/>
+<ellipse class="dg-mask" cx="496" cy="152" rx="10" ry="17"/><ellipse class="dg-ill-soft" cx="496" cy="152" rx="10" ry="17"/>
+<polygon class="dg-ill-fill" points="604,64 644,48 644,224 604,240"/>
+<ellipse class="dg-mask" cx="624" cy="88" rx="9" ry="15"/><ellipse class="dg-ill-soft" cx="624" cy="88" rx="9" ry="15"/>
+<ellipse class="dg-mask" cx="624" cy="208" rx="9" ry="15"/><ellipse class="dg-ill-soft" cx="624" cy="208" rx="9" ry="15"/>
+<ellipse class="dg-mask" cx="624" cy="152" rx="10" ry="17"/><ellipse class="dg-ill-soft" cx="624" cy="152" rx="10" ry="17"/>
+<path class="dg-a dg-a-accent" d="M 160,152 L 732,152" marker-end="url(#fig-2-2-m-accent)"/>
+<rect class="dg-mask" x="24" y="124" width="128" height="56" rx="6"/>
+<rect class="dg-n dg-n-input" x="24" y="124" width="128" height="56" rx="6"/>
+<text class="dg-name" x="88" y="154">PSP slows</text>
+<text class="dg-sub" x="88" y="169">200 ms to 8 s</text>
+<rect class="dg-mask" x="740" y="124" width="100" height="56" rx="6"/>
+<rect class="dg-n dg-n-focal" x="740" y="124" width="100" height="56" rx="6"/>
+<text class="dg-name" x="790" y="154">Outage</text>
+<text class="dg-sub" x="790" y="169">purchase path</text>
+<text class="dg-name" x="240" y="264">Retries</text>
+<text class="dg-sub" x="240" y="280">at every layer;</text>
+<text class="dg-sub" x="240" y="292">nobody owns the sum</text>
+<text class="dg-name" x="368" y="264">Connection pools</text>
+<text class="dg-sub" x="368" y="280">shared with the</text>
+<text class="dg-sub" x="368" y="292">health checks</text>
+<text class="dg-name" x="496" y="264">Health checks</text>
+<text class="dg-sub" x="496" y="280">measure the pool,</text>
+<text class="dg-sub" x="496" y="292">not the instance</text>
+<text class="dg-name" x="624" y="264">Autoscaler</text>
+<text class="dg-sub" x="624" y="280">policy written for</text>
+<text class="dg-sub" x="624" y="292">a different overload</text>
+<text class="dg-eyebrow" x="432" y="32">DEFENSES, EACH WITH HOLES LEFT BY LATENT CONDITIONS</text>
+<line class="dg-rule" x1="24" y1="324" x2="840" y2="324"/>
+<rect class="dg-n dg-n-input" x="24" y="335" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="46" y="343">Trigger at the sharp end</text>
+<line class="dg-a dg-a-accent" x1="208" y1="340" x2="232" y2="340" marker-end="url(#fig-2-2-m-accent)"/>
+<text class="dg-legend" x="240" y="343">The day the holes lined up</text>
+<rect class="dg-n dg-n-focal" x="413" y="335" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="435" y="343">Loss</text>
+</svg></div></div>

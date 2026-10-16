@@ -1,0 +1,53 @@
+<div class="dg-figure" data-fig="fig-13-3" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 352" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-13-3-title fig-13-3-desc">
+<title id="fig-13-3-title">Freeze exceptions in the year before Vesper Hale</title>
+<desc id="fig-13-3-desc">Bar chart of change-freeze exceptions granted in chat per quarter over the year before the Vesper Hale on-sale: 3, 11, 13 and 14, with a running total that reaches 41. None was followed by an incident, and no one was counting.</desc>
+<defs><marker id="fig-13-3-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-13-3-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-13-3-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<rect class="dg-paper" width="100%" height="100%" rx="8"/>
+<line class="dg-grid" x1="72" y1="256.0" x2="816" y2="256.0"/>
+<line class="dg-grid" x1="72" y1="209.8" x2="816" y2="209.8"/>
+<line class="dg-grid" x1="72" y1="163.6" x2="816" y2="163.6"/>
+<line class="dg-grid" x1="72" y1="117.3" x2="816" y2="117.3"/>
+<line class="dg-grid" x1="72" y1="71.1" x2="816" y2="71.1"/>
+<line class="dg-axis" x1="72" y1="256" x2="816" y2="256"/>
+<line class="dg-axis" x1="72" y1="256" x2="72" y2="48"/>
+<line class="dg-axis" x1="152.9" y1="256" x2="152.9" y2="260"/>
+<text class="dg-tick" x="152.9" y="272" text-anchor="middle">Q1</text>
+<line class="dg-axis" x1="314.6" y1="256" x2="314.6" y2="260"/>
+<text class="dg-tick" x="314.6" y="272" text-anchor="middle">Q2</text>
+<line class="dg-axis" x1="476.3" y1="256" x2="476.3" y2="260"/>
+<text class="dg-tick" x="476.3" y="272" text-anchor="middle">Q3</text>
+<line class="dg-axis" x1="638.1" y1="256" x2="638.1" y2="260"/>
+<text class="dg-tick" x="638.1" y="272" text-anchor="middle">Q4</text>
+<line class="dg-axis" x1="767.5" y1="256" x2="767.5" y2="260"/>
+<text class="dg-tick" x="767.5" y="272" text-anchor="middle">ON-SALE</text>
+<text class="dg-tick" x="64" y="259.0" text-anchor="end">0</text>
+<text class="dg-tick" x="64" y="212.8" text-anchor="end">10</text>
+<text class="dg-tick" x="64" y="166.6" text-anchor="end">20</text>
+<text class="dg-tick" x="64" y="120.3" text-anchor="end">30</text>
+<text class="dg-tick" x="64" y="74.1" text-anchor="end">40</text>
+<text class="dg-axis-label" x="816" y="288" text-anchor="end">THE TWELVE MONTHS BEFORE VESPER HALE</text>
+<text class="dg-axis-label" x="72" y="38" text-anchor="start">EXCEPTIONS GRANTED IN CHAT</text>
+<rect class="dg-ill-fill" x="112.9" y="242.1" width="80" height="13.9" rx="2"/>
+<rect class="dg-ill-fill" x="274.6" y="205.2" width="80" height="50.8" rx="2"/>
+<rect class="dg-ill-fill" x="436.3" y="195.9" width="80" height="60.1" rx="2"/>
+<rect class="dg-ill-fill" x="598.1" y="191.3" width="80" height="64.7" rx="2"/>
+<rect class="dg-mask" x="447.0" y="53.5" width="264" height="12" rx="2"/><text class="dg-label dg-l-accent" x="579.0" y="62.5">RUNNING TOTAL 41 · NONE FOLLOWED BY AN INCIDENT</text>
+<rect class="dg-mask" x="369.5" y="176.3" width="20" height="12" rx="2"/><text class="dg-label" x="379.5" y="185.3">14</text>
+<rect class="dg-mask" x="531.2" y="116.2" width="20" height="12" rx="2"/><text class="dg-label" x="541.2" y="125.2">27</text>
+<rect class="dg-mask" x="773.5" y="108.3" width="60" height="12" rx="2"/><text class="dg-label" x="803.5" y="117.3">THE 42ND?</text>
+<polyline class="dg-series dg-s-accent" points="72.0,256.0 233.7,242.1 395.5,191.3 557.2,131.2 719.0,66.5"/>
+<circle class="dg-dot dg-dot-ink" cx="233.7" cy="242.1" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="395.5" cy="191.3" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="557.2" cy="131.2" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="719.0" cy="66.5" r="3"/>
+<line class="dg-series dg-s-soft" x1="767.5" y1="48" x2="767.5" y2="256" stroke-dasharray="5 4"/>
+<text class="dg-note" x="153" y="236" text-anchor="middle">3</text>
+<text class="dg-note" x="315" y="199" text-anchor="middle">11</text>
+<text class="dg-note" x="476" y="190" text-anchor="middle">13</text>
+<text class="dg-note" x="638" y="185" text-anchor="middle">14</text>
+<line class="dg-rule" x1="24" y1="312" x2="840" y2="312"/>
+<rect class="dg-n dg-n-backend" x="24" y="323" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="46" y="331">Exceptions that quarter</text>
+<line class="dg-a dg-a-accent" x1="202" y1="328" x2="226" y2="328" marker-end="url(#fig-13-3-m-accent)"/>
+<text class="dg-legend" x="234" y="331">Running total, kept by nobody</text>
+</svg></div></div>

@@ -1,0 +1,85 @@
+<div class="dg-figure" data-fig="fig-12-4" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 506" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-12-4-title fig-12-4-desc">
+<title id="fig-12-4-title">The Vesper Hale on-sale, 09:50 to 11:20</title>
+<desc id="fig-12-4-desc">The Sale Gate&#x27;s admission rate per event: 1,500 fans per second from 10:00, lowered to 900 at 10:19 and returned to 1,200 at 11:10. Checkout was degraded from 10:00 to 10:47. Below the chart, the events of the response at their logged times; the incident was resolved at 12:00.</desc>
+<defs><marker id="fig-12-4-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-12-4-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-12-4-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<rect class="dg-paper" width="100%" height="100%" rx="8"/>
+<line class="dg-grid" x1="72" y1="240.0" x2="816" y2="240.0"/>
+<line class="dg-grid" x1="72" y1="177.5" x2="816" y2="177.5"/>
+<line class="dg-grid" x1="72" y1="115.0" x2="816" y2="115.0"/>
+<line class="dg-grid" x1="72" y1="52.5" x2="816" y2="52.5"/>
+<line class="dg-axis" x1="72" y1="240" x2="816" y2="240"/>
+<line class="dg-axis" x1="72" y1="240" x2="72" y2="40"/>
+<line class="dg-axis" x1="72.0" y1="240" x2="72.0" y2="244"/>
+<text class="dg-tick" x="72.0" y="256" text-anchor="middle">09:50</text>
+<line class="dg-axis" x1="154.7" y1="240" x2="154.7" y2="244"/>
+<text class="dg-tick" x="154.7" y="256" text-anchor="middle">10:00</text>
+<line class="dg-axis" x1="237.3" y1="240" x2="237.3" y2="244"/>
+<text class="dg-tick" x="237.3" y="256" text-anchor="middle">10:10</text>
+<line class="dg-axis" x1="320.0" y1="240" x2="320.0" y2="244"/>
+<text class="dg-tick" x="320.0" y="256" text-anchor="middle">10:20</text>
+<line class="dg-axis" x1="402.7" y1="240" x2="402.7" y2="244"/>
+<text class="dg-tick" x="402.7" y="256" text-anchor="middle">10:30</text>
+<line class="dg-axis" x1="485.3" y1="240" x2="485.3" y2="244"/>
+<text class="dg-tick" x="485.3" y="256" text-anchor="middle">10:40</text>
+<line class="dg-axis" x1="568.0" y1="240" x2="568.0" y2="244"/>
+<text class="dg-tick" x="568.0" y="256" text-anchor="middle">10:50</text>
+<line class="dg-axis" x1="650.7" y1="240" x2="650.7" y2="244"/>
+<text class="dg-tick" x="650.7" y="256" text-anchor="middle">11:00</text>
+<line class="dg-axis" x1="733.3" y1="240" x2="733.3" y2="244"/>
+<text class="dg-tick" x="733.3" y="256" text-anchor="middle">11:10</text>
+<line class="dg-axis" x1="816.0" y1="240" x2="816.0" y2="244"/>
+<text class="dg-tick" x="816.0" y="256" text-anchor="middle">11:20</text>
+<text class="dg-tick" x="64" y="243.0" text-anchor="end">0</text>
+<text class="dg-tick" x="64" y="180.5" text-anchor="end">500</text>
+<text class="dg-tick" x="64" y="118.0" text-anchor="end">1,000</text>
+<text class="dg-tick" x="64" y="55.5" text-anchor="end">1,500</text>
+<text class="dg-axis-label" x="72" y="30" text-anchor="start">ADMISSION RATE · FANS/S PER EVENT</text>
+<rect class="dg-area dg-ar-accent" x="154.7" y="40" width="388.5" height="200"/>
+<rect class="dg-area dg-ar-soft" x="171.2" y="40" width="8.3" height="200"/>
+<line class="dg-grid" x1="88.5" y1="240" x2="88.5" y2="478"/>
+<line class="dg-grid" x1="154.7" y1="240" x2="154.7" y2="460"/>
+<line class="dg-grid" x1="171.2" y1="240" x2="171.2" y2="442"/>
+<line class="dg-grid" x1="187.7" y1="240" x2="187.7" y2="424"/>
+<line class="dg-grid" x1="212.5" y1="240" x2="212.5" y2="406"/>
+<line class="dg-grid" x1="245.6" y1="240" x2="245.6" y2="388"/>
+<line class="dg-grid" x1="270.4" y1="240" x2="270.4" y2="370"/>
+<line class="dg-grid" x1="286.9" y1="240" x2="286.9" y2="352"/>
+<line class="dg-grid" x1="311.7" y1="240" x2="311.7" y2="334"/>
+<line class="dg-grid" x1="353.1" y1="240" x2="353.1" y2="316"/>
+<line class="dg-grid" x1="410.9" y1="240" x2="410.9" y2="298"/>
+<line class="dg-grid" x1="543.2" y1="240" x2="543.2" y2="298"/>
+<line class="dg-grid" x1="733.3" y1="240" x2="733.3" y2="298"/>
+<rect class="dg-mask" x="349.467" y="91.75" width="156" height="12" rx="2"/><text class="dg-label dg-l-accent" x="427.467" y="100.75">47 MIN OF DEGRADED CHECKOUT</text>
+<rect class="dg-mask" x="617.6" y="110.5" width="40" height="12" rx="2"/><text class="dg-label" x="637.6" y="119.5">900/S</text>
+<rect class="dg-mask" x="749.9" y="73.0" width="48" height="12" rx="2"/><text class="dg-label" x="773.9" y="82.0">1,200/S</text>
+<rect class="dg-mask" x="166.9" y="37.5" width="48" height="12" rx="2"/><text class="dg-label" x="190.9" y="46.5">1,500/S</text>
+<rect class="dg-mask" x="86.5" y="472" width="120" height="12" rx="2"/><text class="dg-label" x="146.5" y="481">09:52 CATALOG DEPLOY</text>
+<rect class="dg-mask" x="152.7" y="454" width="96" height="12" rx="2"/><text class="dg-label" x="200.7" y="463">10:00 GATE OPENS</text>
+<rect class="dg-mask" x="169.2" y="436" width="172" height="12" rx="2"/><text class="dg-label" x="255.2" y="445">10:02 DRAIN · SHARD 3 FAILOVER</text>
+<rect class="dg-mask" x="185.7" y="418" width="64" height="12" rx="2"/><text class="dg-label" x="217.7" y="427">10:04 PAGE</text>
+<rect class="dg-mask" x="210.5" y="400" width="140" height="12" rx="2"/><text class="dg-label" x="280.5" y="409">10:07 SEV1 · MARTA IS IC</text>
+<rect class="dg-mask" x="243.6" y="382" width="120" height="12" rx="2"/><text class="dg-label" x="303.6" y="391">10:11 CUE CORRELATES</text>
+<rect class="dg-mask" x="268.4" y="364" width="104" height="12" rx="2"/><text class="dg-label" x="320.4" y="373">10:14 STATUS PAGE</text>
+<rect class="dg-mask" x="284.9" y="346" width="148" height="12" rx="2"/><text class="dg-label" x="358.9" y="355">10:16 WHAT IS BROKEN NOW?</text>
+<rect class="dg-mask" x="309.7" y="328" width="124" height="12" rx="2"/><text class="dg-label" x="371.7" y="337">10:19 ADMISSION 900/S</text>
+<rect class="dg-mask" x="351.1" y="310" width="216" height="12" rx="2"/><text class="dg-label" x="459.1" y="319">10:24 SUPPORT: FANS TOLD THEY ARE BOTS</text>
+<rect class="dg-mask" x="408.9" y="292" width="108" height="12" rx="2"/><text class="dg-label" x="462.9" y="301">10:31 BOT RULE OFF</text>
+<rect class="dg-mask" x="541.2" y="292" width="92" height="12" rx="2"/><text class="dg-label" x="587.2" y="301">10:47 RECOVERED</text>
+<rect class="dg-mask" x="731.3" y="292" width="80" height="12" rx="2"/><text class="dg-label" x="771.3" y="301">11:10 1,200/S</text>
+<polyline class="dg-series dg-s-ink" points="72.0,240.0 154.7,240.0 154.7,52.5 311.7,52.5 311.7,127.5 733.3,127.5 733.3,90.0 816.0,90.0"/>
+<circle class="dg-dot dg-dot-ink" cx="88.5" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="154.7" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="171.2" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="187.7" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="212.5" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="245.6" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="270.4" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="286.9" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="311.7" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="353.1" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="410.9" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="543.2" cy="240" r="3"/>
+<circle class="dg-dot dg-dot-ink" cx="733.3" cy="240" r="3"/>
+<text class="dg-note" x="816" y="278" text-anchor="end">12:00 RESOLVED →</text>
+
+</svg></div></div>

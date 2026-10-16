@@ -1,0 +1,77 @@
+<div class="dg-figure" data-fig="fig-13-1" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 464" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-13-1-title fig-13-1-desc">
+<title id="fig-13-1-title">The control structure of the Vesper Hale on-sale</title>
+<desc id="fig-13-1-desc">A CAST control structure: the readiness review and freeze exempt the node-upgrade reconciler and leave Catalog out of scope; the reconciler, the On-Sale team, the Catalog team and the Bot Screening rule each act on the purchase path; Cue advises the incident commander. Two feedback paths are missing: the reconciler never reads the on-sale calendar, and the bot rule never sees purchase-path error rates.</desc>
+<defs><marker id="fig-13-1-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-13-1-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-13-1-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<rect class="dg-paper" width="100%" height="100%" rx="8"/>
+<path class="dg-a dg-a-accent dg-dash" d="M 96,88 L 96,176" marker-end="url(#fig-13-1-m-accent)"/>
+<path class="dg-a dg-a-muted" d="M 216,88 L 216,124 Q 216,132 208,132 L 152,132 Q 144,132 144,140 L 144,176" marker-end="url(#fig-13-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 304,88 L 304,176" marker-end="url(#fig-13-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 464,88 L 464,176" marker-end="url(#fig-13-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 632,60 L 696,60" marker-end="url(#fig-13-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 800,88 L 800,344" marker-end="url(#fig-13-1-m-muted)"/>
+<path class="dg-a dg-a-link" d="M 824,344 L 824,88" marker-end="url(#fig-13-1-m-link)"/>
+<path class="dg-a dg-a-muted" d="M 104,232 L 104,344" marker-end="url(#fig-13-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 264,232 L 264,344" marker-end="url(#fig-13-1-m-muted)"/>
+<path class="dg-a dg-a-link" d="M 344,344 L 344,232" marker-end="url(#fig-13-1-m-link)"/>
+<path class="dg-a dg-a-muted" d="M 504,232 L 504,344" marker-end="url(#fig-13-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 640,232 L 640,344" marker-end="url(#fig-13-1-m-muted)"/>
+<path class="dg-a dg-a-accent dg-dash" d="M 760,344 L 760,232" marker-end="url(#fig-13-1-m-accent)"/>
+<rect class="dg-mask" x="32" y="126" width="56" height="12" rx="2"/><text class="dg-label dg-l-accent" x="60" y="135">NOT READ</text>
+<rect class="dg-mask" x="158" y="112" width="44" height="12" rx="2"/><text class="dg-label" x="180" y="121">EXEMPT</text>
+<rect class="dg-mask" x="312" y="126" width="92" height="12" rx="2"/><text class="dg-label" x="358" y="135">FREEZE · REVIEW</text>
+<rect class="dg-mask" x="472" y="126" width="76" height="12" rx="2"/><text class="dg-label" x="510" y="135">NOT IN SCOPE</text>
+<rect class="dg-mask" x="636" y="40" width="56" height="12" rx="2"/><text class="dg-label" x="664" y="49">RESTART?</text>
+<rect class="dg-mask" x="112" y="298" width="104" height="12" rx="2"/><text class="dg-label" x="164" y="307">DRAINS NODE 10:02</text>
+<rect class="dg-mask" x="272" y="298" width="104" height="12" rx="2"/><text class="dg-label" x="324" y="307">ADMISSION 1,500/S</text>
+<rect class="dg-mask" x="352" y="258" width="92" height="12" rx="2"/><text class="dg-label dg-l-link" x="398" y="267">WARM-CACHE TEST</text>
+<rect class="dg-mask" x="512" y="298" width="76" height="12" rx="2"/><text class="dg-label" x="550" y="307">DEPLOY 09:52</text>
+<rect class="dg-mask" x="552" y="258" width="80" height="12" rx="2"/><text class="dg-label" x="592" y="267">BLOCKS 30,000</text>
+<rect class="dg-mask" x="660" y="298" width="92" height="12" rx="2"/><text class="dg-label dg-l-accent" x="706" y="307">NO ERROR SIGNAL</text>
+<rect class="dg-mask" x="24" y="32" width="144" height="56" rx="6"/>
+<rect class="dg-n dg-n-store" x="24" y="32" width="144" height="56" rx="6"/>
+<text class="dg-name" x="96" y="62">On-sale calendar</text>
+<text class="dg-sub" x="96" y="77">owned by On-Sale</text>
+<rect class="dg-mask" x="200" y="32" width="280" height="56" rx="6"/>
+<rect class="dg-n dg-n-backend" x="200" y="32" width="280" height="56" rx="6"/>
+<text class="dg-name" x="340" y="62">Readiness review</text>
+<text class="dg-sub" x="340" y="77">freeze scope · exceptions in chat</text>
+<rect class="dg-mask" x="528" y="32" width="104" height="56" rx="6"/>
+<rect class="dg-n dg-n-optional" x="528" y="32" width="104" height="56" rx="6" stroke-dasharray="4,3"/>
+<text class="dg-name" x="580" y="62">Cue</text>
+<text class="dg-sub" x="580" y="77">ops assistant</text>
+<rect class="dg-mask" x="696" y="32" width="144" height="56" rx="6"/>
+<rect class="dg-n dg-n-backend" x="696" y="32" width="144" height="56" rx="6"/>
+<text class="dg-name" x="768" y="62">Incident commander</text>
+<text class="dg-sub" x="768" y="77">Marta</text>
+<rect class="dg-mask" x="24" y="176" width="160" height="56" rx="6"/>
+<rect class="dg-n dg-n-backend" x="24" y="176" width="160" height="56" rx="6"/>
+<text class="dg-name" x="104" y="206">Reconciler</text>
+<text class="dg-sub" x="104" y="221">node upgrades (platform)</text>
+<rect class="dg-mask" x="224" y="176" width="160" height="56" rx="6"/>
+<rect class="dg-n dg-n-backend" x="224" y="176" width="160" height="56" rx="6"/>
+<text class="dg-name" x="304" y="206">On-Sale team</text>
+<text class="dg-sub" x="304" y="221">Gate admission rate</text>
+<rect class="dg-mask" x="424" y="176" width="160" height="56" rx="6"/>
+<rect class="dg-n dg-n-backend" x="424" y="176" width="160" height="56" rx="6"/>
+<text class="dg-name" x="504" y="206">Catalog team</text>
+<text class="dg-sub" x="504" y="221">rolling deploys</text>
+<rect class="dg-mask" x="624" y="176" width="160" height="56" rx="6"/>
+<rect class="dg-n dg-n-backend" x="624" y="176" width="160" height="56" rx="6"/>
+<text class="dg-name" x="704" y="206">Bot Screening</text>
+<text class="dg-sub" x="704" y="221">velocity rule</text>
+<rect class="dg-mask" x="24" y="344" width="816" height="56" rx="6"/>
+<rect class="dg-n dg-n-focal" x="24" y="344" width="816" height="56" rx="6"/>
+<text class="dg-name" x="432" y="374">The purchase path</text>
+<text class="dg-sub" x="432" y="389">Gate · Seat Inventory shard leaders · seat-map geometry cache · checkout</text>
+<line class="dg-rule" x1="24" y1="424" x2="840" y2="424"/>
+<rect class="dg-n dg-n-backend" x="24" y="435" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="46" y="443">Controller</text>
+<rect class="dg-n dg-n-focal" x="130" y="435" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="152" y="443">Controlled process</text>
+<line class="dg-a dg-a-muted" x1="280" y1="440" x2="304" y2="440" marker-end="url(#fig-13-1-m-muted)"/>
+<text class="dg-legend" x="312" y="443">Control action</text>
+<line class="dg-a dg-a-link" x1="418" y1="440" x2="442" y2="440" marker-end="url(#fig-13-1-m-link)"/>
+<text class="dg-legend" x="450" y="443">Feedback</text>
+<line class="dg-a dg-a-accent dg-dash" x1="522" y1="440" x2="546" y2="440" marker-end="url(#fig-13-1-m-accent)"/>
+<text class="dg-legend" x="554" y="443">Missing feedback</text>
+</svg></div></div>

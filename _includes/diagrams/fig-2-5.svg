@@ -1,0 +1,86 @@
+<div class="dg-figure" data-fig="fig-2-5" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-2-5-title fig-2-5-desc">
+<title id="fig-2-5-title">Above and below the line</title>
+<desc id="fig-2-5-desc">After the STELLA report (2017). Encore&#x27;s people sit above the line of representation, each with a partial mental model. Below it sit the services, clusters and the payment provider, which nobody sees directly. Between them are the representations (dashboards, alerts, traces, deploy tools) through which people see the system and act on it.</desc>
+<defs><marker id="fig-2-5-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-2-5-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-2-5-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<rect class="dg-paper" width="100%" height="100%" rx="8"/>
+<line class="dg-ill-accent" stroke-dasharray="6 4" x1="24" y1="206" x2="840" y2="206"/>
+<path class="dg-a dg-a-muted" d="M 212,300 L 212,232" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 212,180 L 212,100" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 260,100 L 260,180" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 260,232 L 260,300" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 384,300 L 384,232" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 384,180 L 384,100" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 432,100 L 432,180" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 432,232 L 432,300" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 556,300 L 556,232" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 556,180 L 556,100" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 604,100 L 604,180" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 604,232 L 604,300" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 728,300 L 728,232" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 728,180 L 728,100" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 776,100 L 776,180" marker-end="url(#fig-2-5-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 776,232 L 776,300" marker-end="url(#fig-2-5-m-muted)"/>
+<rect class="dg-mask" x="172" y="260" width="32" height="12" rx="2"/><text class="dg-label" x="188" y="269">SEES</text>
+<rect class="dg-mask" x="172" y="134" width="32" height="12" rx="2"/><text class="dg-label" x="188" y="143">SEES</text>
+<rect class="dg-mask" x="268" y="134" width="32" height="12" rx="2"/><text class="dg-label" x="284" y="143">ACTS</text>
+<rect class="dg-mask" x="268" y="260" width="32" height="12" rx="2"/><text class="dg-label" x="284" y="269">ACTS</text>
+<rect class="dg-mask" x="160" y="48" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-input" x="160" y="48" width="152" height="52" rx="6"/>
+<text class="dg-name" x="236" y="76">On-call engineer</text>
+<text class="dg-sub" x="236" y="91">model: their service</text>
+<rect class="dg-mask" x="332" y="48" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-input" x="332" y="48" width="152" height="52" rx="6"/>
+<text class="dg-name" x="408" y="76">On-Sale team</text>
+<text class="dg-sub" x="408" y="91">model: tonight&#x27;s plan</text>
+<rect class="dg-mask" x="504" y="48" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-input" x="504" y="48" width="152" height="52" rx="6"/>
+<text class="dg-name" x="580" y="76">Reliability team</text>
+<text class="dg-sub" x="580" y="91">model: past incidents</text>
+<rect class="dg-mask" x="676" y="48" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-input" x="676" y="48" width="152" height="52" rx="6"/>
+<text class="dg-name" x="752" y="76">Incident commander</text>
+<text class="dg-sub" x="752" y="91">model: what is burning</text>
+<rect class="dg-mask" x="160" y="180" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-store" x="160" y="180" width="152" height="52" rx="6"/>
+<text class="dg-name" x="236" y="210">Dashboards, SLOs</text>
+<rect class="dg-mask" x="332" y="180" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-store" x="332" y="180" width="152" height="52" rx="6"/>
+<text class="dg-name" x="408" y="210">Alerts and pages</text>
+<rect class="dg-mask" x="504" y="180" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-store" x="504" y="180" width="152" height="52" rx="6"/>
+<text class="dg-name" x="580" y="210">Traces and logs</text>
+<rect class="dg-mask" x="676" y="180" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-store" x="676" y="180" width="152" height="52" rx="6"/>
+<text class="dg-name" x="752" y="210">Deploy tools</text>
+<rect class="dg-mask" x="160" y="300" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-backend" x="160" y="300" width="152" height="52" rx="6"/>
+<text class="dg-name" x="236" y="328">Gate, Inventory</text>
+<text class="dg-sub" x="236" y="343">services, shards</text>
+<rect class="dg-mask" x="332" y="300" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-backend" x="332" y="300" width="152" height="52" rx="6"/>
+<text class="dg-name" x="408" y="328">Orders, Payments</text>
+<text class="dg-sub" x="408" y="343">the saga</text>
+<rect class="dg-mask" x="504" y="300" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-backend" x="504" y="300" width="152" height="52" rx="6"/>
+<text class="dg-name" x="580" y="328">Kubernetes cells</text>
+<text class="dg-sub" x="580" y="343">nodes, reconcilers</text>
+<rect class="dg-mask" x="676" y="300" width="152" height="52" rx="6"/>
+<rect class="dg-n dg-n-external" x="676" y="300" width="152" height="52" rx="6"/>
+<text class="dg-name" x="752" y="328">Payment provider</text>
+<text class="dg-sub" x="752" y="343">outside party</text>
+<text class="dg-eyebrow" x="24" y="32" style="text-anchor:start">ABOVE THE LINE: PEOPLE, EACH WITH A PARTIAL MODEL</text>
+<text class="dg-eyebrow" x="24" y="372" style="text-anchor:start">BELOW THE LINE: WHAT NOBODY SEES DIRECTLY</text>
+<text class="dg-label dg-l-accent" x="24" y="190" style="text-anchor:start">LINE OF</text>
+<text class="dg-label dg-l-accent" x="24" y="200" style="text-anchor:start">REPRESENTATION</text>
+<line class="dg-rule" x1="24" y1="380" x2="840" y2="380"/>
+<rect class="dg-n dg-n-input" x="24" y="391" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="46" y="399">People</text>
+<rect class="dg-n dg-n-store" x="107" y="391" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="129" y="399">Representations</text>
+<rect class="dg-n dg-n-backend" x="241" y="391" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="263" y="399">The running system</text>
+<rect class="dg-n dg-n-external" x="391" y="391" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="413" y="399">Outside party</text>
+<line class="dg-a dg-a-muted" x1="513" y1="396" x2="537" y2="396" marker-end="url(#fig-2-5-m-muted)"/>
+<text class="dg-legend" x="545" y="399">Seeing and acting, only through representations</text>
+</svg></div></div>

@@ -1483,3 +1483,27 @@ svg.dg { width: 100%; height: auto; display: block; }
 .dg .dg-activation { fill: RGBA(var(--dg-ink-rgb), 0.06); stroke: var(--dg-muted); stroke-width: 0.8; }
 .dg .dg-frame { fill: RGBA(var(--dg-ink-rgb), 0.02); stroke: RGBA(var(--dg-ink-rgb), 0.22); stroke-width: 1; }
 .dg .dg-frame-tab { fill: var(--dg-paper); stroke: RGBA(var(--dg-ink-rgb), 0.22); stroke-width: 1; }
+/* Charts and illustrations (chartkit.py) */
+.dg .dg-axis { stroke: RGBA(var(--dg-ink-rgb), 0.55); stroke-width: 1; }
+.dg .dg-grid { stroke: RGBA(var(--dg-ink-rgb), 0.08); stroke-width: 0.8; }
+.dg .dg-tick { fill: var(--dg-soft); font-size: 8.5px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.dg .dg-axis-label { fill: var(--dg-soft); font-size: 8px; letter-spacing: 0.08em; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.dg .dg-series { fill: none; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
+.dg .dg-s-ink { stroke: var(--dg-ink); }
+.dg .dg-s-soft { stroke: RGBA(var(--dg-ink-rgb), 0.45); stroke-width: 1.2; }
+.dg .dg-s-accent { stroke: var(--dg-accent); stroke-width: 2.2; }
+.dg .dg-s-link { stroke: var(--dg-link); }
+.dg .dg-area { stroke: none; }
+.dg .dg-ar-soft { fill: RGBA(var(--dg-ink-rgb), 0.06); }
+.dg .dg-ar-accent { fill: RGBA(var(--dg-accent-rgb), 0.12); }
+.dg .dg-ar-link { fill: RGBA(var(--dg-ink-rgb), 0.10); }
+.dg .dg-dot { stroke: var(--dg-paper); stroke-width: 1.5; }
+.dg .dg-dot-accent { fill: var(--dg-accent); }
+.dg .dg-dot-ink { fill: var(--dg-ink); }
+.dg .dg-dot-link { fill: var(--dg-link); }
+.dg .dg-ill-ink { fill: none; stroke: var(--dg-ink); stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; }
+.dg .dg-ill-soft { fill: none; stroke: RGBA(var(--dg-ink-rgb), 0.4); stroke-width: 1.1; stroke-linejoin: round; stroke-linecap: round; }
+.dg .dg-ill-accent { fill: none; stroke: var(--dg-accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.dg .dg-ill-link { fill: none; stroke: var(--dg-link); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.dg .dg-ill-fill { fill: var(--dg-backend); stroke: var(--dg-ink); stroke-width: 1.2; }
+.dg .dg-ill-fill-accent { fill: RGBA(var(--dg-accent-rgb), 0.10); stroke: var(--dg-accent); stroke-width: 1.4; }

@@ -148,7 +148,11 @@ As software moved onto the web, a structural problem hardened. Developers were r
 
 Two answers emerged. In 2003 Benjamin Treynor (now Ben Treynor Sloss) joined Google and was put in charge of a production team of seven engineers. He staffed it, and the organization that grew from it, with software engineers who treated operations as a software problem: automate the repetitive work, cap the manual share of each engineer's time, and govern the trade between change and stability with measurements rather than seniority. In Google's *Site Reliability Engineering* (2016) he put it in a line quoted ever since: "SRE is what happens when you ask a software engineer to design an operations team." The other answer came from web companies that could not afford a large operations staff. In 2009 John Allspaw and Paul Hammond described Flickr's practice of deploying more than 10 times a day, through cooperation between developers and operations, and later that year Patrick Debois organized the first DevOpsDays in Ghent. Where SRE built a new kind of operations team, DevOps tried to take down the wall, and Amazon's "you build it, you run it", which the companion volume discussed, pushed the pager all the way to the team that wrote the code.
 
-Encore has inherited all three answers: stream-aligned teams run their own services, a small Reliability team works in the SRE tradition, and the incident commander rotation borrows senior engineers from everywhere. The forms are new; the question is the closed shop's. How do people safely run software whose authors are not in the room? With a coding agent as author, the author may not be anywhere at all, which sharpens the old question without making it new.
+Encore has inherited all three answers: stream-aligned teams run their own services, a small Reliability team works in the SRE tradition, and the incident commander rotation borrows senior engineers from everywhere. The forms are new; the question is the closed shop's. How do people safely run software whose authors are not in the room? With a coding agent as author, the author may not be anywhere at all, which sharpens the old question without making it new. Figure 1.2 sets the whole lineage on one line.
+
+{% include diagrams/fig-1-2.svg %}
+
+*Figure 1.2 — Who has stood between the code and its users, from the 1947 logbook to today. Each era absorbed the last one's routine work into software; notice that the question at the counter never changed, only who stands behind it.*
 
 **Recap.** Operators have always run code they did not write, and the job has always relied on a contract between authors and operators plus judgment for the unwritten cases. Each era moved the operator's knowledge into automation, and each left a residue of judgment behind. SRE and DevOps are two answers to the wall between change and stability, and modern organizations usually combine them.
 
@@ -160,7 +164,11 @@ Encore has inherited all three answers: stream-aligned teams run their own servi
 
 The reliability engineers of the 1950s, working on military electronics that failed at alarming rates, gave us a definition that has held up well: **reliability** is the probability that a system performs its intended function, under stated conditions, for a stated period. Every part of that sentence does work. *Intended function* means that a system can be running and still be failing; *stated conditions* means that reliability on a quiet Tuesday says nothing about reliability during an on-sale; *stated period* means that reliability is always measured over a window, never at an instant.
 
-**Availability** is narrower: the fraction of time, or of requests, for which the system is able to serve. The classical formula divides the mean time between failures by the sum of that and the mean time to repair, and its arithmetic carries a lesson: availability rises either by failing less often or by recovering faster, and for most modern systems the second is far cheaper. Chapter 4 turns availability into targets and budgets.
+**Availability** is narrower: the fraction of time, or of requests, for which the system is able to serve. The classical formula divides the mean time between failures by the sum of that and the mean time to repair, and its arithmetic carries a lesson: availability rises either by failing less often or by recovering faster, and for most modern systems the second is far cheaper. Figure 1.3 draws the arithmetic.
+
+{% include diagrams/fig-1-3.svg %}
+
+*Figure 1.3 — Availability as mean time between failures over the sum of that and mean time to repair, with lines of equal availability. Halving the time to recover buys exactly what doubling the time between failures buys, and it is usually far easier to get.* Chapter 4 turns availability into targets and budgets.
 
 A third property, often left out of such lists, matters most to Encore. **Correctness** is the property that the system's answers are right: that a seat sold is sold once, that a charged fan receives a ticket, and that a ticket is delivered once. Availability measures whether the system answered; users judge what it said. The duplicate ticket the rewrite nearly shipped would have appeared nowhere in availability; the dashboard would have been greenest just as fans found two copies of one seat in their wallets.
 
@@ -176,7 +184,7 @@ Medicine offers the right analogy for what operators usually measure. A hospital
 | Sale Gate p99 latency 40 ms | I have been in the queue 25 minutes and the position hasn't moved |
 | Bot Screening blocked 2% of sessions | I am a real fan and I was told I am a robot |
 
-*Figure 1.2 — Vital signs against the patient's account. Each left-hand statement can be true while the right-hand one is also true.*
+*Figure 1.4 — Vital signs against the patient's account. Each left-hand statement can be true while the right-hand one is also true.*
 
 Two features of user experience shape the rest of the book. Failure is usually partial: some fans on some shard see errors while the rest proceed, so the useful questions are "for whom?" and "how many?" And users feel their own latency, never the median, so in a purchase touching a dozen services someone will meet the slow tail of nearly every one, as the companion volume's tail-at-scale argument showed.
 
@@ -184,7 +192,7 @@ Reliability, finally, is a promise made to people who cannot see inside the syst
 
 **Recap.** Reliability is the probability of doing the intended job under stated conditions over a stated period; availability is narrower, and correctness is a third property that availability cannot see. Operational vital signs are necessary but are not the user's experience. Failure is partial and felt individually, so the useful questions are always for whom, how many and how slowly.
 
-**Exercise 1.3.** For one user journey you own, write five rows of Figure 1.2: a metric your dashboards show, beside a user experience that could coexist with it. Which of the right-hand column could you detect today, and how?
+**Exercise 1.3.** For one user journey you own, write five rows of Figure 1.4: a metric your dashboards show, beside a user experience that could coexist with it. Which of the right-hand column could you detect today, and how?
 
 ### 1.4 The Modern Production Stack
 
@@ -192,7 +200,7 @@ Reliability, finally, is a promise made to people who cannot see inside the syst
 
 A touring concert production is organized in layers. Riggers hang the structure, a power crew brings in electricity, the sound and lighting desks run their systems, and the stage manager calls the cues. Each layer has its own specialists, tools and failure modes, each depends on the ones beneath it, and the show is what they produce together on the night.
 
-The modern production stack is organized the same way, for the same reason. Hierarchy is how we master a whole too complex to hold at once: each layer hides detail from the ones above and offers them a simpler surface to rely on. Figure 1.3 names each layer by the question it answers and maps it to Encore and to the chapter that treats it, which makes it a reading map for the book.
+The modern production stack is organized the same way, for the same reason. Hierarchy is how we master a whole too complex to hold at once: each layer hides detail from the ones above and offers them a simpler surface to rely on. Figure 1.5 names each layer by the question it answers and maps it to Encore and to the chapter that treats it, which makes it a reading map for the book.
 
 At the bottom sits the **runtime and its control plane**: clusters, functions and managed services, declared as code and continuously reconciled toward that declaration. Above it, **delivery** carries change into production through pipelines, canaries and flags. **Telemetry** reports what the system is doing, and **SLOs** judge whether that is good enough for users and turn the judgment into decisions about risk. The **incident process** takes over when users are hurting now, and **learning** decides what changes afterwards. Alongside them all runs the **platform**, which packages the lower layers into paved paths so that 40 teams need not each rebuild them.
 
@@ -212,17 +220,21 @@ At the bottom sits the **runtime and its control plane**: clusters, functions an
 | AI workloads | How do we run components that don't repeat themselves? | Support assistant, refund agent, AI gateway | 14 |
 | Platform and organization | Who owns what, and how do teams get it for free? | Golden paths, the Reliability team | 7, 15 |
 
-*Figure 1.3 — The production stack as Encore runs it, and where this book treats each layer. Read top to bottom for the book's order; read it against your own system to find the layer you have been neglecting.*
+*Figure 1.5 — The production stack as Encore runs it, and where this book treats each layer. Read top to bottom for the book's order; read it against your own system to find the layer you have been neglecting.*
 
 #### What the stack hides, and what it cannot {#what-the-stack-hides}
 
-Layers help only while their surfaces hold, and production is where they do not. A node drain in the runtime shows up as a latency spike in telemetry, an SLO burn, a page, an incident and, if we are diligent, a change to delivery; the whole stack takes part in one bad minute. Here the touring analogy breaks: a tour hires one stage manager to call every cue, whereas a cloud system's cues are called by hundreds of control loops, many automated and none aware of all the others. The stack organizes knowledge and ownership but offers no single vantage point, and the incident process exists partly to assemble one when it is needed.
+Layers help only while their surfaces hold, and production is where they do not. A node drain in the runtime shows up as a latency spike in telemetry, an SLO burn, a page, an incident and, if we are diligent, a change to delivery; the whole stack takes part in one bad minute. Here the touring analogy breaks: a tour hires one stage manager to call every cue, whereas a cloud system's cues are called by hundreds of control loops, many automated and none aware of all the others. The stack organizes knowledge and ownership but offers no single vantage point, and the incident process exists partly to assemble one when it is needed. Figure 1.6 follows one such minute through the stack.
+
+{% include diagrams/fig-1-6.svg %}
+
+*Figure 1.6 — One node drain, as each layer of the stack sees it. Every layer holds a piece of the event and none holds all of it, which is why an incident needs someone to assemble the whole.*
 
 Seen from the morning after the Notification rewrite, not one layer required the on-call engineer to have read the 40 files. The runtime would restart the service if it crashed, delivery could roll it back, telemetry would show its behavior, and the SLO would say whether that behavior was acceptable. What the stack could not do was tell anyone whether "acceptable" had been defined correctly, which is why the missing check was a specification of behavior, written by a person who understood what a ticket is for.
 
-**Recap.** The production stack is a hierarchy of layers, each answering one question and hiding detail from the layers above. Figure 1.3 is the book's map. The layers organize knowledge and ownership but give no single vantage point, and in an incident the whole stack takes part at once.
+**Recap.** The production stack is a hierarchy of layers, each answering one question and hiding detail from the layers above. Figure 1.5 is the book's map. The layers organize knowledge and ownership but give no single vantage point, and in an incident the whole stack takes part at once.
 
-**Exercise 1.4.** Fill in Figure 1.3's "Encore today" column for your own system. Mark each row as strong, adequate or missing, and pick the weakest row that sits on your most important user journey.
+**Exercise 1.4.** Fill in Figure 1.5's "Encore today" column for your own system. Mark each row as strong, adequate or missing, and pick the weakest row that sits on your most important user journey.
 
 ### 1.5 Principles for Operable Systems
 
@@ -260,8 +272,8 @@ I have come to believe that this is the right answer to the question with which 
 
 1. **Sociotechnical map** — the people, teams, automated systems and external parties involved in a storm rebooking, with who knows what about each part.
 2. **Operations history** — where Tideway sits in the lineage of Section 1.2, where its counter between authors and operators is, and what crosses it.
-3. **User-felt reliability** — a Figure 1.2 table for storm rebooking, with at least two rows where availability looks healthy and residents are failed.
-4. **Stack map** — a Figure 1.3 table for Tideway, rated strong, adequate or missing, with the three weakest layers chosen for investment.
+3. **User-felt reliability** — a Figure 1.4 table for storm rebooking, with at least two rows where availability looks healthy and residents are failed.
+4. **Stack map** — a Figure 1.5 table for Tideway, rated strong, adequate or missing, with the three weakest layers chosen for investment.
 5. **Operability review** — the five principles scored for the rebooking service, an owner named for the contractor's code, and a 90-day plan.
 
 **Rubric:**
@@ -351,11 +363,19 @@ For most of the twentieth century, accident investigation ended when it found a 
 
 The book's most consequential chapter turned outward. Reason distinguished **active failures**, unsafe acts at the point of contact whose effects are felt almost at once, from **latent conditions**, weaknesses created far away in time and place by designers, managers, maintainers and budget holders, which lie dormant until some local circumstance wakes them. He called them resident pathogens: a body carries many, and illness arrives when enough of them meet a trigger. Woods, Cook and their colleagues made the two ends of this picture standard vocabulary. The **sharp end** is where practitioners touch the hazard: the control room, the on-call laptop. The **blunt end** is where the conditions of their work are set: budgets, schedules, tooling and policy. Operators are less the instigators of accidents than their inheritors.
 
-In *Managing the Risks of Organizational Accidents* (1997) Reason gave the idea its famous picture: each defense is a slice of cheese with moving holes, and an accident happens when, briefly, they line up. The Swiss cheese model is a teaching image rather than a theory, and complex systems do not fail in neat lines through stationary slices. But it made the defenses themselves, and the organization that maintains them, the object of study.
+In *Managing the Risks of Organizational Accidents* (1997) Reason gave the idea its famous picture: each defense is a slice of cheese with moving holes, and an accident happens when, briefly, they line up. The Swiss cheese model is a teaching image rather than a theory, and complex systems do not fail in neat lines through stationary slices. But it made the defenses themselves, and the organization that maintains them, the object of study. Figure 2.2 draws it for Encore's retry storm, which we re-read below.
+
+{% include diagrams/fig-2-2.svg %}
+
+*Figure 2.2 — Reason's Swiss cheese, with the retry storm's defenses as the slices. Each hole was a latent condition set far from the sharp end; notice that every slice was a safety device, and that no single hole was enough.*
 
 #### Rasmussen's boundaries {#rasmussens-boundaries}
 
-Jens Rasmussen, the Danish engineer on whose levels of performance Reason had built, went further in "Risk Management in a Dynamic Society" (1997). He pictured an organization's work as a point moving within a space bounded on three sides: economic failure, unacceptable workload, and the limit of functionally acceptable performance, beyond which accidents happen. Management pushes the point away from the economic boundary, toward efficiency; people, sensibly, push it away from the workload boundary, toward least effort. Both gradients point toward the safety boundary, and nothing in daily work shows where that boundary is. Rasmussen likened the point's movement to a particle's random drift, which wanders but, under steady pressure, travels.
+Jens Rasmussen, the Danish engineer on whose levels of performance Reason had built, went further in "Risk Management in a Dynamic Society" (1997). He pictured an organization's work as a point moving within a space bounded on three sides: economic failure, unacceptable workload, and the limit of functionally acceptable performance, beyond which accidents happen. Management pushes the point away from the economic boundary, toward efficiency; people, sensibly, push it away from the workload boundary, toward least effort. Both gradients point toward the safety boundary, and nothing in daily work shows where that boundary is. Rasmussen likened the point's movement to a particle's random drift, which wanders but, under steady pressure, travels. Figure 2.3 draws the space and a point drifting through it.
+
+{% include diagrams/fig-2-3.svg %}
+
+*Figure 2.3 — Rasmussen's migration toward the boundary of acceptable performance (after Rasmussen, 1997). Two sensible gradients push the same way; notice that the boundary people believe in is not the one that matters, and that the drift looks like noise until it arrives.*
 
 This is the model to keep in mind for the rest of the book: safety is not a state a system reaches but a position it must keep holding against pressure. And the boundary is usually discovered only by crossing it.
 
@@ -407,7 +427,7 @@ Everything so far has studied failure. Erik Hollnagel, a psychologist working in
 | Response | Find the cause, add a barrier | Understand the adaptation, support it |
 | Encore example | The retry-storm postmortem | The duplicate-ticket catch |
 
-*Figure 2.2 — Two views of safety. Safety-II complements Safety-I rather than replacing it; a team needs both the barrier and the understanding of why work usually succeeds without hitting it.*
+*Figure 2.4 — Two views of safety. Safety-II complements Safety-I rather than replacing it; a team needs both the barrier and the understanding of why work usually succeeds without hitting it.*
 
 Critics, Leveson among them, rightly note that few practitioners ever held the caricature of Safety-I; take the reframing and leave the polemic. It rests on one observation. The same **performance variability**, people adjusting what they do to fit the conditions they meet, is the source of both success and failure. Hollnagel called its commonest form the efficiency–thoroughness trade-off (ETTO): under pressure, people cannot be both completely thorough and completely efficient, and they choose case by case. The gap between **work as imagined**, the work in runbooks and process documents, and **work as done** is not a compliance failure. It is where the system's resilience lives.
 
@@ -421,7 +441,11 @@ In a Safety-I organization this event leaves no trace; Safety-II asks us to stud
 
 Resilience engineering, which gathered as a field around a 2004 symposium and the book *Resilience Engineering: Concepts and Precepts* (2006, edited by Hollnagel, Woods and Leveson), supplies the working vocabulary. **Resilience** is a system's capacity to adjust its functioning before, during and after disturbances, so that it sustains operations under expected and unexpected conditions alike. David Woods contrasts handling variation within the designed envelope with **graceful extensibility**, the ability to stretch past its edge; systems lacking the second are brittle, fine until they collapse. His law of stretched systems adds that any gain in capacity is soon consumed by demands to do more, which is Rasmussen's migration seen from another angle.
 
-The ideas reached software through John Allspaw, Richard Cook and the SNAFUcatchers, whose STELLA report (2017) studied engineers coping with real incidents. It draws a line through the system: below it sit code, infrastructure and tooling; above it, people, each holding a partial mental model of what lies below, seen only through dashboards and tools. Incidents are the moments those models prove wrong, which makes them information rather than embarrassment.
+The ideas reached software through John Allspaw, Richard Cook and the SNAFUcatchers, whose STELLA report (2017) studied engineers coping with real incidents. It draws a line through the system: below it sit code, infrastructure and tooling; above it, people, each holding a partial mental model of what lies below, seen only through dashboards and tools. Incidents are the moments those models prove wrong, which makes them information rather than embarrassment. Figure 2.5 draws Encore through that line.
+
+{% include diagrams/fig-2-5.svg %}
+
+*Figure 2.5 — Above and below the line of representation, after the STELLA report (2017). Nobody touches the running system directly; every person sees it and acts on it through representations, and holds a partial model of what lies beneath them.*
 
 **Recap.** Safety-I studies what goes wrong and removes causes; Safety-II studies what goes right and supports the adaptations that produce it. Performance variability is the source of both success and failure, and the gap between work as imagined and work as done is where resilience lives. Resilience is a capacity to adapt, including beyond the designed envelope, and it lives above the line, in people's mental models.
 
@@ -450,7 +474,7 @@ Software suits STAMP unusually well, because our controllers are explicit: every
 | Platform node-upgrade reconciler | Node versions in each cluster | Node health and disruption budgets | Node and pod readiness |
 | Reliability team | Readiness review, freeze policy | The on-sale calendar, past incidents | Reviews, postmortems, chat |
 
-*Figure 2.3 — Part of Encore's control structure around an on-sale. Each controller acts rationally on its own process model; hazards arise where a model is stale, incomplete or blind to another controller's actions.*
+*Figure 2.6 — Part of Encore's control structure around an on-sale. Each controller acts rationally on its own process model; hazards arise where a model is stale, incomplete or blind to another controller's actions.*
 
 Read the table column by column and questions surface that no component review would ask. Where do two controllers act on the same thing without knowing of each other? Which process models come from tests, and how closely do those tests resemble an on-sale? Which controllers know an on-sale is happening, and which have no way to find out? The table makes these questions askable, which is the first service a good model performs. A well-made control structure is a map of where the next surprise could come from.
 
@@ -462,7 +486,7 @@ This is the book's through-line seen whole. Reliability is the product of a cont
 
 **Recap.** STAMP treats safety as an emergent property enforced by a hierarchy of controllers, each acting on a process model of what it controls. Hazards arise from inadequate control, often from process models that are stale or blind to other controllers. Software makes its controllers unusually explicit, so the control structure is the natural map for finding where the next surprise could come from.
 
-**Exercise 2.5.** Draw a control-structure table like Figure 2.3 for one critical path in your system, including at least one automated controller and one team. For each controller, write one unsafe control action from each of STPA's four categories, and circle the one you would least like to discover in production.
+**Exercise 2.5.** Draw a control-structure table like Figure 2.6 for one critical path in your system, including at least one automated controller and one team. For each controller, write one unsafe control action from each of STPA's four categories, and circle the one you would least like to discover in production.
 
 ### Kata: The Twice-Monthly Run
 
@@ -569,7 +593,11 @@ The third generation is a self-service workflow in Encore's platform portal, whi
 
 Section 3.3 will need the last row. The wiki page was a tutor as well as a procedure; the script taught nothing; curtain-up teaches only as much as its report is read, a habit automation itself tends to erode.
 
-The ladder generalizes, and each rung needs the one below it. Automating a procedure nobody has written down encodes one person's habits, and turning a script into self-service before its failure modes are understood produces a button only its author can diagnose.
+The ladder generalizes, and each rung needs the one below it. Automating a procedure nobody has written down encodes one person's habits, and turning a script into self-service before its failure modes are understood produces a button only its author can diagnose. Figure 3.2 puts the generations' yearly cost side by side.
+
+{% include diagrams/fig-3-2.svg %}
+
+*Figure 3.2 — Engineer-hours a year spent on the pre-warm, by generation, against the number of on-sales. Each rung flattens the line by an order of magnitude; notice that none of them reaches zero, because someone still has to read the plan.*
 
 **Recap.** A runbook carries judgment in its margins, which code loses unless we rebuild it as explicit checks. Encore's pre-warm moved from wiki to script to curtain-up, gaining speed and consistency, and each step changed who understood the procedure, a cost the time savings do not show.
 
@@ -599,7 +627,11 @@ Aviation's most studied hand-back is Air France 447. On 1 June 2009 an Airbus A3
 
 Seat Inventory elects a new shard leader automatically, with fencing so a deposed leader cannot keep writing. It has handled about 60 failovers in the past 19 months, mostly during node maintenance, each with a few seconds of rejected writes and no human involved. It is good automation. It also has a manual failover procedure for the cases the automation refuses. When it cannot confirm that the old leader's term has expired, it stops rather than risk two leaders, and a person must confirm the fence, advance the term, promote a replica and verify the ledger's sequence. When the Reliability team checked last spring, 4 of the 34 engineers on the Inventory and On-Sale rotations had ever done it in production, the most recent 19 months earlier. Game days exercised the automatic path, the one the system takes; nobody had exercised the other.
 
-This is Bainbridge's fourth irony nearly word for word. The automation is good, so the hand-back is rare; the hand-back is rare, so the skill has decayed; and when it comes, it will come in exactly the situation the automation found too ambiguous to resolve. A failover we never practice is one we will perform for the first time during an on-sale. Encore's response has been modest and, I think, correct: the Inventory team now runs a manual failover in staging monthly, rotating the operator, and quarterly in production on a shard serving no live on-sale. The first drill found two stale commands in the procedure.
+This is Bainbridge's fourth irony nearly word for word. The automation is good, so the hand-back is rare; the hand-back is rare, so the skill has decayed; and when it comes, it will come in exactly the situation the automation found too ambiguous to resolve. A failover we never practice is one we will perform for the first time during an on-sale. Encore's response has been modest and, I think, correct: the Inventory team now runs a manual failover in staging monthly, rotating the operator, and quarterly in production on a shard serving no live on-sale. The first drill found two stale commands in the procedure. Figure 3.3 sketches the shape of the problem.
+
+{% include diagrams/fig-3-3.svg %}
+
+*Figure 3.3 — Readiness for the manual failover, sketched (the curve is illustrative; the counts are Encore's). Sixty successful automatic failovers did nothing to keep the manual path alive; only practice of that path does.*
 
 The same shape appears elsewhere on the platform. The node-upgrade reconciler, a control loop Chapter 7 describes, replaced a quarterly weekend of manual node upgrades the platform group used to dread. It drains each node within the workloads' disruption budgets, upgrades it and moves on, and in over a year it has caused almost no pages. Under the on-sale freeze it counts as low-risk automation. It knows a great deal about nodes and very little about concerts, which nobody has yet had reason to find strange.
 
@@ -627,7 +659,7 @@ For a vocabulary we turn to Thomas Sheridan and William Verplank, who in 1978, s
 | 9 | Acts, and informs only if it decides to | Bot Screening's velocity rules, which block clients silently |
 | 10 | Decides and acts entirely alone | Seat Inventory's fenced leader election, within its narrow domain |
 
-*Figure 3.2 — Sheridan and Verplank's levels of automation, applied to Encore. The level belongs to a specific action rather than a whole system: curtain-up sits at level 5 for the decision and level 7 for its steps.*
+*Figure 3.4 — Sheridan and Verplank's levels of automation, applied to Encore. The level belongs to a specific action rather than a whole system: curtain-up sits at level 5 for the decision and level 7 for its steps.*
 
 Drawn for a real system, this table usually shows consequential automation high on the scale, informing nobody, at a level nobody chose; it was whatever the first version did. Choosing it deliberately, per action, is a design decision that deserves a written rationale.
 
@@ -642,11 +674,15 @@ The other half of the problem is how people come to rely on automation, for whic
 | **Disuse** | under-reliance, usually after false alarms | muting an alert channel that cried wolf last month |
 | **Abuse** | automating without regard for the people left to supervise it | a remediation bot with no way to see or pause what it does |
 
-*Figure 3.3 — Parasuraman and Riley's four relationships with automation. Misuse and disuse are failures of trust; abuse is a failure of design, made at the blunt end, far from those who live with it.*
+*Figure 3.5 — Parasuraman and Riley's four relationships with automation. Misuse and disuse are failures of trust; abuse is a failure of design, made at the blunt end, far from those who live with it.*
 
 Seafarers had a phrase for misuse long before software: the **radar-assisted collision**, in which ships with working radar collide because their officers trusted what the screen seemed to say over careful plotting. The radar worked; the trust was miscalibrated. The analogy breaks in software's favor, since our automation can be made to show its reasoning.
 
 John Lee and Katrina See (2004) gave the idea its precise form. **Calibrated trust** is reliance that matches the automation's actual capability: high where it performs well, low where it does not, and fine-grained enough to tell the two apart. People base trust on the automation's *performance* (what it has done), its *process* (how it works) and its *purpose* (what it was built for), and designers should make all three visible. A curtain-up report that shows the cache hit ratio after warming supports calibrated trust; one that says only "done" asks for faith. Trust that is never tested is not calibrated, only comfortable.
+
+{% include diagrams/fig-3-6.svg %}
+
+*Figure 3.6 — Calibrated trust, after Lee and See (2004). Trust should track what the automation can actually do; misuse lives above the diagonal and disuse below it, and the same team can sit in both places with two different tools.*
 
 #### Automation as a team player {#automation-as-a-team-player}
 
@@ -825,7 +861,11 @@ The idea is older than SRE. Walter Shewhart, working on manufacturing quality fo
 
 #### The dispute between On-Sale and Bot Screening {#onsale-botscreening-dispute}
 
-Encore's policy met its first real test in the spring. At a mid-size arena on-sale, the Bot Screening team switched on a new device-fingerprint rule that blocked about 6,000 sessions in 15 minutes, most of them, as challenge data later suggested, real fans on an older phone browser. The on-sale-window SLO came in at 96.8% against its 99%, and the blocked journeys took 70% of the On-Sale team's 28-day budget, putting that team under review and delaying a long-planned Gate change.
+Encore's policy met its first real test in the spring. At a mid-size arena on-sale, the Bot Screening team switched on a new device-fingerprint rule that blocked about 6,000 sessions in 15 minutes, most of them, as challenge data later suggested, real fans on an older phone browser. The on-sale-window SLO came in at 96.8% against its 99%, and the blocked journeys took 70% of the On-Sale team's 28-day budget, putting that team under review and delaying a long-planned Gate change. Figure 4.2 shows what 15 minutes did to a month.
+
+{% include diagrams/fig-4-2.svg %}
+
+*Figure 4.2 — The On-Sale team's 28-day error budget through the spring on-sale. Ordinary spending keeps the budget well above the steady burn line; one rule from another team takes 70% in 15 minutes and drops the budget below the policy's 25% line.*
 
 Both teams had a case. On-Sale said a real fan blocked at the door is the worst error the system can make, and that it had paid for someone else's change. Bot Screening said a block is no error at all but the system doing its job, and counting blocks as failures would teach the team to let bots through. Each was describing half of a trade-off, which is why disputes between careful people are so hard to settle.
 
@@ -859,7 +899,7 @@ The long window gives significance; the short window gives timeliness. An hour o
 | Medium burn | 5% | 6 h | 30 min | 6 | 5 days | page |
 | Slow burn | 10% | 3 days | 6 h | 1 | 30 days | ticket |
 
-*Figure 4.2 — Multi-window, multi-burn-rate alerting, with the Workbook's parameters for a 30-day budget. Both windows must exceed the threshold, so the alert stops soon after the problem does.*
+*Figure 4.3 — Multi-window, multi-burn-rate alerting, with the Workbook's parameters for a 30-day budget. Both windows must exceed the threshold, so the alert stops soon after the problem does.*
 
 Encore's windows are 28 days, but the Reliability team kept the Workbook's multipliers, which then mean about 2.1% and 5.4% of budget; nobody's judgment is that precise, and everyone can remember 14.4. For the seat map's 99.9% objective, a burn rate of 14.4 means an error ratio above 1.44%:
 
@@ -874,23 +914,31 @@ alerts:
     when: bad_ratio(3d)  > 1.0  * 0.001  and  bad_ratio(6h)  > 1.0  * 0.001
 ```
 
-Detection times are the alert's real specification. If the seat map fails completely, the one-hour ratio crosses 1.44% in about 52 seconds. If one request in 50 is slow, the line is crossed after about 43 minutes, by which time the incident has spent about 2% of the budget, exactly as designed. A slow leak is allowed to run a little before it wakes anyone, because a slow leak can afford to.
+Detection times are the alert's real specification. If the seat map fails completely, the one-hour ratio crosses 1.44% in about 52 seconds. If one request in 50 is slow, the line is crossed after about 43 minutes, by which time the incident has spent about 2% of the budget, exactly as designed. A slow leak is allowed to run a little before it wakes anyone, because a slow leak can afford to. Figure 4.4 follows a partial outage, one seat-map request in ten going bad for 40 minutes, through both windows of the fast-burn rule.
+
+{% include diagrams/fig-4-4.svg %}
+
+*Figure 4.4 — A fast-burn page through one incident. The one-hour ratio decides when the page fires and the five-minute ratio decides when it stops: without the short window, the page would outlast the fix by more than three-quarters of an hour.*
 
 Two limits apply. Burn-rate alerting needs traffic: at a few requests a minute, one failure moves the ratio by whole percentage points, a problem Section 4.5 meets again with small tenants. And it cannot protect an on-sale-window SLO, whose budget would be 2% spent after about a minute of trouble. For major on-sales Encore does not rely on pages at all. The teams and an incident commander are already watching per-fan error ratios over one-minute windows. In the theater, the stage manager calling cues does not wait for the fire alarm; they see trouble as the audience does.
 
 **Recap.** Burn rate measures how fast the budget is being spent, and the right alert watches the flow, not the tank. A long window supplies significance and a short one confirms the problem is still happening. Detection times turn an alert rule into a specification; for event-shaped windows, people watching beat any rule.
 
-**Exercise 4.4.** For one SLO you own, compute the thresholds for the three rows of Figure 4.2 and how long a total outage and a 5% partial outage would take to page. Would your users accept those times?
+**Exercise 4.4.** For one SLO you own, compute the thresholds for the three rows of Figure 4.3 and how long a total outage and a 5% partial outage would take to page. Would your users accept those times?
 
 ### 4.5 SLOs Across Dependencies and Teams
 
 #### Composition only subtracts {#composition-only-subtracts}
 
-No service meets its SLO alone. Checkout depends on the Gate, Seat Inventory, Orders & Payments and the PSP, and if each must work for checkout to work, their availabilities multiply. Four hard dependencies at 99.95% each give at best about 99.80%, below the checkout objective before Orders has written a line of its own code. In a serial chain, reliability is never inherited; it is composed, and composition only ever subtracts.
+No service meets its SLO alone. Checkout depends on the Gate, Seat Inventory, Orders & Payments and the PSP, and if each must work for checkout to work, their availabilities multiply. Four hard dependencies at 99.95% each give at best about 99.80%, below the checkout objective before Orders has written a line of its own code. In a serial chain, reliability is never inherited; it is composed, and composition only ever subtracts. Figure 4.5 draws the arithmetic.
+
+{% include diagrams/fig-4-5.svg %}
+
+*Figure 4.5 — The best availability a chain of hard dependencies allows. At 99.95% each, the chain falls through checkout's objective at the second dependency; at 99.99% each, three still leave room for checkout's own failures.*
 
 A sound engineer knows this instinctively: the audience hears the whole chain of microphone, desk, amplifiers and speakers, and a perfect desk cannot redeem a crackling cable. The analogy breaks where it saves us: a sound system cannot sing without its speakers, but a service can often keep its promise when a dependency fails, if it was designed to.
 
-Encore uses two remedies. The first is the rule Ben Treynor and his co-authors set out in "The Calculus of Service Availability" (2017): critical dependencies should be roughly one nine more reliable than the service itself. Encore holds its internal purchase-path services to 99.99%, so three of them multiply to about 99.97%, leaving room inside a 99.9% promise. The second is to make a hard dependency soft. The PSP's contract promises 99.9% per calendar month, which alone would pull a hard-wired checkout below its objective. But since the first outage Encore accepts orders when the PSP is down and charges them later, so a PSP failure no longer fails the fan; the price, a few charges that fail afterwards, is one Finance has agreed to carry. Figure 4.3 shows the result.
+Encore uses two remedies. The first is the rule Ben Treynor and his co-authors set out in "The Calculus of Service Availability" (2017): critical dependencies should be roughly one nine more reliable than the service itself. Encore holds its internal purchase-path services to 99.99%, so three of them multiply to about 99.97%, leaving room inside a 99.9% promise. The second is to make a hard dependency soft. The PSP's contract promises 99.9% per calendar month, which alone would pull a hard-wired checkout below its objective. But since the first outage Encore accepts orders when the PSP is down and charges them later, so a PSP failure no longer fails the fan; the price, a few charges that fail afterwards, is one Finance has agreed to carry. Figure 4.6 shows the result.
 
 | Dependency | Its objective | Hard or soft for checkout | What Encore does when it fails |
 |---|---|---|---|
@@ -900,7 +948,7 @@ Encore uses two remedies. The first is the rule Ben Treynor and his co-authors s
 | PSP | 99.9% per calendar month, contractual | soft | accept the order, charge later |
 | Notifications | 99.9% internal | soft | ticket delivered late, order confirmed now |
 
-*Figure 4.3 — Composing checkout. Hard dependencies multiply and need an extra nine; soft ones are designed out of the product. The PSP row is why the checkout SLO is achievable at all.*
+*Figure 4.6 — Composing checkout. Hard dependencies multiply and need an extra nine; soft ones are designed out of the product. The PSP row is why the checkout SLO is achievable at all.*
 
 An SLO thereby becomes part of a service's interface. It tells consumers how much to trust a service, as a type signature tells them what to pass, and Encore's service registry shows each service's SLOs beside its API contracts. This is information hiding, in the sense the companion volume took from Parnas, extended to reliability: depend on the promise, because observed behavior is only a coincidence that has lasted so far.
 
@@ -1025,7 +1073,11 @@ processors:
         probabilistic: { sampling_percentage: 10 }
 ```
 
-During an on-sale, at 1,200 admissions a second per event, a separate policy lowers the baseline for successful admissions to 1%. Encore's telemetry costs about €40,000 a month, roughly 2 cents of every ticket's 12, and its retention is a set of deliberate choices: full-detail events for 14 days, sampled traces for 30 and metrics for 13 months, long enough to compare this year's festival on-sale with last year's. Sampling is the same decision as aggregation, made with a budget. Made well, it keeps every row Snow would have wanted and only a sample of the streets where nothing happened.
+During an on-sale, at 1,200 admissions a second per event, a separate policy lowers the baseline for successful admissions to 1%. Encore's telemetry costs about €40,000 a month, roughly 2 cents of every ticket's 12, and its retention is a set of deliberate choices: full-detail events for 14 days, sampled traces for 30 and metrics for 13 months, long enough to compare this year's festival on-sale with last year's. Sampling is the same decision as aggregation, made with a budget. Made well, it keeps every row Snow would have wanted and only a sample of the streets where nothing happened. Figure 5.1 draws the whole pipeline.
+
+{% include diagrams/fig-5-1.svg %}
+
+*Figure 5.1 — Encore's telemetry pipeline. Agents only batch and forward; the gateway tier redacts, routes and, in the tail sampler, decides what the bill will be.*
 
 **Recap.** Signals earn their value through shared context, which is why OpenTelemetry treats them as a braid. Semantic conventions, extended by an owned registry, make queries portable across teams. The Collector is where telemetry is cleaned, routed and sampled, and tail sampling lets us keep the interesting traces because it decides after the story is known.
 
@@ -1050,7 +1102,13 @@ Here is one fan's purchase on an ordinary Thursday:
 | ↳ `inventory.Sell` | Seat Inventory | 830 | 31 | appends `SeatSold` |
 | `ticket.issue` | Notification | +4,200 | 380 | linked from `SeatSold`, not a child |
 
-*Figure 5.1 — One fan's purchase as a trace. The PSP takes 640 ms of its 800 ms share of the 3 s checkout budget; ticket issuance runs asynchronously and is joined to the purchase by a span link.*
+*Figure 5.2 — One fan's purchase as a trace. The PSP takes 640 ms of its 800 ms share of the 3 s checkout budget; ticket issuance runs asynchronously and is joined to the purchase by a span link.*
+
+Drawn to scale, as in Figure 5.3, the same trace shows at a glance where the fan's second went.
+
+{% include diagrams/fig-5-3.svg %}
+
+*Figure 5.3 — The trace of Figure 5.2 as a waterfall, against the 3 s budget. The PSP call is most of the saga and most of the checkout; ticket issuance, four seconds later, hangs off the purchase by a link rather than stretching it.*
 
 Three things in this table took deliberate work.
 
@@ -1066,7 +1124,7 @@ What deserves a span is the tracing version of what deserves a function, and the
 
 #### Queues, sagas and asynchronous work {#async-tracing}
 
-The last row of Figure 5.1 is the hard case. The `SeatSold` event leaves Seat Inventory on the `ticket-sales.v2` stream, and Notification consumes it four seconds later. Made a child of the checkout span, `ticket.issue` would make the checkout appear to take five seconds; started as an unconnected trace, it would leave the fan who says "I paid and never got my ticket" unfollowable across the gap. OpenTelemetry's answer is the **span link**: the producer writes the trace context into the event's headers, and the consumer starts its own trace whose first span *links* to the producer's span without claiming it as a parent. The same device joins a fan's seven minutes in the waiting room to the purchase that follows, and the Finance ledger's batch to the hundreds of `SaleCompleted` events it reads.
+The last row of Figure 5.2 is the hard case. The `SeatSold` event leaves Seat Inventory on the `ticket-sales.v2` stream, and Notification consumes it four seconds later. Made a child of the checkout span, `ticket.issue` would make the checkout appear to take five seconds; started as an unconnected trace, it would leave the fan who says "I paid and never got my ticket" unfollowable across the gap. OpenTelemetry's answer is the **span link**: the producer writes the trace context into the event's headers, and the consumer starts its own trace whose first span *links* to the producer's span without claiming it as a parent. The same device joins a fan's seven minutes in the waiting room to the purchase that follows, and the Finance ledger's batch to the hundreds of `SaleCompleted` events it reads.
 
 A Temporal saga may also pause for a PSP callback and resume minutes later on a different worker, so Encore records each activity as its own span and carries the workflow ID as an attribute on all of them. Tracing an asynchronous system is like following a suitcase rather than its traveller: it changes hands, waits on carousels and sometimes takes another flight, and only the tag on the handle ties its journey together.
 
@@ -1094,7 +1152,7 @@ Chapter 4 built the mechanics of alerting on burn rate; what remains is the disc
 | Ordinary cause | Dashboard only | CPU, pod restarts, queue depth within capacity |
 | Business anomaly | Owning team's channel | Sales for one event far below forecast |
 
-*Figure 5.2 — Where signals go. Only the first and third rows wake anyone; the rest wait for daylight or for a question.*
+*Figure 5.4 — Where signals go. Only the first and third rows wake anyone; the rest wait for daylight or for a question.*
 
 #### Alert fatigue {#alert-fatigue}
 
@@ -1126,15 +1184,15 @@ On a Tuesday afternoon in March, Encore's support team relayed a pattern from fa
 | `gateway.rule_matched=psp-callback-ratelimit` | 95% | under 1% |
 | `encore.tenant_id`, `encore.shard`, `service.version` | no difference | — |
 
-*Figure 5.3 — The core analysis loop on "Dutch fans' payments slow since 14:02". Country was the symptom; the payment method was the mechanism; the gateway rule was the cause.*
+*Figure 5.5 — The core analysis loop on "Dutch fans' payments slow since 14:02". Country was the symptom; the payment method was the mechanism; the gateway rule was the cause.*
 
 Most Dutch fans pay by bank redirect, in which the bank confirms the payment by a callback from the PSP rather than in the original request. At 14:02 the Bot Screening team had shipped a reasonable change to the API gateway, a per-source rate limit on unauthenticated POSTs, and the PSP's callbacks arrive from a handful of addresses. They were throttled, retried with backoff and delivered tens of seconds late while fans watched a spinner. The fix, an exemption for the PSP's signed callbacks, took four minutes once the cause was known. Finding it took 25 minutes, nearly all of them spent on the theory everyone already held. A rule meant to stop bots had quietly begun to punish ordinary retry behavior, an interaction this book will meet again.
 
-None of the fields in Figure 5.3 would survive in a metric with a label budget, and the decisive one, the gateway rule name, existed only because someone had once decided that every policy decision deserved an attribute.
+None of the fields in Figure 5.5 would survive in a metric with a label budget, and the decisive one, the gateway rule name, existed only because someone had once decided that every policy decision deserved an attribute.
 
 #### Asking Cue {#asking-cue}
 
-Cue, Encore's read-only operations assistant, queries telemetry through the company's Model Context Protocol (MCP) server, and the March investigation was later replayed with it. Asked "why are Dutch payments slow since 14:02?", Cue answered in seconds, fluently, and wrongly. It found the elevated latency, found two postmortems blaming the PSP, and concluded that the PSP was degraded for Dutch banks. Its answer was the miasma theory with citations. Asked instead to "compare checkouts slower than 3 s since 13:00 with the rest, across all attributes, and list the largest differences," it ran the core analysis loop faster than any human could have and returned Figure 5.3 almost exactly.
+Cue, Encore's read-only operations assistant, queries telemetry through the company's Model Context Protocol (MCP) server, and the March investigation was later replayed with it. Asked "why are Dutch payments slow since 14:02?", Cue answered in seconds, fluently, and wrongly. It found the elevated latency, found two postmortems blaming the PSP, and concluded that the PSP was degraded for Dutch banks. Its answer was the miasma theory with citations. Asked instead to "compare checkouts slower than 3 s since 13:00 with the rest, across all attributes, and list the largest differences," it ran the core analysis loop faster than any human could have and returned Figure 5.5 almost exactly.
 
 Two limits follow. The first is that a confident wrong answer is more expensive than a slow right one, because it ends the search. A model that reasons from past incidents reproduces the team's prevailing theory fluently, exactly when a Snow is most needed, so Encore asks Cue for comparisons and queries it can show, not for diagnoses, and treats any answer without the query behind it as a rumor. The second is that the assistant is only as good as the vocabulary of the telemetry. In the replay, Cue's first attempt missed the gateway rule because the gateway called it `policy` while the registry said `gateway.rule_matched`; one inconsistent name made the decisive field invisible. The authors of *Observability Engineering* now argue for an explicit ontology shared by humans and machines, persuasively: a naming slip a human might work around at 3 a.m. is a wall to an assistant that cannot know what it has not been told.
 
@@ -1211,7 +1269,11 @@ USE looks at the system from the machine's side. Tom Wilkie's **RED method** loo
 
 #### Latency is a distribution {#latency-is-a-distribution}
 
-Duration is the signal most often mismeasured, because it is not a single number. A service's latency is a distribution, usually skewed and often with two humps for cache hits and misses, and the **percentile** pN is the value below which N% of requests completed. A seat-map service whose mean is 120 ms can have a p99 of 2 s, and the fan who waited 2 s does not experience the mean. An average is a number that describes no one's evening.
+Duration is the signal most often mismeasured, because it is not a single number. A service's latency is a distribution, usually skewed and often with two humps for cache hits and misses, and the **percentile** pN is the value below which N% of requests completed. A seat-map service whose mean is 120 ms can have a p99 of 2 s, and the fan who waited 2 s does not experience the mean. Figure 6.1 draws such a service. An average is a number that describes no one's evening.
+
+{% include diagrams/fig-6-1.svg %}
+
+*Figure 6.1 — A seat-map service's latency, on a log scale. The mean falls in the valley between the cache hits and the misses, where almost no request lands; the p99 lives in the misses' long tail.*
 
 Two habits follow. First, percentiles do not aggregate: the p99 of a service is not the average of its pods' p99s, and no arithmetic on summary percentiles recovers it. We keep histograms and compute percentiles from the merged buckets. Second, we look at the tail in proportion to the fan-out. A purchase that touches 20 backends sees each backend's p99 far more often than once in a hundred (the arithmetic of "The Tail at Scale" from the companion volume), so the backend's p99 is the purchase's median problem.
 
@@ -1227,7 +1289,11 @@ There is a subtler trap, which Gil Tene named **coordinated omission**: a measur
 
 Erlang's deepest lesson lies less in his formulas than in the shape they draw. When requests arrive at random and take varying times to serve, a server that is busy only part of the time still makes some of them wait, and the wait grows faster than the load. For the simplest model (random arrivals, random service times, one server), the mean response time is the service time divided by one minus the utilization. At 50% utilization a request takes twice its service time; at 80%, five times; at 90%, ten; at 95%, twenty. At 99%, a hundred. The curve is flat for a long while and then turns upward like the blade of a hockey stick, and real systems, which differ from the model in every detail, share its shape.
 
-J. F. C. Kingman sharpened the point in 1961: for a single server under heavy load, the expected wait scales with the variability of both arrivals and service times as well as with ρ/(1−ρ). A system comfortable on a dashboard of averages can therefore collapse during an on-sale, whose arrivals are as bursty as traffic gets. Utilization is what the machine feels; queueing delay is what the fan feels, and the two part company precisely where the business is busiest.
+J. F. C. Kingman sharpened the point in 1961: for a single server under heavy load, the expected wait scales with the variability of both arrivals and service times as well as with ρ/(1−ρ). A system comfortable on a dashboard of averages can therefore collapse during an on-sale, whose arrivals are as bursty as traffic gets. Utilization is what the machine feels; queueing delay is what the fan feels, and the two part company precisely where the business is busiest. Figure 6.2 draws both curves.
+
+{% include diagrams/fig-6-2.svg %}
+
+*Figure 6.2 — Response time against utilization for one server with random arrivals, and the steeper curve that burstier arrivals draw. Encore's write shards are planned at 80%; the same curve explains why a hot shard at 96% hurts so much more than 16 points should.*
 
 Anyone who has driven a motorway at rush hour knows the curve. Traffic flows freely at moderate density, and then a few more cars per minute turn a road into a car park, though nothing about the road has changed. Many cities answer with ramp metering, a traffic light on the on-ramp that admits cars at the rate the motorway can absorb, which keeps the main road below its knee at the cost of a short, visible wait on the ramp. The Sale Gate is a ramp meter, and its 1,200 fans per second is the green-light interval. The analogy breaks in one useful place: a driver held at the ramp cannot leave and return a minute later as a second car, whereas a fan refused by a busy service can and does retry, which adds load at exactly the moment the system can least absorb it. Chapter 9 takes up what retries do to a queue.
 
@@ -1254,9 +1320,13 @@ Seat Inventory gives us an honest example. Each shard leader appends seat writes
 | 32 | 1,570 | 1,583 |
 | 64 | 1,540 | 1,565 |
 
-*Figure 6.1 — The USL fitted to one Seat Inventory shard. Peak throughput falls near 44 concurrent writers; beyond that, more concurrency buys less.*
+*Figure 6.3 — The USL fitted to one Seat Inventory shard. Peak throughput falls near 44 concurrent writers; beyond that, more concurrency buys less.*
 
-The fit says three useful things. The shard peaks at roughly 1,630 writes/s near 44 writers, so the published 1.5k writes/s is a measured ceiling with a little margin. Raising the concurrency cap above 32 gains almost nothing and, past 64, loses throughput, so the cap belongs in configuration review. And growing write capacity materially means more shards per event, a design change that no tuning knob can stand in for. A model fitted to six points is only a sketch, and Gunther himself would ask us to refit it whenever the code changes; but a sketch that predicts the knee is worth more than a spreadsheet that assumes linearity.
+The fit, drawn in Figure 6.4, says three useful things. The shard peaks at roughly 1,630 writes/s near 44 writers, so the published 1.5k writes/s is a measured ceiling with a little margin. Raising the concurrency cap above 32 gains almost nothing and, past 64, loses throughput, so the cap belongs in configuration review. And growing write capacity materially means more shards per event, a design change that no tuning knob can stand in for. A model fitted to six points is only a sketch, and Gunther himself would ask us to refit it whenever the code changes; but a sketch that predicts the knee is worth more than a spreadsheet that assumes linearity.
+
+{% include diagrams/fig-6-4.svg %}
+
+*Figure 6.4 — The USL fit of Figure 6.3 against linear scaling and Amdahl's law. Contention alone would bend the curve; coherency turns it over, and the concurrency cap of 32 sits just below the peak.*
 
 **Recap.** Response time rises with utilization along a hockey stick, steepened by variability, so we keep utilization well below the knee where waits matter. Pooling reduces waiting, and admission control keeps a system below its knee at the cost of a visible queue. The USL separates contention from coherency, predicts where scaling stops and reverses, and turns a handful of load-test points into a capacity ceiling we can defend.
 
@@ -1276,7 +1346,7 @@ The arithmetic is short enough for a whiteboard, and belongs on one, in front of
 | Availability reads | ~26 | 31,200/s | 40,000/s | 78% |
 | Fans in session | ~180 s | ~216,000 | — | — |
 
-*Figure 6.2 — Encore's on-sale capacity arithmetic. Writes bind first, and the admission rate is set so that they sit at 80% of the shards' rated capacity.*
+*Figure 6.5 — Encore's on-sale capacity arithmetic. Writes bind first, and the admission rate is set so that they sit at 80% of the shards' rated capacity.*
 
 The last row is Erlang's unit in modern dress: 1,200 arrivals a second, each holding a session for 180 s, is an offered load of 216,000 erlangs of fans, Little's law from the companion volume applied to people. At 80% of rated capacity, the hockey stick puts the expected queueing delay at about five times the service time, which the checkout budget can absorb. The remaining 20% looks idle on a cost report. It is not. Load across shards is never perfectly even, because the front-floor sections sell first and hottest; if the busiest shard takes 30% of writes instead of 25%, it runs at 96%, and the hockey stick puts its waits near 25 times service time. Headroom is the price of a short queue, paid in advance.
 
@@ -1290,7 +1360,7 @@ One lesson concerns state rather than traffic. A system's performance depends on
 
 **Recap.** We plan capacity in the unit that actually limits the business, compute utilization on the binding resource, and keep headroom for skew and variability. Load tests use open arrivals, realistic bursts, realistic data skew and realistic dependency latency. Every test states the state it ran against, warm or cold, because production will not always offer the kinder one.
 
-**Exercise 6.3.** Write your system's equivalent of Figure 6.2 for its busiest hour: the unit of capacity, per-request demand, rated capacity and utilization. Then read your last load-test report and find whether it says, anywhere, whether caches were warm or cold.
+**Exercise 6.3.** Write your system's equivalent of Figure 6.5 for its busiest hour: the unit of capacity, per-request demand, rated capacity and utilization. Then read your last load-test report and find whether it says, anywhere, whether caches were warm or cold.
 
 ### 6.4 Autoscaling and Elasticity
 
@@ -1304,7 +1374,7 @@ Reactive scaling still has its place for unscheduled demand, and it fails in thr
 
 #### Scaling on the right signal {#scaling-on-the-right-signal}
 
-The defense is to choose the scaling signal as carefully as an SLI. Central processing unit (CPU) utilization is a convenient signal and frequently a wrong one, because a service blocked on a slow dependency is idle on CPU and saturated on everything else. Concurrency in flight, queue depth and the saturation measures of Section 6.1 track the work waiting much more directly, and Kubernetes' Horizontal Pod Autoscaler (HPA), or an event-driven scaler built on it, can scale on any of them. Equally important is a ceiling. Every autoscaled service at Encore declares a maximum that its downstream dependencies can actually absorb, derived from the same arithmetic as Figure 6.2, so that the autoscaler cannot scale a service past the capacity of the shard behind it. The maximum is a capacity statement and a budget statement at once.
+The defense is to choose the scaling signal as carefully as an SLI. Central processing unit (CPU) utilization is a convenient signal and frequently a wrong one, because a service blocked on a slow dependency is idle on CPU and saturated on everything else. Concurrency in flight, queue depth and the saturation measures of Section 6.1 track the work waiting much more directly, and Kubernetes' Horizontal Pod Autoscaler (HPA), or an event-driven scaler built on it, can scale on any of them. Equally important is a ceiling. Every autoscaled service at Encore declares a maximum that its downstream dependencies can actually absorb, derived from the same arithmetic as Figure 6.5, so that the autoscaler cannot scale a service past the capacity of the shard behind it. The maximum is a capacity statement and a budget statement at once.
 
 Elasticity, in the end, belongs to the whole path. A service that scales out in 30 s is still inelastic if its database refuses the extra connections or its warm-up takes five minutes, and anyone who calls a system elastic should be able to name its slowest-scaling component.
 
@@ -1332,7 +1402,7 @@ Unit economics then need care about denominators. Cost per ticket on a quiet Tue
 | Other | €0.011 | build pipelines, preview environments, shared tooling |
 | **Total** | **€0.12** | |
 
-*Figure 6.3 — Encore's variable cost per ticket after the forwarder fix. Tokens are one line among six; they get the same treatment as the others.*
+*Figure 6.6 — Encore's variable cost per ticket after the forwarder fix. Tokens are one line among six; they get the same treatment as the others.*
 
 The token line moves with prompts and model choices as well as traffic, but it is attributed, budgeted and alerted on like every other line; Chapter 14 takes up the workloads behind it.
 
@@ -1342,7 +1412,7 @@ Cloud pricing offers two ways to spend less, which Storment and Fuller call *usi
 
 The Operate phase is where cost meets the pager. Cost anomaly alerts behave like burn-rate alerts: a spend rate that would exhaust the month's budget in a week is a page during business hours, a sudden step in a team's line is a ticket. A latency regression is felt within minutes; a cost regression accumulates silently until the invoice, as the forwarder's €9,000 a month did. Cost is the slowest alarm in the building, which is why it must be wired to the fastest detector we have.
 
-There is also a judgment that no dashboard makes for us. The 20% of write headroom in Figure 6.2 appears on the bill, where a well-meaning optimization pass could find it and propose to remove it. The cheapest configuration and the safest are seldom the same, and the difference between them is a decision about risk, so cost and capacity must be read together. I have come to believe that the most useful thing FinOps does is not to cut spend but to make that decision visible, so that someone makes it on purpose.
+There is also a judgment that no dashboard makes for us. The 20% of write headroom in Figure 6.5 appears on the bill, where a well-meaning optimization pass could find it and propose to remove it. The cheapest configuration and the safest are seldom the same, and the difference between them is a decision about risk, so cost and capacity must be read together. I have come to believe that the most useful thing FinOps does is not to cut spend but to make that decision visible, so that someone makes it on purpose.
 
 **Recap.** FinOps allocates every euro to an owner, splits fixed from variable cost, and watches the variable cost per ticket as an engineering signal. Commitments cover the steady floor, on-demand covers the scheduled peaks and spot covers interruptible work. Cost anomalies are alerted on like burn rates, and cost is always read beside capacity, because headroom shows up on both.
 
@@ -1423,7 +1493,11 @@ That forgiveness has a price: a level-triggered controller will also undo a huma
 
 A **controller** in Kubernetes is a reconciliation loop for one kind of resource, and an **operator** is a controller that encodes the operational knowledge of a particular application (how to fail over this database, how to resize that cache) behind a custom resource. Besides the built-in controllers, Encore's clusters run a Horizontal Pod Autoscaler (HPA) per scaled deployment, the cluster autoscaler, the GitOps agent, the `TenantDatabase` operator and the platform's node-upgrade reconciler, which keeps every node pool at its target Kubernetes version by draining and replacing nodes one at a time. Each is sensible alone. Trouble begins where two claim the same field.
 
-On an ordinary Thursday before a mid-sized on-sale, an engineer on the Catalog team, expecting a surge of browsing, ran `kubectl scale` to take Catalog from 20 replicas to 60. Within a minute the GitOps agent, which had self-healing switched on and found `replicas: 20` in the manifest, put it back to 20. Meanwhile the HPA, configured for 60% CPU with a floor of 12, saw 60 nearly idle pods and, once its scale-down stabilization window had passed, began trimming them. For half an hour the replica count drew a sawtooth on the dashboard as three governors, each correct by its own lights, pulled the same lever. Nothing failed. But the engineer believed the service was scaled when for most of that half hour it was not, which is how small fights become large incidents on worse days.
+On an ordinary Thursday before a mid-sized on-sale, an engineer on the Catalog team, expecting a surge of browsing, ran `kubectl scale` to take Catalog from 20 replicas to 60. Within a minute the GitOps agent, which had self-healing switched on and found `replicas: 20` in the manifest, put it back to 20. Meanwhile the HPA, configured for 60% CPU with a floor of 12, saw 60 nearly idle pods and, once its scale-down stabilization window had passed, began trimming them. For half an hour the replica count drew a sawtooth on the dashboard as three governors, each correct by its own lights, pulled the same lever. Nothing failed. But the engineer believed the service was scaled when for most of that half hour it was not, which is how small fights become large incidents on worse days. Figure 7.1 sketches the shape of that half hour, and Figure 7.2 lists the governors that drew it.
+
+{% include diagrams/fig-7-1.svg %}
+
+*Figure 7.1 — Catalog's replica count during the fight, sketched. One spike to 60 is reverted within a minute, and then the GitOps agent and the autoscaler pull the count back and forth between 20 and the autoscaler's preference. Notice that the line the engineer believed in is never touched again.*
 
 | Controller | Field it acts on | Acts within | Set point lives in |
 |---|---|---|---|
@@ -1433,9 +1507,13 @@ On an ordinary Thursday before a mid-sized on-sale, an engineer on the Catalog t
 | Node-upgrade reconciler | node versions (by drain) | continuous, one node at a time | platform config |
 | `kubectl scale` by a human | `spec.replicas` | immediately | a person's head |
 
-*Figure 7.1 — The governors on Catalog's shaft. Two rows claim `spec.replicas`, and the manifest claimed it too. The last row has no record and no delay, which is why it loses.*
+*Figure 7.2 — The governors on Catalog's shaft. Two rows claim `spec.replicas`, and the manifest claimed it too. The last row has no record and no delay, which is why it loses.*
 
-The repairs follow Maxwell more closely than one might expect. First, *one field, one owner*: Encore removed `replicas` from every manifest whose deployment has an HPA, and its policy checks now reject the combination. Second, *express intent to the owner*: a planned surge is a change to the HPA's floor, made in Git through the curtain-up workflow of Chapter 3, never a fight with the HPA's output. Third, *respect the damping*: the HPA's scale-down window is a dashpot on the flyballs, and teams that shorten it reliably rediscover hunting. Two loops on one lever produce oscillation; two loops on two levers, with the slower one setting the faster one's set point, produce a hierarchy, and hierarchy is how control engineers have always mastered this kind of complexity.
+The repairs follow Maxwell more closely than one might expect. First, *one field, one owner*: Encore removed `replicas` from every manifest whose deployment has an HPA, and its policy checks now reject the combination. Second, *express intent to the owner*: a planned surge is a change to the HPA's floor, made in Git through the curtain-up workflow of Chapter 3, never a fight with the HPA's output. Third, *respect the damping*: the HPA's scale-down window is a dashpot on the flyballs, and teams that shorten it reliably rediscover hunting. Two loops on one lever produce oscillation; two loops on two levers, with the slower one setting the faster one's set point, produce a hierarchy, and hierarchy is how control engineers have always mastered this kind of complexity. Figure 7.3 draws Catalog's loops arranged that way.
+
+{% include diagrams/fig-7-3.svg %}
+
+*Figure 7.3 — Catalog's governors as a hierarchy. Each slower loop writes the set point of a faster one, and only the dashed accent arrow claims a field another loop owns. Notice that it is also the only arrow that leaves no record.*
 
 The theatre has a practice that shows both the value of reconciliation and its limit. Before every performance a stage crew runs the **preset**, putting every chair, prop and lamp where the stage manager's book says, whatever happened the night before: level-triggered in the purest sense. But a good crew also knows *why* the book says what it says, and would leave alone a chair the director moved on purpose. A controller has no such sense. It knows the book and nothing of the reasons, and so the only way to tell it about a reason is to change the book.
 
@@ -1461,7 +1539,11 @@ A PDB is a promise about *how many*, never about *which*. Seat Inventory runs ea
 
 Kubernetes ships roughly three minor releases a year, and each is patched upstream for a little over a year; managed providers follow a similar rhythm and eventually upgrade clusters that fall too far behind, whether or not their owners are ready. Upgrading is therefore less a project than a weather system, and a platform that treats it as a project will be caught in the rain twice a year.
 
-Encore's Runtime team, one of the platform group's product teams, upgrades in waves. Each region runs a core cluster for Encore's own services and six cells for Professional tenants; a new version reaches a canary cell of internal test tenants first, then the other cells, then the core clusters. Node pools are replaced by the node-upgrade reconciler, draining through the PDBs. Before each wave a check scans manifests for APIs the new version removes, because the most common upgrade failure is rarely a bug in Kubernetes; it is a chart still asking for something that no longer exists. A runtime is like a ship's hull, which goes to dry dock on a schedule rather than when it leaks; the analogy breaks only in our favor, since we can dry-dock one compartment while the ship sails.
+Encore's Runtime team, one of the platform group's product teams, upgrades in waves. Each region runs a core cluster for Encore's own services and six cells for Professional tenants; a new version reaches a canary cell of internal test tenants first, then the other cells, then the core clusters. Node pools are replaced by the node-upgrade reconciler, draining through the PDBs. Before each wave a check scans manifests for APIs the new version removes, because the most common upgrade failure is rarely a bug in Kubernetes; it is a chart still asking for something that no longer exists. Figure 7.4 shows the waves across all 14 clusters. A runtime is like a ship's hull, which goes to dry dock on a schedule rather than when it leaks; the analogy breaks only in our favor, since we can dry-dock one compartment while the ship sails.
+
+{% include diagrams/fig-7-4.svg %}
+
+*Figure 7.4 — A Kubernetes upgrade moving through Encore's 14 clusters in three waves. The canary cell takes a new version first, and the core clusters, which carry Encore's own services, take it last.*
 
 #### Many clusters, deliberately {#many-clusters}
 
@@ -1520,7 +1602,7 @@ The term GitOps was coined at Weaveworks in 2017 for an older idea made precise:
 | Professional cells | digest in each cell directory, a few at a time | owning team | per-cell burn rate stays normal |
 | Core clusters | digest in `envs/prod/*/core/` | owning team | outside on-sale freeze windows |
 
-*Figure 7.2 — Promotion as a series of pull requests. Each stage is a commit someone can read and revert, and the gates are the same SLO signals Chapter 4 defined, applied to the deployment itself.*
+*Figure 7.5 — Promotion as a series of pull requests. Each stage is a commit someone can read and revert, and the gates are the same SLO signals Chapter 4 defined, applied to the deployment itself.*
 
 The history of the environment repository is a complete account of what was *intended* to run where, which is not the same as what did run: a sync can fail, a webhook can reject a manifest, an emergency can bypass the repository. Encore therefore alerts on any application out of sync for more than 15 minutes, and its break-glass procedure, an hour of direct cluster access for a named engineer, ends with a required commit writing the change back into Git, so the loop does not quietly revert the fix.
 
@@ -1610,7 +1692,11 @@ Knight's order router, SMARS, broke large "parent" orders into smaller "child" o
 
 In the days before the launch, a technician deployed the new code to the eight servers that ran SMARS. It reached seven of them. Nobody noticed the eighth, because no second person checked the deployment and no automated process compared the servers. When the market opened at 09:30 Eastern time and RLP orders arrived carrying the repurposed flag, seven servers handled them as intended and the eighth woke Power Peg. It sent child orders without end, with no notion that the parent orders were long since filled. Before the open, Knight's systems had sent 97 automated emails mentioning Power Peg; they were not designed as alerts, and nobody read them as one.
 
-The response made things worse. Engineers removed the new code from the seven healthy servers, a rollback in every ordinary sense, and now all eight servers ran the old code against the repurposed flag, and all eight woke Power Peg. By the time it was stopped, about 45 minutes after the open, SMARS had made more than 4 million executions in 154 stocks and left Knight holding billions of dollars of positions it had never meant to take. Knight reported a pre-tax loss of about $440 million; the Securities and Exchange Commission (SEC), in its 2013 order, put it above $460 million and fined the firm for its controls. Knight needed emergency financing within days and was merged into Getco the following year.
+The response made things worse. Engineers removed the new code from the seven healthy servers, a rollback in every ordinary sense, and now all eight servers ran the old code against the repurposed flag, and all eight woke Power Peg. By the time it was stopped, about 45 minutes after the open, SMARS had made more than 4 million executions in 154 stocks and left Knight holding billions of dollars of positions it had never meant to take. Knight reported a pre-tax loss of about $440 million; the Securities and Exchange Commission (SEC), in its 2013 order, put it above $460 million and fined the firm for its controls. Knight needed emergency financing within days and was merged into Getco the following year. Figure 8.1 lays out the eight servers through that morning.
+
+{% include diagrams/fig-8-1.svg %}
+
+*Figure 8.1 — Knight Capital's eight SMARS servers on 1 August 2012. One unverified server woke Power Peg at the open, and the rollback of the seven healthy servers gave all eight the same old code.*
 
 Read with Chapter 2's eyes, Knight's morning has no single cause: dead code kept for nine years, a flag given a second meaning, an unverified manual deployment, a refactoring that broke a dormant path, warnings nobody was designed to see, and a rollback that amplified the failure. Each was locally understandable; together they were a loaded mechanism, and the deployment pulled its trigger.
 
@@ -1643,9 +1729,9 @@ The **deployment pipeline** is the automated path every change takes from commit
 | Canary | Do its service level indicators (SLIs) match the baseline's on real traffic? | 20–60 min | rare paths and slow drift |
 | Release | Who should see the new behavior, and when? | a business decision | — |
 
-*Figure 8.1 — Encore's golden-path pipeline. Each stage is cheaper to fail than the next, and the right-hand column says which later stage must catch what this one cannot.*
+*Figure 8.2 — Encore's golden-path pipeline. Each stage is cheaper to fail than the next, and the right-hand column says which later stage must catch what this one cannot.*
 
-A theater production moves from read-through to technical rehearsal to dress rehearsal to previews, and each stage catches what the previous one could not, since nobody discovers that a costume change is too slow until the actors wear the costumes. The picture breaks at the end: a theater has one opening night, a pipeline opens every hour, and its preview audience is the real audience, which is why the last two stages of Figure 8.1 belong to Section 8.3.
+A theater production moves from read-through to technical rehearsal to dress rehearsal to previews, and each stage catches what the previous one could not, since nobody discovers that a costume change is too slow until the actors wear the costumes. The picture breaks at the end: a theater has one opening night, a pipeline opens every hour, and its preview audience is the real audience, which is why the last two stages of Figure 8.2 belong to Section 8.3.
 
 Humble and Farley distinguished *continuous delivery*, in which every change that passes the pipeline could be deployed, from *continuous deployment*, in which it is. Valentina Servile's *Continuous Deployment* (2024) argues for the second and lists its prerequisites: fast automated tests, observability that notices a bad change, trunk-based development and a rollback that takes minutes. Encore deploys continuously, except that Seat Inventory keeps a human release step, because its event-sourced projections must first replay against production history and a person reads the result.
 
@@ -1669,7 +1755,7 @@ The pipeline has one weakness that Knight's morning displays: it guards only the
 
 British miners carried canaries underground for most of a century, because the bird showed the effects of carbon monoxide before the men did; the last were retired in 1986. A **canary release** works the same way: a small share of real traffic goes to the new version, and its health is compared with the old version's before more traffic follows. The canary must be more sensitive than the population it protects, or it warns too late. The analogy breaks in a useful place: a canary that weakly resembles the population it guards (fewer users, quieter hours, cheaper requests) can sing happily while the mine fills.
 
-Encore's purchase-path canary is automated end to end. At each step of Figure 8.2 an analysis job compares the canary with a baseline running the old version *at the same time*, never with yesterday, because no Tuesday afternoon resembles another closely enough to judge by. The comparison uses SLIs fans would recognize: checkout success, p99 latency of `POST /holds`, and the rate of `PaymentFailed` events caused by Encore itself.
+Encore's purchase-path canary is automated end to end. At each step of Figure 8.3 an analysis job compares the canary with a baseline running the old version *at the same time*, never with yesterday, because no Tuesday afternoon resembles another closely enough to judge by. The comparison uses SLIs fans would recognize: checkout success, p99 latency of `POST /holds`, and the rate of `PaymentFailed` events caused by Encore itself.
 
 | Step | Traffic | Minimum bake | Promote when | Roll back when |
 |---|---|---|---|---|
@@ -1678,11 +1764,19 @@ Encore's purchase-path canary is automated end to end. At each step of Figure 8.
 | 3 | 25% | 20 min | as above, and error-budget burn under 2× | as above, or burn over 2× |
 | 4 | 100% | — | — | the normal burn-rate alerts of Chapter 4 |
 
-*Figure 8.2 — Encore's canary schedule for purchase-path services. The request minimum matters as much as the minutes: a canary judged on too little traffic is a coin toss with a dashboard.*
+*Figure 8.3 — Encore's canary schedule for purchase-path services. The request minimum matters as much as the minutes: a canary judged on too little traffic is a coin toss with a dashboard.*
 
-Two refinements came from experience. An integrity alarm, such as a seat with two `SeatSold` events, rolls back at once whatever the statistics say: some failures are too costly to measure politely. And canaries do not run during on-sales: a canary started at 09:55 on a Friday is a gamble taken in front of a million fans.
+Two refinements came from experience. An integrity alarm, such as a seat with two `SeatSold` events, rolls back at once whatever the statistics say: some failures are too costly to measure politely. Figure 8.4 draws both outcomes over time. And canaries do not run during on-sales: a canary started at 09:55 on a Friday is a gamble taken in front of a million fans.
+
+{% include diagrams/fig-8-4.svg %}
+
+*Figure 8.4 — Figure 8.3's schedule drawn over time on a logarithmic scale. A canary that holds reaches every fan in about 45 minutes. One that raises an integrity alarm at 25% goes straight back to zero, without waiting for the statistics.*
 
 **Blue/green deployment** stands a complete new environment beside the old one and switches traffic at once, buying an instant switch back at the price of double capacity; Encore uses it for the serverless Sale Gate. **Ring deployment** widens exposure by population rather than percentage, and Encore's SaaS business supplies natural rings: staff and synthetic buyers, then the pooled self-service cells, then the Professional cells, then Encore's own fan site and the Enterprise silo for `venue-chain-a`, whose contract makes it last. Clinical trials run the same way, a small first phase looking for harm before larger phases measure effect. The parallel breaks on consent: a trial patient agreed to be early and a self-service venue did not, so early rings must be those whose contracts, and patience, allow it.
+
+{% include diagrams/fig-8-5.svg %}
+
+*Figure 8.5 — Encore's delivery rings. Exposure widens by population rather than percentage, from staff and synthetic buyers outward, and the outermost ring is last because a contract places it there.*
 
 #### Feature flags and their debt {#flag-debt}
 
@@ -1742,7 +1836,7 @@ After the Notification morning, Encore's architecture group and the Reliability 
 
 **Provenance labels.** Every commit records who or what wrote it: a person, an agent with its workload identity and model version, or both, along with the ticket or specification it implemented and the human who sponsored it. The labels travel with the artifact into the deploy history, where review rules, canary policy and, later, an incident responder can ask how a change came to exist.
 
-**Risk-tiered human review.** Human attention is the scarcest resource in the pipeline, so the policy spends it by blast radius, as Figure 8.3 shows.
+**Risk-tiered human review.** Human attention is the scarcest resource in the pipeline, so the policy spends it by blast radius, as Figure 8.6 shows.
 
 | Tier | What it covers | Human review | Delivery |
 |---|---|---|---|
@@ -1750,7 +1844,7 @@ After the Notification morning, Encore's architecture group and the Reliability 
 | 2 | Fan-facing but not money or seats: Notifications, Catalog, renderers | one reviewer reads the spec, the invariants and the test diff, and samples the code | full canary; agent changes bake twice as long |
 | 3 | Internal tools, documentation, dashboards, test scaffolding | automated checks; 1 change in 10 sampled for human review | standard pipeline |
 
-*Figure 8.3 — Encore's review tiers. The tier comes from what a change touches, not who wrote it; provenance decides only how long an agent's change bakes and whether a human samples it.*
+*Figure 8.6 — Encore's review tiers. The tier comes from what a change touches, not who wrote it; provenance decides only how long an agent's change bakes and whether a human samples it.*
 
 **Fitness functions.** The fitness functions of *Building Evolutionary Architectures* (2nd ed., 2022), automated checks that a system keeps a promised property, are the only reviewers that read every line at the speed agents write. Encore added several. Every handler with an external side effect must take an idempotency key. No service may add a retry layer where the mesh already retries, or a retry budget above 10%. No new outbound dependency may appear without a registry entry. A latency budget for each purchase-path call is checked in the staging soak. Each began as a sentence a reviewer used to say aloud, and each now fails a build.
 
@@ -1808,7 +1902,11 @@ You can now treat change as the leading cause of outages without concluding that
 
 Every system fails, some in small pieces and some all at once, and the difference is rarely luck. A failure that stays small has usually been designed to stay small, by someone who imagined it and drew a line it could not cross. A failure that spreads has usually found a path built for some other purpose, very often a path built for recovery. This chapter is about those lines and paths, and about finding out, on a day of our choosing, whether the lines hold.
 
-Our field offers no clearer lesson than the afternoon of Monday, 15 January 1990, when AT&T's long-distance network spent about nine hours unable to complete a great many of the calls placed on it. Nothing physical had broken. Weeks earlier the company had installed new software on its 114 4ESS switching systems, changing the code that ran when a switch recovered from a fault and told its neighbors it was back in service. In that code, written in C, a `break` statement inside an `if` clause within a `switch` statement ended the enclosing block earlier than its author intended. The flaw lay quiet until one switch in New York suffered a minor fault, took itself briefly out of service and, on returning, sent its neighbors the expected messages. A neighbor that received a second such message while still handling the first ran into the defect, corrupted its own data and reset itself. When it came back, it announced its own recovery, and its neighbors fell over in turn. The cascade rolled across the network for the rest of the day.
+Our field offers no clearer lesson than the afternoon of Monday, 15 January 1990, when AT&T's long-distance network spent about nine hours unable to complete a great many of the calls placed on it. Nothing physical had broken. Weeks earlier the company had installed new software on its 114 4ESS switching systems, changing the code that ran when a switch recovered from a fault and told its neighbors it was back in service. In that code, written in C, a `break` statement inside an `if` clause within a `switch` statement ended the enclosing block earlier than its author intended. The flaw lay quiet until one switch in New York suffered a minor fault, took itself briefly out of service and, on returning, sent its neighbors the expected messages. A neighbor that received a second such message while still handling the first ran into the defect, corrupted its own data and reset itself. When it came back, it announced its own recovery, and its neighbors fell over in turn. The cascade rolled across the network for the rest of the day, as Figure 9.1 shows.
+
+{% include diagrams/fig-9-1.svg %}
+
+*Figure 9.1 — The AT&T cascade of 15 January 1990. Each switch's recovery announcement reset its neighbors, and each reset produced the next announcement. Notice that the loop that sustained the outage is the recovery path itself.*
 
 Notice what did *not* go wrong. Every switch was redundant, could detect its own faults and recover, and dutifully told its peers what had happened. The network was designed so that any switch could fail and the rest would route around it, and that design assumed failures would be independent. But all 114 switches ran the same code, and the defect sat in the recovery path, the code that runs least and matters most. The machinery of self-healing became the vector of the illness. Redundancy protects against independent failures and does nothing against common ones; a fleet running identical software is, for the purposes of its defects, one machine.
 
@@ -1836,7 +1934,7 @@ A team should know its integration points as a ship's officer knows the openings
 
 #### Timeouts derived from budgets {#timeouts-from-budgets}
 
-A **timeout** is a promise a caller makes to itself about how long it will wait before treating a call as failed. Most production timeouts were never chosen, only inherited. The discipline is to derive each from a **latency budget**, the time the user-facing operation may take end to end, divided among the calls that serve it. Encore's fan has a 3 s checkout budget, spent roughly as Figure 9.1 shows.
+A **timeout** is a promise a caller makes to itself about how long it will wait before treating a call as failed. Most production timeouts were never chosen, only inherited. The discipline is to derive each from a **latency budget**, the time the user-facing operation may take end to end, divided among the calls that serve it. Encore's fan has a 3 s checkout budget, spent roughly as Figure 9.2 shows.
 
 | Hop | Budget share | Timeout | Retries in path | Typical p99 |
 |---|---|---|---|---|
@@ -1847,7 +1945,7 @@ A **timeout** is a promise a caller makes to itself about how long it will wait 
 | Orders: write order, emit `OrderPlaced` | 250 ms | 200 ms | one | 50 ms |
 | Margin for queuing and the fan's network | 1,300 ms | | | |
 
-*Figure 9.1 — The 3 s checkout budget, divided. Each timeout sits above the dependency's normal p99 and below its share of the budget. The large margin is deliberate: on an on-sale morning, queues are where the time goes.*
+*Figure 9.2 — The 3 s checkout budget, divided. Each timeout sits above the dependency's normal p99 and below its share of the budget. The large margin is deliberate: on an on-sale morning, queues are where the time goes.*
 
 Two practices make the table real. With **deadline propagation**, the caller sends the absolute time by which it needs an answer, and each callee works only while that deadline lies in the future; Encore's internal gRPC calls carry deadlines natively, so a hold confirmation arriving with 40 ms left is refused at once. And a timed-out side effect is *unknown* until reconciled. A PSP charge that timed out may have succeeded, so Orders records it as pending and reconciles it later with the same idempotency key.
 
@@ -1855,7 +1953,11 @@ Two practices make the table real. With **deadline propagation**, the caller sen
 
 A retry is a bet that the failure was transient. Placed by one client it is a good bet; placed by every client at once it is a denial-of-service attack aimed at our own dependency. Marc Brooker, writing at Amazon Web Services, gave the clearest account of why: clients that fail together and back off exponentially also retry together, in synchronized waves that arrive when the dependency is weakest. **Jitter**, randomness in the wait before each retry, spreads the waves into a trickle, and Brooker's simulations showed "full jitter", a random wait between zero and the exponential ceiling, doing markedly better than backoff alone.
 
-Jitter shapes retries in time; a **retry budget** caps them in volume, as a fraction of ordinary requests, so that a dependency in trouble sees a bounded increase in load however many calls fail. Encore's mesh enforces about 10% per destination as a token bucket that successes refill and retries drain; when it is empty, the call fails fast and honestly. Retries happen at one layer only, and only for idempotent operations.
+Jitter shapes retries in time; a **retry budget** caps them in volume, as a fraction of ordinary requests, so that a dependency in trouble sees a bounded increase in load however many calls fail. Encore's mesh enforces about 10% per destination as a token bucket that successes refill and retries drain; when it is empty, the call fails fast and honestly. Retries happen at one layer only, and only for idempotent operations, because layers multiply, as Figure 9.3 shows.
+
+{% include diagrams/fig-9-3.svg %}
+
+*Figure 9.3 — Load on a failing dependency when every layer above it retries. Three layers of three retries can multiply it 64 times just as the dependency is weakest, while a 10% budget holds it near normal.*
 
 One retry layer escapes the mesh entirely: the fan's thumb. A fan who sees "something went wrong" presses again, and the fan app may add retries of its own. Human retries carry no jitter and respect no budget, and Section 9.5 shows Encore discovering what that means, at a moment of its own choosing.
 
@@ -1873,7 +1975,7 @@ The breaker's three states are familiar: *closed*, where calls flow and failures
 | Half-open probes | Trial calls while testing | 5, all must succeed | too many re-trigger the overload |
 | Scope | What one breaker protects | one per PSP endpoint, per region | one global breaker turns a regional fault into a total one |
 
-*Figure 9.2 — The circuit breaker's tuning surface. The slow-call threshold is the row most often missing, and it is the one the PSP outage needed.*
+*Figure 9.4 — The circuit breaker's tuning surface. The slow-call threshold is the row most often missing, and it is the one the PSP outage needed.*
 
 A breaker also needs a fallback, a defined thing to do when open, or it merely produces errors faster; for the PSP, Encore's fallback is the degraded mode already designed, accepting the order and charging later. Breaker transitions belong on the service dashboard, and a breaker that has not opened in a quarter is either guarding a perfect dependency or misconfigured. The second is likelier.
 
@@ -1883,7 +1985,7 @@ A breaker also needs a fallback, a defined thing to do when open, or it merely p
 
 **Recap.** Timeouts come from the user's budget and travel as deadlines, and a timed-out side effect is unknown until reconciled. Retries need jitter in time and a budget in volume, and the human retry needs designing for too. Breakers are state machines whose parameters decide whether they protect or harm, and backpressure keeps the queue where someone can see it.
 
-**Exercise 9.2.** Build Figure 9.1 for one user-facing operation you run. Where does a timeout exceed its budget share, and where does a dependency's normal p99 sit uncomfortably close to its timeout?
+**Exercise 9.2.** Build Figure 9.2 for one user-facing operation you run. Where does a timeout exceed its budget share, and where does a dependency's normal p99 sit uncomfortably close to its timeout?
 
 ### 9.3 Overload, Load Shedding, and Tail Latency
 
@@ -1932,7 +2034,7 @@ The **blast radius** of a failure is the set of users, tenants or functions it c
 | Availability zone | power, network, a data-center fault | a regional dependency | every tier across three zones |
 | Region | a regional outage | a global control plane, a common-mode defect | two EU regions; each event's writes pinned to one |
 
-*Figure 9.3 — The ladder of bulkheads. The "does not contain" column of each row is the reason the next row exists.*
+*Figure 9.5 — The ladder of bulkheads. The "does not contain" column of each row is the reason the next row exists.*
 
 Read that column with AT&T in mind. No number of identical regions contains a defect in code that every region runs. Only one rung contains a bad deploy, and only because the deploy reaches it at a different time: the cell.
 
@@ -1944,7 +2046,11 @@ The biggest stadium tours travel with more than one set of stage steel, so that 
 
 #### Shuffle sharding {#shuffle-sharding}
 
-Within a pooled cell, one noisy tenant can still harm its 49 neighbors. Shuffle sharding, which Colm MacCárthaigh described from AWS practice, gives each tenant a small random *combination* of workers instead of a fixed partition. In each self-service cell, Encore divides its import and webhook workers into eight lanes and assigns each venue two. There are 28 possible pairs, so a venue whose runaway import floods its two lanes shares both with any given neighbor only about one time in 28; everyone else keeps at least one healthy lane. The isolation comes from combinatorics, not hardware, which is why it is cheap.
+Within a pooled cell, one noisy tenant can still harm its 49 neighbors. Shuffle sharding, which Colm MacCárthaigh described from AWS practice, gives each tenant a small random *combination* of workers instead of a fixed partition. In each self-service cell, Encore divides its import and webhook workers into eight lanes and assigns each venue two. There are 28 possible pairs, so a venue whose runaway import floods its two lanes shares both with any given neighbor only about one time in 28; everyone else keeps at least one healthy lane. The isolation comes from combinatorics, not hardware, which is why it is cheap. Figure 9.6 shows one cell's lanes.
+
+{% include diagrams/fig-9-6.svg %}
+
+*Figure 9.6 — Shuffle sharding across a self-service cell's eight lanes. A runaway venue floods its own two lanes, and most neighbors keep at least one healthy lane. Only the rare neighbor holding the same pair is hit.*
 
 #### Static stability {#static-stability}
 
@@ -1954,7 +2060,7 @@ Encore applies it in three places. The tenant-to-cell routing table is pushed to
 
 **Recap.** Bulkheads come in sizes, so we choose the rung by the failure we fear. Cells contain bad deploys only because change reaches them at different times, shuffle sharding isolates tenants through combinatorics, and static stability keeps recovery independent of a control plane under stress.
 
-**Exercise 9.4.** Draw Figure 9.3 for your system. Which rung is missing, and which shared component (a router, an identity provider, a pipeline) crosses every rung you have?
+**Exercise 9.4.** Draw Figure 9.5 for your system. Which rung is missing, and which shared component (a router, an identity provider, a pipeline) crosses every rung you have?
 
 ### 9.5 Chaos Engineering and Game Days
 
@@ -2009,9 +2115,9 @@ A game day does not prove resilience; it finds, cheaply and on a quiet morning, 
 **Deliverables:**
 
 1. **Integration-point register** — every dependency on the stream-start path, with timeouts derived from a 4 s time-to-first-frame budget.
-2. **Retry and breaker design** — the single retry layer, its budget and jitter (including the player SDK already on fans' phones), and a per-provider DRM breaker with every Figure 9.2 parameter chosen and justified.
+2. **Retry and breaker design** — the single retry layer, its budget and jitter (including the player SDK already on fans' phones), and a per-provider DRM breaker with every Figure 9.4 parameter chosen and justified.
 3. **Shedding and metastability analysis** — admission control for the kick-off surge and the order in which work is shed; the vulnerable state, trigger and sustaining effect of last month's incident; and the runbook text that would have ended it by 20:40.
-4. **Blast-radius plan** — the rungs of Figure 9.3 Matchday needs, including how the derby is kept from starving every other match and how a stream already playing survives its providers.
+4. **Blast-radius plan** — the rungs of Figure 9.5 Matchday needs, including how the derby is kept from starving every other match and how a stream already playing survives its providers.
 5. **Game-day plan** — one experiment with hypothesis, injections, abort conditions and the human step to observe, run on a midweek evening with no fixtures.
 
 **Rubric:**
@@ -2094,6 +2200,10 @@ The distinction between systems of record and derived data, which Kleppmann deve
 
 The companion volume defined the recovery point objective (RPO) and recovery time objective (RTO); here we treat them as an operator must, as claims awaiting a test. A **backup** is a copy of a system of record, held independently of it, from which a known past state can be restored within a stated time. *Independently* rules out a replica, which shares the system's fate for logical damage, and *within a stated time* turns an artifact into a capability. The data-integrity chapter of Google's *Site Reliability Engineering* makes the point that nobody wants backups as such; what people want is restores.
 
+{% include diagrams/fig-10-2.svg %}
+
+*Figure 10.2 — RPO measures back from a failure to the last good copy, RTO forward to service restored; here both are drawn for the seat ledger and the Finance ledger, beside what the Finance drills of Section 10.5 actually measured. Notice that the promise was kept only once the team changed what had to come back first.*
+
 We picture a region burning down, which cloud providers have made rare. The common threats are humbler: an engineer deleting the wrong thing; a bug writing bad data for a week before anyone notices; a tenant deleting their own events and wanting them back; and an adversary who encrypts the database and then hunts for the backups. Each has a different shape in time. Slow corruption needs a copy from *before* the bug; ransomware needs one the attacker cannot reach.
 
 | Mechanism | Protects against | Restores | Weakness |
@@ -2148,7 +2258,7 @@ Encore's seat holds lived in a relational table keyed by `(event_id, seat_id)`, 
 | 4. Switch | Both | New store, behind a flag | One full on-sale on the new store within its service level objective (SLO) |
 | 5. Contract | New store only | New store | Old writers removed; table archived, dropped 30 days later |
 
-*Figure 10.2 — Expand and contract for the holds store. A flag or a deploy reverses each phase until the fifth, and the fifth waits until there is nothing left to reverse to.*
+*Figure 10.3 — Expand and contract for the holds store. A flag or a deploy reverses each phase until the fifth, and the fifth waits until there is nothing left to reverse to.*
 
 A **backfill** is the bulk copy of existing data into a new shape, and in most migrations it is the riskiest phase: long-running, heavy on the database and racing live writes. Holds, however, live for five minutes. Once the new store had received every write for five minutes, it held every live hold and nothing older mattered. Knowing the lifetime of your data can turn the hardest part of a migration into a wait.
 
@@ -2156,7 +2266,7 @@ The dual writes were the real hazard, and the teams treated them as such. Withou
 
 **Recap.** Schema changes are deployments that cannot be reverted, so we expand before we contract and keep both shapes correct in between. Backfills are the riskiest phase, unless the data's own lifetime makes them trivial. Dual writes drift silently, so we measure the drift with shadow comparisons or avoid it with change data capture.
 
-**Exercise 10.3.** Take the next schema change on your team's roadmap and write it as a table like Figure 10.2. For each phase, name the exit criterion and the way back. Which phase has no way back, and what must be proven before it starts?
+**Exercise 10.3.** Take the next schema change on your team's roadmap and write it as a table like Figure 10.3. For each phase, name the exit criterion and the way back. Which phase has no way back, and what must be proven before it starts?
 
 ### 10.4 Replication, Multi-Region, and Failover
 
@@ -2175,6 +2285,10 @@ Failover has a characteristic failure that is worse than the outage it was meant
 Pilots handle the analogous problem with a ritual, "I have control," "You have control," "I have control," which makes the transfer of the aircraft explicit and acknowledged, so that there is never a moment when both pilots fly or neither does. The ritual works because both pilots share a cockpit and can hear each other, and that is where the analogy breaks: in a distributed system the old leader may never hear the handover. The protection must therefore sit not with the leaders, who may be mistaken, but with the storage they write to.
 
 That protection is **fencing**: every leadership term carries a monotonically increasing number, a **fencing token**, and storage rejects any write bearing a term older than the newest it has seen. The idea descends from the leases Cary Gray and David Cheriton described in 1989, grants of authority that expire unless renewed, and Kleppmann gives the clearest modern account of fencing tokens. Encore's Seat Inventory shards run with fenced leader terms: a new leader's first act is to record its term, and from that instant any write from the old leader fails, loudly and harmlessly. The cost, tens of seconds of rejected writes during takeover, buys the invariant that matters most. No seat is sold twice, whatever the leaders believe.
+
+{% include diagrams/fig-10-4.svg %}
+
+*Figure 10.4 — Fencing on a Seat Inventory shard. The deposed leader is never asked whether it still leads; the storage simply refuses its stale term, and that refusal is how it learns.*
 
 #### Failing over a region {#failing-over-a-region}
 
@@ -2207,7 +2321,7 @@ In the spring the Reliability team ran Encore's first full restore of the Financ
 | Repoint applications | 10 min | 35 min | A reporting job's connection string was hard-coded |
 | **Total** | **~2 h** | **~9 h** | |
 
-*Figure 10.3 — The Finance ledger restore drill. No delay came from the database engine.*
+*Figure 10.5 — The Finance ledger restore drill. No delay came from the database engine.*
 
 The drill missed its RTO more than fourfold, and was the most useful day of reliability work Encore did that quarter. The two-person rule was right but untried under pressure; it now has a standby approver rota. The throughput was physics, and the arithmetic unanswerable: at the measured rate, 4.2 TB could not come back in two hours whatever the runbook said. So the team split the ledger: the current financial year (about 600 GB) restores first and becomes writable while history follows, and kept a warm standby for that slice. Finance, asked what it truly needed, said the real deadline was the next nightly close: two hours for the current year's postings was right, and a day for history was acceptable. Three months later a second drill had the current year writable in 1 h 50 min.
 
@@ -2217,7 +2331,11 @@ Verification taught the subtlest lesson. A restore is finished not when the data
 
 The largest test came on a quiet Tuesday in October, with no on-sale within a week: the Reliability team failed over every event homed in Encore's first region, EU-1, to the second, EU-2, carrying real traffic for small events and the synthetic buyers of Encore's hidden test event.
 
-The core held: standbys were promoted in about four minutes, fencing rejected a handful of late writes from EU-1 leaders that had not heard of their replacement, and no hold or sale was lost. The surprises were at the edges. The Sale Gate's provisioned concurrency had been pre-warmed only in EU-1, because every on-sale until then had been homed there, so the first synthetic buyers in EU-2 met cold starts. Bot Screening's risk data, in its separate account, reached EU-2 only by a daily copy, so the Gate there screened against yesterday's signals. And an Orders reconciliation job whose schedule named EU-1 explicitly quietly did nothing for six hours. None would have stopped a real failover; each would have made it worse, and each became a ticket with an owner.
+The core held (Figure 10.6): standbys were promoted in about four minutes, fencing rejected a handful of late writes from EU-1 leaders that had not heard of their replacement, and no hold or sale was lost. The surprises were at the edges. The Sale Gate's provisioned concurrency had been pre-warmed only in EU-1, because every on-sale until then had been homed there, so the first synthetic buyers in EU-2 met cold starts. Bot Screening's risk data, in its separate account, reached EU-2 only by a daily copy, so the Gate there screened against yesterday's signals. And an Orders reconciliation job whose schedule named EU-1 explicitly quietly did nothing for six hours. None would have stopped a real failover; each would have made it worse, and each became a ticket with an owner.
+
+{% include diagrams/fig-10-6.svg %}
+
+*Figure 10.6 — The October game day, EU-1 to EU-2. The core that had been designed for failover held, while the three findings sat at the edges, in things that had quietly assumed EU-1 would always be home.*
 
 The drills also changed Encore's runbooks. A DR runbook is good when an engineer who has never performed the procedure can follow it at 3 a.m. against the clock, so each drill is now led by someone who has not led one before. Chapter 12 takes up how a real disaster is commanded.
 
@@ -2331,6 +2449,10 @@ Encore learned the cost of the remaining secrets on a quiet Thursday. A contract
 
 What made the episode an incident rather than a disaster was a decision taken years earlier: scopes. The key carried `listings:read` and `resale:write`, which let its holder read availability and list tickets for resale on Rowmate's behalf. It could not buy primary inventory, read fans' personal data or touch payouts. The gateway's audit log showed 14 minutes of scraping and two fraudulent resale listings, removed before anyone bought them. Rotation was harder: Rowmate needed a deploy to change keys, so both ran for an hour, the old one restricted to Rowmate's addresses. Partners now use OAuth client credentials bound to a client certificate, with tokens that live 15 minutes.
 
+{% include diagrams/fig-11-2.svg %}
+
+*Figure 11.2 — How long each of Encore's credentials lives, on a logarithmic scale, against the 38 minutes it took to revoke Rowmate's key. A token of the kind partners use now would have expired on its own before anyone revoked it.*
+
 #### Least privilege drifts {#least-privilege-drifts}
 
 Least privilege is granted once and eroded continuously, as incident-time permissions stay and service accounts outlive their services. Permissions are a ratchet that turns one way unless someone deliberately turns it back. Encore turns it back from evidence: access logs show which permissions each role actually used in the last 90 days, and every quarter the owning team receives a proposed policy without the unused ones, to accept, amend or defend.
@@ -2356,9 +2478,9 @@ Advisories, each with a Common Vulnerabilities and Exposures (CVE) number, arriv
 | high EPSS, CVSS 7 or above | any | scheduled fix, next base-image rebuild | 30 days |
 | low EPSS, code path unreachable | any | record as not affected, with the reasoning | next routine update |
 
-*Figure 11.2 — Encore's triage policy. The rows are ordered by evidence of exploitation and by exposure, not by CVSS alone, so that urgency is spent where an attacker is most likely to arrive.*
+*Figure 11.3 — Encore's triage policy. The rows are ordered by evidence of exploitation and by exposure, not by CVSS alone, so that urgency is spent where an attacker is most likely to arrive.*
 
-The policy resembles aviation's airworthiness directives, which tell every operator of an aircraft type what must be inspected or replaced, and by when, attaching a compliance time to each finding. The analogy breaks twice. Software fleets change hourly, so the list of affected machines is stale as soon as it is printed, and a directive is rarely written while an adversary is already exploiting the defect, which for the top row of Figure 11.2 is the normal case.
+The policy resembles aviation's airworthiness directives, which tell every operator of an aircraft type what must be inspected or replaced, and by when, attaching a compliance time to each finding. The analogy breaks twice. Software fleets change hourly, so the list of affected machines is stale as soon as it is printed, and a directive is rarely written while an adversary is already exploiting the defect, which for the top row of Figure 11.3 is the normal case.
 
 #### Patching as a flow {#patching-as-a-flow}
 
@@ -2368,9 +2490,13 @@ Log4Shell is the best-documented test of this idea. On 9 December 2021 a flaw in
 
 Encore's own test came this spring: a critical remote code execution flaw in a widely used XML parsing library, added to the KEV list within a day of disclosure. Its software bills of materials (Section 11.4) answered the first question in 20 minutes: 37 images across 23 services, two of them base images, and one copy inside a vendor's monitoring agent. Within 6 hours the gateway's web application firewall (WAF) blocked the known exploit pattern on internet-facing paths, a compensating control that bought time rather than safety. A big on-sale fell inside the window, so purchase-path changes went through the freeze's emergency category. By hour 30, 35 images were redeployed; by hour 48, all of Encore's own. The vendor's agent, confined meanwhile by an egress rule, waited four more days for its supplier. The honest summary is "patched in 48 hours, except the part we did not build", and Encore now writes that exception into vendor contracts.
 
+{% include diagrams/fig-11-4.svg %}
+
+*Figure 11.4 — The spring parser flaw: affected images redeployed against hours since disclosure, from the counts Encore recorded. The curve is steep where Encore owns the build and flat where it waits on a supplier.*
+
 **Recap.** CVSS measures how bad a flaw could be; exploitation evidence, exposure and reachability decide how fast we move. Patching works best as a continuous flow of rebuilds, so that an emergency is the ordinary process run faster. Finding a vulnerable component is often harder than fixing it, and vendor software sets the length of the tail.
 
-**Exercise 11.3.** Reclassify the last 20 vulnerability findings for a service you own with Figure 11.2. How many were treated as urgent, and how many deserved to be? Then measure your production images' median age.
+**Exercise 11.3.** Reclassify the last 20 vulnerability findings for a service you own with Figure 11.3. How many were treated as urgent, and how many deserved to be? Then measure your production images' median age.
 
 ### 11.4 The Software Supply Chain — Provenance, SBOMs, and Signing
 
@@ -2394,9 +2520,9 @@ A **software bill of materials (SBOM)** is a machine-readable inventory of the c
 | Build (hosted, isolated) | image, SBOM, SLSA provenance | signed by the release workflow's identity | build fails |
 | Registry | signature and attestations in the transparency log | nightly rescan of SBOMs against new advisories | ticket to the owning team |
 | Admission to a cluster | — | policy verifies signer, builder and source branch | pod rejected, fails closed |
-| Runtime | — | inventory of running images joined to SBOMs | drives Figure 11.2 triage |
+| Runtime | — | inventory of running images joined to SBOMs | drives Figure 11.3 triage |
 
-*Figure 11.3 — Supply-chain controls on Encore's golden path. Every stage leaves evidence that a later stage checks automatically.*
+*Figure 11.5 — Supply-chain controls on Encore's golden path. Every stage leaves evidence that a later stage checks automatically.*
 
 Encore's golden path does all of this by default, so a team creating a service from the template inherits signing, provenance and SBOMs without writing pipeline code. Every service reaches SLSA Build Level 2; the purchase path and the identity issuer are built at Level 3 on isolated builders. Admission rejects any image not signed by Encore's release workflow, with a priced, logged exception path for bought products whose vendors cannot yet provide provenance.
 
@@ -2433,8 +2559,8 @@ Encore added a security scenario to its quarterly game days. A canary key pushed
 **Deliverables:**
 
 1. **Credential inventory and plan** — every credential class with its age, scope and blast radius, and a sequenced migration to workload identity and short-lived partner tokens that needs no coordinated weekend.
-2. **Triage policy** — Hearthstay's Figure 11.2, including the host mobile apps, which reach hosts only when they choose to update.
-3. **Supply-chain path** — the Figure 11.3 stages adopted first, the SLSA level targeted in six months, and how SBOMs will be queried.
+2. **Triage policy** — Hearthstay's Figure 11.3, including the host mobile apps, which reach hosts only when they choose to update.
+3. **Supply-chain path** — the Figure 11.5 stages adopted first, the SLSA level targeted in six months, and how SBOMs will be queried.
 4. **Detection and response pack** — five identity-based detections, the log retention each needs, and a runbook for "a channel manager's key is leaked."
 5. **Three security chaos experiments** — with hypotheses and limits, one of them on a change to a host's payout details.
 6. **Break-glass design** — who may use it, how it expires, and how its use is reviewed.
@@ -2549,6 +2675,10 @@ Encore rents a hosted status page, because one hosted on the platform it reports
 
 Communication also runs the other way, and that was where Encore's incident turned. At 10:24 Elif relayed something from Support that no dashboard in the channel had shown: fans were writing in to say the site had told them they were bots. Support, in that moment, was a sensor, and the comms lead was the only role positioned to connect it to the response.
 
+{% include diagrams/fig-12-3.svg %}
+
+*Figure 12.3 — The Vesper Hale response in ICS shape: command at the top, three roles beneath it, and the comms lead standing at the channel's edge. Notice the one line that runs inward; it carried the fact no dashboard had shown.*
+
 **Recap.** ICS gave us a commander who does not operate, an ops lead who does, a voice for stakeholders and a hand that keeps the record, along with span of control and explicit handoffs. Structure is what allows a group under stress to keep thinking together. Communication flows to three audiences on a promised cadence, and it flows back in, often carrying the fact the responders were missing.
 
 **Exercise 12.2.** Reconstruct the roles in your last significant incident. Who was commanding, who was operating, who was communicating and who was recording? If one person held two of those roles, find a moment where that cost something.
@@ -2577,6 +2707,10 @@ The second mitigation came from the information Elif had brought in at 10:24. Ma
 
 By 10:47 the checkout burn rate had been within budget for several minutes and Marta declared the incident recovered. Admission was raised back to 1,200 per second at 11:10 under watch, and the incident was resolved at noon. Throughout, no seat was sold twice; the team's freedom to mitigate aggressively rested on knowing that fencing and idempotency would hold.
 
+{% include diagrams/fig-12-4.svg %}
+
+*Figure 12.4 — The on-sale as the Sale Gate saw it: admission rate per event, the 47 degraded minutes, and the response's events beneath. Both mitigations are cheap moves on one dial and one switch, made long before anyone understood the cause.*
+
 | Time | What happened | Phase |
 |---|---|---|
 | 09:52 | A routine Catalog deploy rolls pods and empties the seat-map geometry cache (noticed only afterward) | — |
@@ -2593,7 +2727,7 @@ By 10:47 the checkout burn rate had been within budget for several minutes and M
 | 11:10 | Admission returned to 1,200 fans/s | Resolve |
 | 12:00 | Incident resolved; review scheduled | Follow up |
 
-*Figure 12.3 — The Vesper Hale on-sale as the scribe's log recorded it. 47 minutes of degraded checkout; roughly 9% of admitted fans hit at least one error; no seat sold twice. Chapter 13 asks why each of these things was possible.*
+*Figure 12.5 — The Vesper Hale on-sale as the scribe's log recorded it. 47 minutes of degraded checkout; roughly 9% of admitted fans hit at least one error; no seat sold twice. Chapter 13 asks why each of these things was possible.*
 
 **Recap.** Situation awareness has three levels, and most tooling helps only with the first. Fixation is the characteristic failure, and the remedy is a role whose job is to keep asking what is broken now. Mitigation reduces harm before the cause is understood, and the best mitigations are generic, cheap and reversible.
 
@@ -2627,7 +2761,7 @@ The second was a suggestion: restart the Seat Inventory pods to clear what it de
 
 This is the human role that Chapter 3 argued for, made concrete, with Bainbridge's ironies at full strength: the assistant was fluent and fast, and the only safeguard was a person skilled enough to judge it at the moment its speed made deference tempting. An assistant that is right about the facts can still be wrong about the action. The safeguard worked because Cue could not restart anything without explicit approval in the channel, from whoever held the operations role. Cue also missed something: the Catalog deploy at 09:52 fell outside the window it searched, a limit of correlation by time whose cost Chapter 13 measures.
 
-Cue's most valuable work drew less attention: it kept a draft timeline as the channel scrolled, which the human scribe corrected into Figure 12.3. The most useful assistance an incident team receives may simply be a good memory.
+Cue's most valuable work drew less attention: it kept a draft timeline as the channel scrolled, which the human scribe corrected into Figure 12.5. The most useful assistance an incident team receives may simply be a good memory.
 
 **Recap.** Runbooks start from symptoms and lead with generic mitigations, and ChatOps makes actions visible and recorded as they happen. An assistant can shorten perception dramatically through correlation, but it acts within approvals held by people who understand the system. The case for keeping skilled humans at the decision point is made at exactly the moments when the assistant is most persuasive.
 
@@ -2738,7 +2872,11 @@ Two biases push us toward stopping early. **Hindsight bias**, which Baruch Fisch
 
 Nancy Leveson's **Causal Analysis based on STAMP (CAST)** is a method for writing second stories systematically. It treats an incident as a failure of control: some controller, human or automated, issued an action unsafe in context, usually because its **process model** (its beliefs about the system it controls) was wrong or missing a signal. CAST names the loss and the hazard, draws the control structure, examines each controller in turn (what it was responsible for, what it did, what it believed and why that belief was reasonable) and then looks at the structure as a whole, at coordination and at how it changed over time.
 
-Encore's Reliability team ran it with every team involved. The loss was fans unable to buy tickets during a scheduled on-sale; the hazard was the purchase path receiving more load than it could serve while its capacity was reduced. The control structure, simplified, looked like this:
+Encore's Reliability team ran it with every team involved. The loss was fans unable to buy tickets during a scheduled on-sale; the hazard was the purchase path receiving more load than it could serve while its capacity was reduced. Figure 13.1 draws the control structure, simplified, with its control actions running down and its feedback running up; Figure 13.2 sets out what each controller did and believed.
+
+{% include diagrams/fig-13-1.svg %}
+
+*Figure 13.1 — The control structure of the Vesper Hale on-sale. Every controller could act on the purchase path, and two of the feedback paths that would have warned them did not exist.*
 
 | Controller | Control action | What it believed | What was missing |
 |---|---|---|---|
@@ -2749,13 +2887,17 @@ Encore's Reliability team ran it with every team involved. The loss was fans una
 | Bot Screening velocity rule | Blocked about 30,000 clients | Bursts of identical requests are bots | Knowledge that the web client now retries a failed hold automatically; feedback from purchase-path error rates |
 | Cue (ops assistant) | Suggested restarting Seat Inventory pods | Restarts had cleared elevated errors in past incidents | A model of leader failover; the blast radius of its suggestion |
 
-*Figure 13.1 — Encore's control structure on the morning of the Vesper Hale on-sale, read through CAST. Every controller acted on a reasonable belief; the missing column is where the changes come from.*
+*Figure 13.2 — Encore's control structure on the morning of the Vesper Hale on-sale, read through CAST. Every controller acted on a reasonable belief; the missing column is where the changes come from.*
 
 Read down the last column and a pattern appears that no single row reveals: nearly every gap is a missing feedback path between teams. The reconciler belonged to the platform, the calendar to the On-Sale team, the cache to Catalog, the client's retry behavior to the web team, and the rule to Bot Screening. Vaughan called this **structural secrecy**: the division of labor that lets each group see its own piece clearly and nobody see the whole. It is the price of decomposition, which is how 40 teams master a system no one person could hold, and so the answer is not to undo it but to wire the feedback back in.
 
 #### The freeze as normalization of deviance {#the-freeze-as-normalization-of-deviance}
 
-The second row deserves its own telling, because it is Challenger in miniature. The freeze rule was clear: no non-emergency changes to the purchase path from two hours before an on-sale until its end. Over the previous year the freeze channel recorded 41 exceptions, every one granted in chat, none followed by an incident. When the node-upgrade reconciler arrived, it was classed as low-risk automation and exempted, and on three earlier on-sales it had drained nodes mid-sale without harm, because none of those nodes happened to host a shard leader. The freeze's service list predated serving seat-map geometry from Catalog's cache, and nobody had reason to revisit it.
+The second row deserves its own telling, because it is Challenger in miniature. The freeze rule was clear: no non-emergency changes to the purchase path from two hours before an on-sale until its end. Over the previous year the freeze channel recorded 41 exceptions (Figure 13.3), every one granted in chat, none followed by an incident. When the node-upgrade reconciler arrived, it was classed as low-risk automation and exempted, and on three earlier on-sales it had drained nodes mid-sale without harm, because none of those nodes happened to host a shard leader. The freeze's service list predated serving seat-map geometry from Catalog's cache, and nobody had reason to revisit it.
+
+{% include diagrams/fig-13-3.svg %}
+
+*Figure 13.3 — Freeze exceptions granted in chat, quarter by quarter, in the year before Vesper Hale. Each quarter looked like the last one, a little busier; only the running total, which nobody kept, shows the drift.*
 
 | Stage | Challenger's O-rings | Encore's freeze |
 |---|---|---|
@@ -2765,13 +2907,13 @@ The second row deserves its own telling, because it is Challenger in miniature. 
 | Success as evidence | Flights with erosion return safely | Three mid-sale drains cause no harm |
 | Burden of proof reversed | Engineers must prove flight unsafe | Anyone objecting must show why an exception is risky |
 
-*Figure 13.2 — Two drifts, side by side. In both, each step was reasonable, made by careful people, and confirmed by an outcome that happened to be good.*
+*Figure 13.4 — Two drifts, side by side. In both, each step was reasonable, made by careful people, and confirmed by an outcome that happened to be good.*
 
 The lesson is not that the freeze was ignored. It was followed, and the following was how it drifted. A rule whose exceptions are never counted is a rule whose meaning is being rewritten in private.
 
 **Recap.** Root cause is a stopping point, not a discovery, and hindsight and counterfactuals push us to stop too soon. CAST replaces the search for a broken part with an account of controllers, their beliefs and their missing feedback. At Encore that account showed structural secrecy between teams and a freeze that had drifted exactly as the O-ring margins did.
 
-**Exercise 13.2.** Build a CAST table like Figure 13.1 for an incident you know, with at least four controllers, one of them automated. For each, write why its belief was reasonable at the time. Which feedback path, if it had existed, would have changed the most rows?
+**Exercise 13.2.** Build a CAST table like Figure 13.2 for an incident you know, with at least four controllers, one of them automated. For each, write why its belief was reasonable at the time. Which feedback path, if it had existed, would have changed the most rows?
 
 ### 13.3 Writing and Running the Review
 
@@ -2830,7 +2972,11 @@ One caution: do not make near-miss reports a metric to drive down. Dekker warns 
 
 Action items die quietly. When Encore's Reliability team audited the previous year's postmortems, about 40% of their action items were still open after 90 days, and the open ones were not a random sample: the small fixes had been closed, while the structural items (the ones that crossed team boundaries, needed a design or had no obvious owner) had sat untouched. The learning had been real in the meeting and was gone by the next quarter.
 
-Occupational safety has long ranked its remedies in a **hierarchy of controls**: eliminate the hazard, substitute something safer, engineer a barrier, then add procedures and training, with protective equipment last. The ranking reflects how reliably each works when a tired person is in the loop. Postmortem actions sort the same way. "Remind engineers to check cache state" sits at the bottom; a load test that cannot pass without a cold-cache run sits near the top. Every action item worth writing restores a missing control from the CAST table, and one that names no control is usually a wish.
+Occupational safety has long ranked its remedies in a **hierarchy of controls**: eliminate the hazard, substitute something safer, engineer a barrier, then add procedures and training, with protective equipment last. The ranking reflects how reliably each works when a tired person is in the loop. Postmortem actions sort the same way. "Remind engineers to check cache state" sits at the bottom; a load test that cannot pass without a cold-cache run sits near the top. Every action item worth writing restores a missing control from the CAST table, and one that names no control is usually a wish. Figure 13.5 places Encore's own changes on the hierarchy.
+
+{% include diagrams/fig-13-5.svg %}
+
+*Figure 13.5 — The hierarchy of controls, with the Vesper Hale changes placed on it. The higher a remedy sits, the less it depends on a tired person remembering it.*
 
 #### What Encore changed {#what-encore-changed}
 
@@ -2842,7 +2988,7 @@ Occupational safety has long ranked its remedies in a **hierarchy of controls**:
 | Freeze drift | Freeze restored; scope derived from the traced dependency graph (Chapter 5), not a list; a register of exceptions with reason, approver and outcome, reviewed monthly | Reliability | Exceptions trend down, and each has a recorded outcome |
 | Suggestion without blast radius | Runbook actions tagged; Cue shows the tag with every suggestion | Reliability, Cue maintainers | Drill transcripts show the tag on every suggested action |
 
-*Figure 13.3 — From finding to change. Each row restores a control missing from Figure 13.1, and each says in advance what evidence will show it working.*
+*Figure 13.6 — From finding to change. Each row restores a control missing from Figure 13.2, and each says in advance what evidence will show it working.*
 
 The register of exceptions is the quietest change and, I have come to believe, the most important. Vaughan's lesson was never that deviance can be forbidden; some exceptions are right, and a freeze with none would be broken in other ways. Her lesson was that deviance becomes normal when nobody can see it accumulate. The register makes each exception a decision with a name, a reason and a recorded outcome, so that the 42nd exception arrives in a room that can see the previous 41.
 
@@ -2972,7 +3118,11 @@ Encore learned the pinning rule the usual way. The frontier tier had always been
 
 What changed was one word. Encore's refund workflow approves automatically when a ticket costs under €80 *and* more than 48 h remain before showtime. The new model, in roughly a third of refund conversations, explained the rule as under €80 *or* more than 48 hours out. A fan with a €140 ticket five days out was told the refund would be automatic and then watched it go to human review. No money moved wrongly, because the policy lived in the workflow and not in the model's words, but the assistant was making promises the system would not keep, which is a reliability failure by any definition a fan would recognize.
 
-The nightly eval run caught it. Encore runs the golden set of 200 conversations every night against the *production* configuration, not only in CI, precisely because configuration can change without a commit. Eighteen of the 200 are refund conversations; for months they had passed 18 of 18, and on Wednesday morning 11 passed. The Support Experience team's on-call engineer read the seven failures, saw the same "or" in each, and pinned the previous snapshot by lunchtime.
+The nightly eval run caught it. Encore runs the golden set of 200 conversations every night against the *production* configuration, not only in CI, precisely because configuration can change without a commit. Eighteen of the 200 are refund conversations; for months they had passed 18 of 18, and on Wednesday morning 11 passed. The Support Experience team's on-call engineer read the seven failures, saw the same "or" in each, and pinned the previous snapshot by lunchtime. Figure 14.3 shows how loudly the refund cases spoke and how quietly the overall score did.
+
+{% include diagrams/fig-14-3.svg %}
+
+*Figure 14.3 — The nightly golden-set run across the week the alias moved. The refund cases fell from 18 of 18 to 11; the overall score barely moved, which is why the team reads categories and not averages.*
 
 The harder question was how many real fans had heard the wrong rule in the 30 hours before the rollback. A golden set shows how a version behaves on cases we chose; what it told the people who actually came lives only in production.
 
@@ -3004,7 +3154,11 @@ Medicine faced Encore's question after the thalidomide disaster of the early 196
 
 Answering "how many fans heard the wrong rule?" took two engineers a day. They pulled about 520 refund conversations from the 30-hour window, ran the new evaluator over them and found 164 faulty explanations; the support team wrote to each of those fans with the correct rule and expedited their reviews. Doing it by hand once made the case for doing it continuously. Encore now evaluates a 3% daily sample of assistant conversations, sends 40 a week to human reviewers, and oversamples where the judge is uncertain or the fan escalated. The sampled pass rate on refund explanations is a quality service level indicator (SLI) with an objective of 98%, and its burn rate pages the Support Experience team in business hours like any SLO of Chapter 4.
 
-The loop closes in both directions. Production failures become new golden cases, so the golden set grows toward the conversations fans actually have, as Phillip Carter's early report on LLM observability argued it should. What we sample this quarter is what we test next quarter.
+The loop closes in both directions. Production failures become new golden cases, so the golden set grows toward the conversations fans actually have, as Phillip Carter's early report on LLM observability argued it should. What we sample this quarter is what we test next quarter. Figure 14.4 places both loops beside the request path they watch.
+
+{% include diagrams/fig-14-4.svg %}
+
+*Figure 14.4 — The request path through the AI gateway, with the eval loop beside it. Notice that the evaluators reach back into the gateway: quality is a signal the path acts on, not only a report.*
 
 **Recap.** Evals begin with error analysis of real traces, which turns imagined metrics into a taxonomy of actual failures. LLM judges are instruments calibrated against human labels per category and re-checked when they drift, and repeated runs measure consistency as well as accuracy. The golden set is the trial and production sampling the surveillance, each feeding the other.
 
@@ -3024,7 +3178,7 @@ Content failures need names, and each name needs a detector and a response. Five
 | Loops | an agent repeats a tool call or plan without progress | step and token counters per trajectory | step caps, spend ceilings, loop detector, escalation |
 | Tool misuse | wrong tool, wrong arguments or an out-of-policy call | schema validation, authorization denials, trajectory evals | scoped credentials, workflow-enforced policy |
 
-*Figure 14.3 — Content failure modes with their detectors and containment. The right-hand column is architecture, which is why it holds when the model does not.*
+*Figure 14.5 — Content failure modes with their detectors and containment. The right-hand column is architecture, which is why it holds when the model does not.*
 
 Two rows deserve comment. **Drift**, which *Reliable Machine Learning* by Chen, Murphy and colleagues treats at length, classically means the world moving away from a model's training data. A hosted model faces three drifts at once: the corpus changes, the questions change (a stadium tour brings questions about bag policies), and the provider changes the model. Only the third can be prevented by pinning. **Refusals** mirror hallucination and are easy to miss because they look safe; a support assistant that politely declines to discuss refunds is down, however green its dashboard.
 
@@ -3039,7 +3193,11 @@ Encore's equivalent is a ladder, every rung tested on game days:
 3. **Retrieval only**: the assistant shows the most relevant help articles and the fan's order status, without generating prose.
 4. **Human handoff**: the conversation joins the support queue with a summary, and the fan is told honestly how long the wait is.
 
-Circuit breakers in the gateway pull the ladder when errors or latency cross thresholds (Section 9.2's patterns, applied to a provider), as does rate-limit exhaustion. The trigger teams forget is quality, because a model that is available but wrong never trips a breaker. Encore wires the refund-explanation SLI into the same switch, so a sustained quality burn drops refund intents to retrieval only until a human looks.
+Circuit breakers in the gateway pull the ladder when errors or latency cross thresholds (Section 9.2's patterns, applied to a provider), as does rate-limit exhaustion. The trigger teams forget is quality, because a model that is available but wrong never trips a breaker. Encore wires the refund-explanation SLI into the same switch, so a sustained quality burn drops refund intents to retrieval only until a human looks. Figure 14.6 draws the ladder with its triggers.
+
+{% include diagrams/fig-14-6.svg %}
+
+*Figure 14.6 — The degradation ladder and what pulls it. The breakers see errors, latency and rate limits; only the quality signal sees a model that is up and wrong.*
 
 Human handoff hides a trap Weizenbaum would recognize. Reviewers of the refund agent's proposals approve with one click, and after months of good proposals they approve faster and read less. Chapter 3 called this the irony of automation, and fluency sharpens it: the proposal is written in the confident register of someone who has checked. Encore's review screen therefore shows the policy facts (price, hours to showtime, the rule's verdict) in a fixed panel computed by the workflow, apart from the agent's prose, and occasionally seeds the queue with a known-bad proposal whose catch rate is tracked. Reviewers who are never shown a wrong answer gradually lose the ability to notice one.
 
@@ -3147,7 +3305,11 @@ An **SRE team model** is the decision about where reliability expertise sits rel
 
 *Figure 15.1 — SRE team models and how each tends to fail. Most organizations end up hybrid; the useful question is which failure mode they have chosen to watch for.*
 
-The literature grew plural as the practice spread. David Blank-Edelman's *Becoming SRE* describes centralized, embedded and hybrid integration, the stages such organizations pass through, and the commonest failure, title flipping: renaming the operations team and changing nothing else. *Seeking SRE*, which he edited, records the alternatives, among them Spotify's practice of SRE without a dedicated SRE team and Facebook's production engineering. Google's second edition of *Site Reliability Engineering*, published this year, describes (by its announcement) hybrid models, closer ties to platform engineering and reliability champions placed inside product teams. Each model trades context against reach, and no position on that line stays right as an organization grows.
+The literature grew plural as the practice spread. David Blank-Edelman's *Becoming SRE* describes centralized, embedded and hybrid integration, the stages such organizations pass through, and the commonest failure, title flipping: renaming the operations team and changing nothing else. *Seeking SRE*, which he edited, records the alternatives, among them Spotify's practice of SRE without a dedicated SRE team and Facebook's production engineering. Google's second edition of *Site Reliability Engineering*, published this year, describes (by its announcement) hybrid models, closer ties to platform engineering and reliability champions placed inside product teams. Each model trades context against reach, and no position on that line stays right as an organization grows. Figure 15.2 draws the line.
+
+{% include diagrams/fig-15-2.svg %}
+
+*Figure 15.2 — SRE team models placed by context and reach. The pure models sit near one trade-off line; a hybrid with champions tries to get above it, which is where Encore now aims.*
 
 A hospital teaches the shape well. The ward owns its patients, and one attending physician answers for each of them. Specialists consult and leave notes; an intensivist joins for the critical days; the hospital's engineers keep the oxygen and the power running for every ward at once. The analogy breaks at the point that matters most, because a good SRE practice does not merely treat the patient in front of it. It changes the system so that the next patient never needs the specialist at all.
 
@@ -3210,7 +3372,7 @@ Structure and training decide what an organization *can* do under pressure; cult
 | Failure leads to | scapegoating | justice | inquiry |
 | Novelty | crushed | becomes a problem | implemented |
 
-*Figure 15.2 — Westrum's typology of organizational cultures. Each column describes what happens to an inconvenient fact.*
+*Figure 15.3 — Westrum's typology of organizational cultures. Each column describes what happens to an inconvenient fact.*
 
 Westrum's insight was that safety depends on information reaching the people who can act on it, in time and in a form they can use, and that culture is the main thing that speeds or blocks it. *Accelerate* later measured his typology across thousands of survey responses and found that generative culture predicts software delivery performance and organizational performance, and that culture can be moved by changing practices: teams that adopted continuous delivery and lean management became more generative as a consequence. Culture, in other words, sits near the top of Meadows's leverage points, at the level of paradigm, and yet it can be reached from the bottom, one practice at a time; DORA's more recent findings on AI adoption, which the companion volume discussed, suggest the same lesson applies to new tools.
 
@@ -3222,7 +3384,7 @@ At Encore, Westrum's survey items now sit in the quarterly engineering survey, r
 
 **Recap.** Westrum's typology describes culture by what happens to inconvenient information, and DORA's research ties generative culture to performance while showing that practices can change it. Psychological safety is the team-level condition for learning, closer to candor than to comfort. In an era of fluent assistants, it must include the safety to disagree with the machine.
 
-**Exercise 15.4.** Recall the last time someone in your organization raised an unwelcome risk. Which column of Figure 15.2 describes what happened next? Write down one practice that would move it one column to the right.
+**Exercise 15.4.** Recall the last time someone in your organization raised an unwelcome risk. Which column of Figure 15.3 describes what happened next? Write down one practice that would move it one column to the right.
 
 ### 15.5 Capstone — Operating One System End to End
 
@@ -3243,11 +3405,15 @@ Four added stadium dates for Vesper Hale go on sale at 10:00 CET on a Friday, wi
 | Friday 10:00 | Gate opens; Cue posts the calendar, deploy history and exception register to the incident channel | Section 12.4 |
 | T+1 week | Review of an on-sale that went well | Section 13.4 |
 
-*Figure 15.3 — The added dates, end to end, with the chapter each step comes from. Read down the right-hand column and the book appears in order of use rather than order of writing.*
+*Figure 15.4 — The added dates, end to end, with the chapter each step comes from. Read down the right-hand column and the book appears in order of use rather than order of writing.*
 
 The game day found the weakest step. Re-admitting wrongly blocked fans with their queue positions restored, the fix applied at 10:31 during Vesper Hale, had been done by hand, and in rehearsal it took 14 minutes. It became a scripted workflow in the self-service style of Chapter 3, which Cue may propose but only a human in the channel may approve.
 
-The day itself was gratifyingly dull. At 10:09 a Dutch issuing bank's card authentication slowed, and checkout success for Dutch fans dipped; the window's burn-rate alert fired at its slower threshold. The incident commander asked Cue for the breakdown, confirmed that the slowdown sat outside Encore at the payment service provider (PSP) boundary, chose not to act beyond a status-page note for Dutch fans, and wrote the decision into the log. Choosing not to act is also a decision, and a record that omits it misleads. About 22% of the window's error budget was spent, no exception beyond the two registered was requested, and all four dates sold out within the hour.
+The day itself was gratifyingly dull. At 10:09 a Dutch issuing bank's card authentication slowed, and checkout success for Dutch fans dipped; the window's burn-rate alert fired at its slower threshold. The incident commander asked Cue for the breakdown, confirmed that the slowdown sat outside Encore at the payment service provider (PSP) boundary, chose not to act beyond a status-page note for Dutch fans, and wrote the decision into the log. Choosing not to act is also a decision, and a record that omits it misleads. About 22% of the window's error budget was spent, no exception beyond the two registered was requested, and all four dates sold out within the hour. Figure 15.5 shows the Friday itself.
+
+{% include diagrams/fig-15-5.svg %}
+
+*Figure 15.5 — The Friday of the added dates, with the morning before the Gate opened compressed. The red ink is the error budget, spent mostly after 10:09; the 09:40 line marks the hand-run check that the later review would find.*
 
 #### Learning from a good day {#learning-from-a-good-day}
 
@@ -3257,7 +3423,7 @@ Read back across the day and the book's through-line becomes visible: no single 
 
 **Recap.** The capstone is a system run end to end: SLOs, capacity, change control, automation, rehearsal, incident roles, AI assistance and review, each placed in time against a known peak. A dull day is what all the preparation was for, and a review after success finds the adaptations that made it so.
 
-**Exercise 15.5.** Choose the next predictable peak your system faces. Build its version of Figure 15.3, with a "From" column pointing to the practices you already have. Each blank cell is your preparation plan.
+**Exercise 15.5.** Choose the next predictable peak your system faces. Build its version of Figure 15.4, with a "From" column pointing to the practices you already have. Each blank cell is your preparation plan.
 
 ### Kata: The Capstone Kata — Results Day
 

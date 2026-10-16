@@ -1,0 +1,32 @@
+<div class="dg-figure" data-fig="fig-3-6" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 412" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-3-6-title fig-3-6-desc">
+<title id="fig-3-6-title">Calibrated trust</title>
+<desc id="fig-3-6-desc">After Lee and See (2004). Trust in automation plotted against its actual capability. On the diagonal, trust matches capability. Above it lies overtrust, which leads to misuse, such as approving curtain-up&#x27;s plan unread; below it lies distrust, which leads to disuse, such as muting an alert channel that cried wolf.</desc>
+<defs><marker id="fig-3-6-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-3-6-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-3-6-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<rect class="dg-paper" width="100%" height="100%" rx="8"/>
+<line class="dg-axis" x1="96" y1="336" x2="528" y2="336"/>
+<line class="dg-axis" x1="96" y1="336" x2="96" y2="48"/>
+<line class="dg-axis" x1="96.0" y1="336" x2="96.0" y2="340"/>
+<text class="dg-tick" x="96.0" y="352" text-anchor="middle">LOW</text>
+<line class="dg-axis" x1="528.0" y1="336" x2="528.0" y2="340"/>
+<text class="dg-tick" x="528.0" y="352" text-anchor="middle">HIGH</text>
+<text class="dg-tick" x="88" y="339.0" text-anchor="end">LOW</text>
+<text class="dg-tick" x="88" y="51.0" text-anchor="end">HIGH</text>
+<text class="dg-axis-label" x="528" y="368" text-anchor="end">WHAT THE AUTOMATION CAN ACTUALLY DO</text>
+<text class="dg-axis-label" x="96" y="38" text-anchor="start">HOW MUCH PEOPLE TRUST IT</text>
+<polygon class="dg-area dg-ar-accent" points="96.0,336.0 96.0,48.0 528.0,48.0"/>
+<polygon class="dg-area dg-ar-soft" points="96.0,336.0 528.0,336.0 528.0,48.0"/>
+<rect class="dg-mask" x="147.8" y="67.8" width="104" height="12" rx="2"/><text class="dg-label dg-l-accent" x="199.8" y="76.8">OVERTRUST: MISUSE</text>
+<rect class="dg-mask" x="419.0" y="298.2" width="96" height="12" rx="2"/><text class="dg-label" x="467.0" y="307.2">DISTRUST: DISUSE</text>
+<rect class="dg-mask" x="235.6" y="254.6" width="64" height="12" rx="2"/><text class="dg-label" x="267.6" y="263.6">CALIBRATED</text>
+<polyline class="dg-series dg-s-ink" points="96.0,336.0 528.0,48.0"/>
+<circle class="dg-dot dg-dot-ink" cx="290.4" cy="91.2" r="4"/>
+<circle class="dg-dot dg-dot-ink" cx="398.4" cy="272.6" r="4"/>
+<circle class="dg-dot dg-dot-ink" cx="363.8" cy="157.4" r="4"/>
+<line class="dg-ill-soft" x1="296.4" y1="91.2" x2="544" y2="91.2"/>
+<text class="dg-note" x="552" y="94.2">approving the plan unread</text>
+<line class="dg-ill-soft" x1="404.4" y1="272.6" x2="544" y2="272.6"/>
+<text class="dg-note" x="552" y="275.6">muting the alert channel</text>
+<line class="dg-ill-soft" x1="369.8" y1="157.4" x2="544" y2="157.4"/>
+<text class="dg-note" x="552" y="160.4">running curtain-up, reading its report</text>
+
+</svg></div></div>
