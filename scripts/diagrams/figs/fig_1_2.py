@@ -1,64 +1,57 @@
-"""Figure 1.2 — the operator's lineage on a timeline, 1945 to today."""
-from html import escape
-
+"""Figure 1.2 — Encore's system map: people, the edge, the services, the stream and the outside parties."""
 from dg import Diagram
 from registry import figure
-
-Y0, PX = 1945, 9.0
-X0 = 48
-
-
-def _x(year):
-    return X0 + (year - Y0) * PX
 
 
 @figure
 def fig_1_2():
-    d = Diagram("fig-1-2", 864, 344, "Who runs the software, 1945 to today",
-                "A timeline of running software: the computer operator of the closed shop from the 1950s, the "
-                "system administrator from the 1980s, site reliability engineering and DevOps from 2003 and 2009, "
-                "and today coding agents as authors. Events marked: the 1947 Mark II logbook, GM-NAA I/O in 1956, "
-                "System/360 in 1964, ITIL in the late 1980s, Google's first SRE team in 2003, Flickr and the first "
-                "DevOpsDays in 2009, and coding agents today.")
-    AX = 168  # axis y
-    # eras, above the axis
-    eras = [(1950, 1980, "Computer operator", "the closed shop"),
-            (1980, 2003, "System administrator", "scripts and config files"),
-            (2003, 2024, "SRE and DevOps", "ops as a software problem")]
-    for a, b, name, sub in eras:
-        x1, x2 = _x(a), _x(b)
-        d.extra.append(f'<rect class="dg-n dg-n-store" x="{x1 + 2:g}" y="64" width="{x2 - x1 - 4:g}" height="48" rx="6"/>')
-        d.extra.append(f'<text class="dg-name" x="{(x1 + x2) / 2:g}" y="86">{escape(name)}</text>')
-        d.extra.append(f'<text class="dg-sub" x="{(x1 + x2) / 2:g}" y="101">{escape(sub)}</text>')
-    xa = _x(2024)
-    d.extra.append(f'<rect class="dg-n dg-n-focal" x="{xa + 2:g}" y="64" width="{_x(2030) - xa - 2:g}" height="48" rx="6"/>')
-    d.extra.append(f'<text class="dg-label dg-l-accent" x="{(xa + _x(2030)) / 2 + 1:g}" y="91">AGENTS</text>')
-    d.extra.append(f'<text class="dg-eyebrow" x="{X0}" y="48" style="text-anchor:start">WHO STANDS BETWEEN THE CODE AND ITS USERS</text>')
-    # axis and decade ticks
-    d.zones.append(f'<line class="dg-axis" x1="{X0}" y1="{AX}" x2="{_x(2030):g}" y2="{AX}"/>')
-    for yr in range(1950, 2031, 10):
-        x = _x(yr)
-        d.zones.append(f'<line class="dg-axis" x1="{x:g}" y1="{AX - 4}" x2="{x:g}" y2="{AX + 4}"/>')
-        d.zones.append(f'<text class="dg-tick" x="{x:g}" y="{AX - 10}" text-anchor="middle">{yr}</text>')
-    # events, below the axis on three staggered levels
-    events = [(1947, 2, "1947", "Mark II logbook:", "the first bug, taped in"),
-              (1956, 1, "1956", "GM-NAA I/O cuts", "setup time between jobs"),
-              (1964, 0, "1964", "IBM System/360", "spreads the operator's job"),
-              (1989, 0, "LATE 1980S", "ITIL: change boards,", "and the wall between"),
-              (2003, 2, "2003", "Google's first SRE team,", "seven engineers"),
-              (2009, 1, "2009", "Flickr's 10 deploys a day;", "first DevOpsDays, Ghent"),
-              (2026, 0, "TODAY", "the author may not", "be a person at all")]
-    for yr, lvl, head, l1, l2 in events:
-        x = _x(yr)
-        ty = AX + 32 + lvl * 48
-        accent = yr in (2026,)
-        dot = "dg-dot-accent" if accent else "dg-dot-ink"
-        d.nodes.append(f'<line class="dg-ill-soft" x1="{x:g}" y1="{AX}" x2="{x:g}" y2="{ty - 10}"/>')
-        d.nodes.append(f'<circle class="dg-dot {dot}" cx="{x:g}" cy="{AX}" r="4"/>')
-        anchor = "end" if yr >= 2026 else "start"
-        tx = x + 2 if anchor == "start" else x + 6
-        hcls = "dg-label dg-l-accent" if accent else "dg-label"
-        d.extra.append(f'<text class="{hcls}" x="{tx:g}" y="{ty}" style="text-anchor:{anchor}">{escape(head)}</text>')
-        d.extra.append(f'<text class="dg-note" x="{tx:g}" y="{ty + 13}" text-anchor="{anchor}">{escape(l1)}</text>')
-        d.extra.append(f'<text class="dg-note" x="{tx:g}" y="{ty + 25}" text-anchor="{anchor}">{escape(l2)}</text>')
+    d = Diagram("fig-1-2", 864, 596, "Encore's system map",
+                "Fans, organizers, partners and tenants enter through the API gateway. The purchase path runs "
+                "from the Sale Gate through Bot Screening and Seat Inventory to Orders & Payments and the "
+                "external payment provider. Catalog uses a bought search product; Support uses the AI gateway "
+                "to reach model providers and asks Orders for refunds. Seat Inventory and Orders publish to "
+                "the ticket-sales.v2 stream, which Notifications, the Finance ledger and Sales Analytics consume.")
+    T, H = 56, 56
+    rows = [T, T + 88, T + 176, T + 264]          # 56, 144, 232, 320
+    P, GX, A, B, C = 24, 192, 336, 520, 704
+    # connectors first
+    for y in rows:                                 # people enter at the edge
+        d.path([(P + 128, y + 28), (GX, y + 28)])
+    d.path([(244, T), (244, 36), (596, 36), (596, T)], label="BROWSE, SEARCH, SEAT MAPS", at=1)
+    d.path([(GX + 104, T + 28), (412, T + 28), (412, rows[3])], kind="accent")   # the purchase path
+    d.path([(A + 152, rows[3] + 28), (B, rows[3] + 28)], kind="accent")
+    d.path([(B + 152, T + 28), (C, T + 28)])
+    d.path([(B + 152, rows[1] + 28), (C, rows[1] + 28)])
+    d.path([(772, rows[1] + H), (772, rows[2])])
+    d.path([(560, rows[1] + H), (560, 304), (464, 304), (464, rows[3])], label="REFUNDS", at=0, side="right")
+    d.path([(A, rows[2] + 28), (320, rows[2] + 28), (320, 416)], dashed=True)
+    d.path([(412, rows[3] + H), (412, 416)], dashed=True)
+    for cx in (412, 596, 772):
+        d.path([(cx, 456), (cx, 492)], dashed=True)
+    # people
+    d.node(P, rows[0], 128, H, "Fans", "queue, seats, wallet", "input")
+    d.node(P, rows[1], 128, H, "Organizers", "events, payouts", "input")
+    d.node(P, rows[2], 128, H, "Partners", "venues, resale apps", "input")
+    d.node(P, rows[3], 128, H, "Tenants", "venues on SaaS cells", "input")
+    # the edge
+    d.node(GX, T, 104, 320, "API gateway", "api.encore.com")
+    # services
+    d.node(A, rows[0], 152, H, "Sale Gate", "waiting room, admission")
+    d.node(A, rows[1], 152, H, "Bot Screening", "rented edge signals")
+    d.node(A, rows[2], 152, H, "Seat Inventory", "4 shards, 5-min holds", "store")
+    d.node(A, rows[3], 152, H, "Orders & Payments", "purchase saga, 3 s")
+    d.node(B, rows[0], 152, H, "Catalog", "events, seat geometry")
+    d.node(B, rows[1], 152, H, "Support", "assistant, refund agent")
+    d.node(B, rows[3], 152, H, "PSP", "cards, ~800 ms", "external")
+    d.node(C, rows[0], 136, H, "Search", "a bought product", "external")
+    d.node(C, rows[1], 136, H, "AI gateway", "routes model turns")
+    d.node(C, rows[2], 136, H, "Model providers", "frontier, cheap tier", "external")
+    d.node(312, 416, 528, 40, "ticket-sales.v2",
+           "SeatReserved · SeatSold · TicketIssued · SaleCompleted", "store")
+    d.node(A, 492, 152, 52, "Notifications", "email, wallet passes")
+    d.node(B, 492, 152, 52, "Finance ledger", "daily reconcile", "store")
+    d.node(C, 492, 136, 52, "Sales Analytics", "a consumer only")
+    d.legend([("input", "People"), ("backend", "Encore service"), ("store", "Holds the record"),
+              ("external", "Bought or outside"), ("arrow:accent", "Purchase path"),
+              ("arrow:muted:dashed", "Event, not a call")])
     return d

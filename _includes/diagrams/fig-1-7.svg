@@ -1,0 +1,49 @@
+<div class="dg-figure" data-fig="fig-1-7" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 396" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-1-7-title fig-1-7-desc">
+<title id="fig-1-7-title">Two ways to raise availability</title>
+<desc id="fig-1-7-desc">Availability equals mean time between failures divided by the sum of that and mean time to repair. Lines of equal availability (99.9%, 99.95%, 99.99%) fan out from the origin. A service that fails once a month and takes 43 minutes to recover sits at 99.9%; it reaches 99.95% either by failing half as often or by recovering twice as fast.</desc>
+<defs><marker id="fig-1-7-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-1-7-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-1-7-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<rect class="dg-paper" width="100%" height="100%" rx="8"/>
+<line class="dg-grid" x1="72" y1="312.0" x2="792" y2="312.0"/>
+<line class="dg-grid" x1="72" y1="244.0" x2="792" y2="244.0"/>
+<line class="dg-grid" x1="72" y1="176.0" x2="792" y2="176.0"/>
+<line class="dg-grid" x1="72" y1="108.0" x2="792" y2="108.0"/>
+<line class="dg-grid" x1="72" y1="40.0" x2="792" y2="40.0"/>
+<line class="dg-axis" x1="72" y1="312" x2="792" y2="312"/>
+<line class="dg-axis" x1="72" y1="312" x2="72" y2="40"/>
+<line class="dg-axis" x1="72.0" y1="312" x2="72.0" y2="316"/>
+<text class="dg-tick" x="72.0" y="328" text-anchor="middle">0</text>
+<line class="dg-axis" x1="240.8" y1="312" x2="240.8" y2="316"/>
+<text class="dg-tick" x="240.8" y="328" text-anchor="middle">15</text>
+<line class="dg-axis" x1="409.5" y1="312" x2="409.5" y2="316"/>
+<text class="dg-tick" x="409.5" y="328" text-anchor="middle">30</text>
+<line class="dg-axis" x1="578.2" y1="312" x2="578.2" y2="316"/>
+<text class="dg-tick" x="578.2" y="328" text-anchor="middle">45</text>
+<line class="dg-axis" x1="747.0" y1="312" x2="747.0" y2="316"/>
+<text class="dg-tick" x="747.0" y="328" text-anchor="middle">60</text>
+<text class="dg-tick" x="64" y="315.0" text-anchor="end">0</text>
+<text class="dg-tick" x="64" y="247.0" text-anchor="end">24</text>
+<text class="dg-tick" x="64" y="179.0" text-anchor="end">48</text>
+<text class="dg-tick" x="64" y="111.0" text-anchor="end">72</text>
+<text class="dg-tick" x="64" y="43.0" text-anchor="end">96</text>
+<text class="dg-axis-label" x="792" y="344" text-anchor="end">MEAN TIME BETWEEN FAILURES (DAYS)</text>
+<text class="dg-axis-label" x="72" y="30" text-anchor="start">MEAN TIME TO REPAIR (MINUTES)</text>
+<path class="dg-a dg-a-muted" d="M 415.5,189.6 L 741.0,189.6" marker-end="url(#fig-1-7-m-muted)"/>
+<path class="dg-a dg-a-accent" d="M 409.5,195.6 L 409.5,244.8" marker-end="url(#fig-1-7-m-accent)"/>
+<rect class="dg-mask" x="798.0" y="44.6" width="40" height="12" rx="2"/><text class="dg-label" x="818.0" y="53.6">99.9%</text>
+<rect class="dg-mask" x="798.0" y="175.4" width="44" height="12" rx="2"/><text class="dg-label" x="820.0" y="184.4">99.95%</text>
+<rect class="dg-mask" x="798.0" y="279.9" width="44" height="12" rx="2"/><text class="dg-label" x="820.0" y="288.9">99.99%</text>
+<rect class="dg-mask" x="524.25" y="197.6" width="108" height="12" rx="2"/><text class="dg-label" x="578.25" y="206.6">FAIL HALF AS OFTEN</text>
+<rect class="dg-mask" x="277.5" y="214.2" width="124" height="12" rx="2"/><text class="dg-label dg-l-accent" x="339.5" y="223.2">RECOVER TWICE AS FAST</text>
+<rect class="dg-mask" x="417.5" y="168.6" width="184" height="12" rx="2"/><text class="dg-label" x="509.5" y="177.6">FAILS MONTHLY, 43 MIN TO RECOVER</text>
+<polyline class="dg-series dg-s-soft" points="72.0,312.0 792.0,50.6"/>
+<polyline class="dg-series dg-s-soft" points="72.0,312.0 792.0,181.4"/>
+<polyline class="dg-series dg-s-soft" points="72.0,312.0 792.0,285.9"/>
+<circle class="dg-dot dg-dot-ink" cx="409.5" cy="189.6" r="4"/>
+<circle class="dg-dot dg-dot-ink" cx="747.0" cy="189.6" r="4"/>
+<circle class="dg-dot dg-dot-ink" cx="409.5" cy="250.8" r="4"/>
+<line class="dg-rule" x1="24" y1="356" x2="840" y2="356"/>
+<line class="dg-a dg-a-muted" x1="24" y1="372" x2="48" y2="372" marker-end="url(#fig-1-7-m-muted)"/>
+<text class="dg-legend" x="56" y="375">Fewer failures: the hard way</text>
+<line class="dg-a dg-a-accent" x1="240" y1="372" x2="264" y2="372" marker-end="url(#fig-1-7-m-accent)"/>
+<text class="dg-legend" x="272" y="375">Faster recovery: usually the cheaper way</text>
+</svg></div></div>
