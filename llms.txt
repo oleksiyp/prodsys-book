@@ -1,9 +1,9 @@
 # Running Production Systems in the AI & Cloud Era
 
-> A free online book on running modern production systems — safety science, automation, SLOs, observability, capacity and cost, Kubernetes and GitOps, delivery, resilience, data and disaster recovery, security operations, incident response and learning, AI workloads. 15 chapters, one running example (Encore, a concert-ticketing company), a kata per chapter. The operational companion to "Software Architecture in the AI & Cloud Era".
+> A free online book on running modern production systems — safety science, automation, SLOs, observability, capacity and cost, Kubernetes and GitOps, delivery, resilience, data and disaster recovery, security operations, incident response and learning, AI workloads. 15 chapters, one running example (Encore, a concert-ticketing company), a kata per chapter. It follows "Software Architecture in the AI & Cloud Era" (the Architecture book).
 
 - [Full book, single page](https://oleksiyp.github.io/prodsys-book/)
 - [Full book as raw markdown](https://oleksiyp.github.io/prodsys-book/llms-full.txt)
 - Per-chapter pages: https://oleksiyp.github.io/prodsys-book/ch/1/ through /ch/15/
-- Companion volume: [Software Architecture in the AI & Cloud Era](https://oleksiyp.github.io/arch-book/)
+- Architecture book: [Software Architecture in the AI & Cloud Era](https://oleksiyp.github.io/arch-book/)
 - License: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) — free to share and adapt non-commercially, with attribution
