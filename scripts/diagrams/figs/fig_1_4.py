@@ -1,42 +1,64 @@
-"""Figure 1.4 — where Encore runs: two EU regions, cells, serverless edges, a synchronous seat ledger, GitOps."""
+"""Figure 1.4 — the operator's lineage on a timeline, 1945 to today."""
+from html import escape
+
 from dg import Diagram
 from registry import figure
+
+Y0, PX = 1945, 9.0
+X0 = 48
+
+
+def _x(year):
+    return X0 + (year - Y0) * PX
 
 
 @figure
 def fig_1_4():
-    d = Diagram("fig-1-4", 864, 548, "Where Encore runs",
-                "Two EU regions, EU-1 and EU-2, each with a core Kubernetes cluster, six Professional tenant "
-                "cells with a database per tenant, a serverless Sale Gate edge and serverless self-service cells "
-                "of about 50 venues. Fans and partners read from either region. Each event's writes are pinned "
-                "to a home region; the seat ledger there commits synchronously to a standby in the other region. "
-                "Both regions reconcile toward the encore-deploy Git repository.")
-    # connectors
-    d.path([(392, 72), (392, 96), (312, 96), (312, 148)])
-    d.path([(472, 72), (472, 96), (552, 96), (552, 148)])
-    d.path([(312, 360), (312, 380), (552, 380), (552, 360)], kind="accent",
-           label="SYNCHRONOUS COMMIT · RPO 0", side="below")
-    d.path([(392, 448), (392, 428), (220, 428), (220, 408)], dashed=True, label="RECONCILE", side="below")
-    d.path([(472, 448), (472, 428), (644, 428), (644, 408)], dashed=True, label="RECONCILE", side="below")
-    d.note(528, 44, "reads: either region")
-    d.note(528, 57, "writes: the event's home region")
-    for i, (x0, name) in enumerate(((24, "EU-1"), (448, "EU-2"))):
-        d.zone(x0, 120, 392, 288, f"{name} · REGION")
-        d.zone(x0 + 12, 228, 368, 60, "SIX PROFESSIONAL CELLS · A DATABASE PER TENANT")
-        for k in range(6):
-            d.node(x0 + 20 + k * 60, 240, 52, 36, f"P{i * 6 + k + 1}")
-        left, right = x0 + 16, x0 + 200
-        core_x, gate_x = (left, right) if i == 0 else (right, left)
-        d.node(core_x, 148, 176, 56, "Core cluster", "Kubernetes, the services")
-        d.node(gate_x, 148, 176, 56, "Sale Gate edge", "serverless, pre-warmed", "optional")
-        self_x, ledger_x = (left, right) if i == 0 else (right, left)
-        d.node(self_x, 304, 176, 56, "Self-service cells", "serverless, ~50 venues", "optional")
-        if i == 0:
-            d.node(ledger_x, 304, 176, 56, "Seat ledger", "event A's writes land here", "store")
-        else:
-            d.node(ledger_x, 304, 176, 56, "Seat ledger standby", "event A, in step", "store")
-    d.node(348, 24, 168, 48, "Fans and partners", "public API, apps", "input")
-    d.node(348, 448, 168, 48, "encore-deploy", "Git: desired state", "store")
-    d.legend([("backend", "Kubernetes cluster"), ("optional", "Serverless"), ("store", "Ledger or repository"),
-              ("arrow:accent", "Synchronous commit"), ("arrow:muted:dashed", "GitOps pull")])
+    d = Diagram("fig-1-4", 864, 344, "Who runs the software, 1945 to today",
+                "A timeline of running software: the computer operator of the closed shop from the 1950s, the "
+                "system administrator from the 1980s, site reliability engineering and DevOps from 2003 and 2009, "
+                "and today coding agents as authors. Events marked: the 1947 Mark II logbook, GM-NAA I/O in 1956, "
+                "System/360 in 1964, ITIL in the late 1980s, Google's first SRE team in 2003, Flickr and the first "
+                "DevOpsDays in 2009, and coding agents today.")
+    AX = 168  # axis y
+    # eras, above the axis
+    eras = [(1950, 1980, "Computer operator", "the closed shop"),
+            (1980, 2003, "System administrator", "scripts and config files"),
+            (2003, 2024, "SRE and DevOps", "ops as a software problem")]
+    for a, b, name, sub in eras:
+        x1, x2 = _x(a), _x(b)
+        d.extra.append(f'<rect class="dg-n dg-n-store" x="{x1 + 2:g}" y="64" width="{x2 - x1 - 4:g}" height="48" rx="6"/>')
+        d.extra.append(f'<text class="dg-name" x="{(x1 + x2) / 2:g}" y="86">{escape(name)}</text>')
+        d.extra.append(f'<text class="dg-sub" x="{(x1 + x2) / 2:g}" y="101">{escape(sub)}</text>')
+    xa = _x(2024)
+    d.extra.append(f'<rect class="dg-n dg-n-focal" x="{xa + 2:g}" y="64" width="{_x(2030) - xa - 2:g}" height="48" rx="6"/>')
+    d.extra.append(f'<text class="dg-label dg-l-accent" x="{(xa + _x(2030)) / 2 + 1:g}" y="91">AGENTS</text>')
+    d.extra.append(f'<text class="dg-eyebrow" x="{X0}" y="48" style="text-anchor:start">WHO STANDS BETWEEN THE CODE AND ITS USERS</text>')
+    # axis and decade ticks
+    d.zones.append(f'<line class="dg-axis" x1="{X0}" y1="{AX}" x2="{_x(2030):g}" y2="{AX}"/>')
+    for yr in range(1950, 2031, 10):
+        x = _x(yr)
+        d.zones.append(f'<line class="dg-axis" x1="{x:g}" y1="{AX - 4}" x2="{x:g}" y2="{AX + 4}"/>')
+        d.zones.append(f'<text class="dg-tick" x="{x:g}" y="{AX - 10}" text-anchor="middle">{yr}</text>')
+    # events, below the axis on three staggered levels
+    events = [(1947, 2, "1947", "Mark II logbook:", "the first bug, taped in"),
+              (1956, 1, "1956", "GM-NAA I/O cuts", "setup time between jobs"),
+              (1964, 0, "1964", "IBM System/360", "spreads the operator's job"),
+              (1989, 0, "LATE 1980S", "ITIL: change boards,", "and the wall between"),
+              (2003, 2, "2003", "Google's first SRE team,", "seven engineers"),
+              (2009, 1, "2009", "Flickr's 10 deploys a day;", "first DevOpsDays, Ghent"),
+              (2026, 0, "TODAY", "the author may not", "be a person at all")]
+    for yr, lvl, head, l1, l2 in events:
+        x = _x(yr)
+        ty = AX + 32 + lvl * 48
+        accent = yr in (2026,)
+        dot = "dg-dot-accent" if accent else "dg-dot-ink"
+        d.nodes.append(f'<line class="dg-ill-soft" x1="{x:g}" y1="{AX}" x2="{x:g}" y2="{ty - 10}"/>')
+        d.nodes.append(f'<circle class="dg-dot {dot}" cx="{x:g}" cy="{AX}" r="4"/>')
+        anchor = "end" if yr >= 2026 else "start"
+        tx = x + 2 if anchor == "start" else x + 6
+        hcls = "dg-label dg-l-accent" if accent else "dg-label"
+        d.extra.append(f'<text class="{hcls}" x="{tx:g}" y="{ty}" style="text-anchor:{anchor}">{escape(head)}</text>')
+        d.extra.append(f'<text class="dg-note" x="{tx:g}" y="{ty + 13}" text-anchor="{anchor}">{escape(l1)}</text>')
+        d.extra.append(f'<text class="dg-note" x="{tx:g}" y="{ty + 25}" text-anchor="{anchor}">{escape(l2)}</text>')
     return d

@@ -1,12 +1,12 @@
-"""Figure 1.7 — availability as MTBF / (MTBF + MTTR): two ways to the same number."""
+"""Figure 1.5 — availability as MTBF / (MTBF + MTTR): two ways to the same number."""
 from chartkit import Plot
 from dg import Diagram
 from registry import figure
 
 
 @figure
-def fig_1_7():
-    d = Diagram("fig-1-7", 864, 396, "Two ways to raise availability",
+def fig_1_5():
+    d = Diagram("fig-1-5", 864, 396, "Two ways to raise availability",
                 "Availability equals mean time between failures divided by the sum of that and mean time to repair. "
                 "Lines of equal availability (99.9%, 99.95%, 99.99%) fan out from the origin. A service that fails "
                 "once a month and takes 43 minutes to recover sits at 99.9%; it reaches 99.95% either by failing "

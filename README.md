@@ -28,7 +28,7 @@ Written and directed by Oleksiy Pylypenko, with AI assistance (Anthropic's Claud
 
 ## How to Read This Book
 
-One company runs through all 15 chapters: **Encore**, which sells tickets to live concerts, and whose traffic can rise 500× in minutes when a major tour is announced. Readers of the Architecture book watched Encore grow from nine engineers to 400. This book meets it the morning after that story ended and asks a different question: now that the system exists, who keeps it running, and how? Chapter 1 summarizes everything a new reader needs to know about Encore. One incident, the on-sale for a fictional artist named Vesper Hale, runs through the book. It is foreshadowed early, fought live in Chapter 12 and learned from in Chapter 13.
+One company runs through all 15 chapters: **Encore**, which sells tickets to live concerts, and whose traffic can rise 500× in minutes when a major tour is announced. Readers of the Architecture book watched Encore grow from nine engineers to 400. This book meets it the morning after that story ended and asks a different question: now that the system exists, who keeps it running, and how? Chapter 1 introduces Encore, each later chapter adds the parts it needs, and an appendix gathers them all on one page. One incident, the on-sale for a fictional artist named Vesper Hale, runs through the book. It is foreshadowed early, fought live in Chapter 12 and learned from in Chapter 13.
 
 Each chapter closes with a **kata**: a practice brief for a different company, with its own scale and constraints, and a rubric to check your work against. As with a musician's scales, the value lies in repetition where mistakes are cheap, which is exactly what production never offers. Every section ends with a recap and a short exercise, best done against a system you run. Each chapter's references list the field's standard works; those marked *free online* cost nothing.
 
@@ -71,6 +71,8 @@ The chapters build on one another, but each can be read on its own. A reader in 
 14. [Operating AI Workloads — Models, Evals, and Agents](#ch14)
 15. [The Production Organization and the Capstone](#ch15)
 
+[Appendix: Encore at a Glance](#encore-glance)
+
 ---
 
 ## Chapter 1: What Production Is — Running Software in the Cloud Era {#ch1}
@@ -85,98 +87,27 @@ The honest answer is that people have always run code they did not write. How to
 
 ### Encore, the System We Will Run {#encore}
 
-Encore is our companion again, as it was throughout [the Architecture book](https://oleksiyp.github.io/arch-book/), and every later chapter will speak of its Sale Gate, its shards and its Friday mornings as common knowledge. This section makes them so, starting from Figure 1.1, the briefing a new engineer receives on their first day; a reader who knows Encore may skip to the vocabulary in Figure 1.5.
+Encore is our companion again, as it was throughout [the Architecture book](https://oleksiyp.github.io/arch-book/#encore-our-running-example), which followed it from nine engineers to 400. For most of the week it could pass for an ordinary online shop, selling seats at concerts across Europe, in euros. Then a famous artist's tour goes on sale, nearly always at 10:00 on a Friday, and within minutes the traffic stands at 500 times its weekday level. A million people want a few thousand seats; every seat must be sold exactly once, never lost and never sold twice in a race; and the bots arrive before the fans do, because a reseller's scripts are faster and more numerous than any person. Nearly every structure in Encore exists to answer one of those demands, and most of this book's trouble is found where they pull against one another.
 
-| Aspect | Where Encore stands |
-|---|---|
-| **Business** | Concert tickets across the EU, in euros; also sold as software as a service (SaaS) to venues. |
-| **Defining problem** | Traffic rises 500× in minutes when a tour is announced; every seat sold exactly once; the bots arrive before the fans do. |
-| **Organization** | 400 engineers in 40 teams that build and run their own services. A platform group (5–10% of engineering) includes a ten-person **Reliability team**: SLO tooling, incident process, on-sale readiness, game days. |
-| **Customers** | Fans, event organizers, partners on `api.encore.com`, and SaaS tenants: one Enterprise silo, Professional tenants in Kubernetes cells, about 500 self-service venues in serverless cells. |
-| **Purchase path** | Sale Gate (waiting room, at most about 1,200 fans/s per event) → Bot Screening → Seat Inventory (event-sourced, four shards per large event, 5-minute holds) → Orders & Payments (a saga, 3 s checkout budget, about 800 ms of it at the payment provider) → Notifications (wallet and email). |
-| **Runtime** | Containers on Kubernetes, serverless where traffic is spiky, infrastructure as code with GitOps, reads active–active across two EU regions, each event's writes pinned to a home region. |
-| **Published numbers** | Seat map: ≤ 800 ms for 99.9% of requests over 28 days. Tenant SLOs: 99.9% self-service, 99.95% Professional. Cost per ticket drifted from €0.11 to €0.19, was investigated, and is now about €0.12. |
-| **AI already in production** | Demand forecasting, a support assistant, a refund agent (auto-approves under €80 with more than 48 h to showtime), an AI gateway, an internal tool server. |
-| **Scars** | The first big outage: a payment provider slowed from 200 ms to 8 s, retries stormed, autoscaling made it worse. Fixed with retry budgets and a single retry layer. |
-| **Rhythm** | Big on-sales at 10:00 Central European Time (CET) on Fridays, a readiness review the Wednesday before, and a change freeze on the purchase path from two hours before an on-sale until it ends. |
+A box office on such a morning has a crowd problem before it has a ticketing problem, and Encore is built accordingly. Figure 1.1 is the map, and the part of it that matters most is short. The fan's **purchase path** begins at the **Sale Gate**, Encore's virtual waiting room, where fans meet a queue instead of a seat map and are let through at a metered rate, about 1,200 a second per event, chosen so that nothing behind the Gate runs hot. That makes the Gate an **admission controller**, a component that protects a scarce resource by deciding how much work may reach it, and its rate is the most powerful single control Encore has. Beside the door stands **Bot Screening**, judging session by session whether it faces a fan or a script. Past them, **Seat Inventory** is the one authority on whether a seat is free: it holds a fan's chosen seats for five minutes and sells each one once, whatever else is failing. **Orders & Payments** turns the hold into a sale within a 3 s checkout budget, calling an external payment service provider (PSP) whose slowness once took the whole site down, a story [the Architecture book](https://oleksiyp.github.io/arch-book/#anatomy-of-a-self-inflicted-outage) told and Chapter 2 reads again.
 
-*Figure 1.1 — Encore so far. Everything in this table was earned by an earlier decision, and most of it by an earlier failure.*
+{% include diagrams/fig-1-1.svg %}
 
-#### The business and its defining problem {#encore-the-business}
+*Figure 1.1 — Encore's system map. The purchase path runs down the middle; everything else either hangs off it or listens to it.*
 
-Encore sells tickets to live concerts across the European Union, in euros, and also sells itself as software that venues run under their own names. Most days are unremarkable: fans browse, organizers set up events, and one could mistake Encore for an ordinary online shop. Then a major artist announces a tour, and within minutes the load rises 500×. Three demands converge on that moment. Every seat must be sold exactly once, never lost and never sold twice in a race. Checkout must stay quick enough that a fan who has waited an hour is not turned away at the till. And the bots arrive before the fans do, because a reseller's scripts are faster and more numerous than any person. Nearly every structure in Encore serves one of those demands, and most of this book's examples are found where they pull against one another.
-
-A box office on the morning a famous tour goes on sale has a crowd problem before it has a ticketing problem: a queue around the block, a door that admits a few at a time, a doorman who knows the touts by sight, and a clerk who must never sell the same seat twice. Encore is that box office, built for a million people arriving in the same minute. The analogy breaks where the crowd does, since Encore's touts are software and arrive by the hundred thousand.
-
-#### How Encore got here {#encore-how-it-got-here}
-
-The Architecture book followed Encore from nine engineers to 400, and today's system is the residue of that journey. With nine engineers in one team, Encore ran a modular monolith and extracted exactly one piece from it: the on-sale quantum of Sale Gate and Bot Screening, the only part whose need for elasticity was off the scale ([Architecture book, 2.4](https://oleksiyp.github.io/arch-book/#24-choosing-a-style)). Three years later, with 70 engineers in nine teams, the monolith had become a machine for coordination, and Encore moved to services each team owns from build to pager, joined by sagas and events. By the Architecture book's end it had 400 engineers in 40 teams, sold itself to venues as a service, and had built a platform so that those teams need not each rebuild the same machinery.
-
-Each step left something operators now live with. The extracted Gate is why the spike can be absorbed at all, the saga is why a slow payment provider no longer takes the site down, and the platform is why a new service arrives with telemetry and an owner. A system's history is part of its architecture, the part its operators inherit without being asked.
-
-#### The services, one by one {#encore-the-services}
-
-Figure 1.2 is the map. People enter on the left through the API gateway at `api.encore.com`, which authenticates, limits and routes everything arriving from outside ([Architecture book, 7.3](https://oleksiyp.github.io/arch-book/#the-gateway-earns-its-place-at-the-edge)). The purchase path runs down the middle, and the facts of each sale leave on an event stream at the bottom for whoever needs to know them.
+Figure 1.2 follows one fan along that path, from the queue to a ticket in the phone wallet.
 
 {% include diagrams/fig-1-2.svg %}
 
-*Figure 1.2 — Encore's system map: people, the edge, the services and the parties Encore does not control. Notice how short the purchase path is, and that everything else either hangs off it or listens to it.*
+*Figure 1.2 — One fan's purchase in eight steps, each tagged with the service that owns it. The admission rate and the checkout budget bound the rush from opposite ends.*
 
-**On-Sale Admission**, which everyone calls the **Sale Gate**, is the virtual waiting room. When an on-sale opens, fans reach not the seat map but a queue, where they are given a position and admitted to the purchase path at no more than about 1,200 fans per second per event. That number is chosen so that the load reaching Seat Inventory stays below 80% of what its shards can carry, which makes the Gate an **admission controller**: a component that protects a scarce resource by deciding how much work may reach it. Its stateless edge runs as serverless functions, pre-warmed before each scheduled on-sale and able to scale to 400 instances, because a waiting room that collapses under its own crowd is worse than none. The admission rate is the most powerful single control Encore has.
-
-**Bot Screening** stands beside the Gate and decides, session by session, whether it is dealing with a fan, using rented edge signals and velocity rules that watch how fast and how often a session acts. Its risk data lives in a separate cloud account. Its mistakes come in two kinds that are never equally visible: the bot let through, which the resale market reports, and the fan turned away, which only the fan can report.
-
-**Seat Inventory & Ticketing** is the core domain, the one service entitled to say whether a seat is free. It is Encore's only event-sourced service, with separate models for commands and queries (command–query responsibility segregation, or CQRS; [Architecture book, 6.2](https://oleksiyp.github.io/arch-book/#cqrs-two-models-one-truth)). A large event is split by `event_id` across four shards, each with a single leader whose term is fenced so that a deposed leader cannot write, and each handling about 10,000 reads and 1,500 ordered writes a second. When a fan picks seats, `POST /holds` places a **hold** that lasts 5 minutes and lapses by itself if the purchase does not complete. Each event's writes are pinned to a **home region**, so the order of sales is never negotiated across the continent.
-
-**Orders & Payments** turns a hold into a sale. It runs the purchase as an orchestrated saga ([Architecture book, 5.2](https://oleksiyp.github.io/arch-book/#the-saga-transactions-without-the-transaction)), each step paired with a compensating step, and reaches the external payment service provider (PSP) through an anti-corruption layer, so Encore never holds a card number. The fan's checkout budget is 3 s, about 800 ms of it at the PSP. Encore's first big outage began when the PSP slowed from 200 ms to 8 s ([Architecture book, 4.4](https://oleksiyp.github.io/arch-book/#anatomy-of-a-self-inflicted-outage)), and Chapter 2 reads that story again. Figure 1.3 follows one fan along the whole path.
+Forty teams build these services and carry their own pagers, standing on a platform whose golden paths take a new service from template to production, and Figure 1.3 shows where it all runs. Within the platform group sits the **Reliability team**, ten engineers who own the tooling for service level objectives, the incident process and the readiness review held before every big on-sale. They advise, embed and rehearse; they do not run other teams' services.
 
 {% include diagrams/fig-1-3.svg %}
 
-*Figure 1.3 — One fan's purchase in eight steps, each tagged with the service that owns it. The two numbers that bound the rush, admission rate and checkout budget, sit at opposite ends of the journey; notice also that the seat map draws on two services with two different rules about freshness.*
+*Figure 1.3 — Where Encore runs: two EU regions of Kubernetes cells and serverless edges, reconciled from one Git repository. The single synchronous line between the regions is why losing one loses no sale.*
 
-The rest of the house is quieter but no less load-bearing. **Catalog** holds events, venues and the **seat-map geometry**, the shape of a hall in sections, rows and seats. A fan's seat map combines that geometry, served from Catalog's cache, with availability read live from Seat Inventory; the cache holds geometry and never availability, a rule this book will have reason to remember. Catalog's search is a bought product. **Notifications** delivers tickets by email and to phone wallets, and is the service rebuilt overnight in the scene that opened this chapter. **Support** answers fans with an assistant built on retrieval-augmented generation and with a refund agent, which approves refunds under €80 by itself when more than 48 h remain before the show and sends everything else to a person. Both reach their models through the **AI gateway**, which routes about 80% of turns to a model a tenth the price. Finally, the facts of each sale (`SeatSold`, `TicketIssued`, `SaleCompleted` and their kin) travel on the `ticket-sales.v2` stream, from which the **Finance ledger** builds the record of money, reconciled daily and closed nightly, and **Sales Analytics** builds organizers' dashboards without calling anyone.
-
-#### Tenants, cells and regions {#encore-tenants-cells-regions}
-
-Encore's software-as-a-service customers are its **tenants**, in three tiers ([Architecture book, 14.1](https://oleksiyp.github.io/arch-book/#two-planes-three-models)). A national venue chain, `venue-chain-a`, runs in an Enterprise silo of its own. Professional tenants run in Kubernetes **cells**, each an independent copy of the tenant-facing stack with a database per tenant, and about 500 self-service venues are pooled in serverless cells of about 50. A cell is a blast radius drawn on purpose ([Architecture book, 10.4](https://oleksiyp.github.io/arch-book/#blast-radius-is-a-design-variable)): a bad change or a noisy tenant hurts one cell and leaves the others alone.
-
-Figure 1.4 shows where it all runs. Each of two EU regions, EU-1 and EU-2, has one core Kubernetes cluster for Encore's own services and six Professional cells, with serverless functions alongside for the Gate's edge and the self-service cells. Reads are served from both regions. Writes go to each event's home region, where the seat ledger commits every write synchronously to a standby in the other region, so losing a region loses no sale: a recovery point objective (RPO) of zero and a recovery time objective (RTO) of minutes ([Architecture book, 11.5](https://oleksiyp.github.io/arch-book/#surviving-a-region)), paid for with a cross-region round trip on every seat write. Nobody changes production by hand; the desired state of every cluster lives in the `encore-deploy` Git repository, and each region reconciles toward it.
-
-{% include diagrams/fig-1-4.svg %}
-
-*Figure 1.4 — Where Encore runs: two EU regions, each with a core cluster, six Professional cells and serverless edges, all reconciled from one repository. Notice the single synchronous line between the regions; it is what makes an RPO of zero possible, and what every seat write pays for.*
-
-#### The platform and the on-sale rhythm {#encore-platform-and-rhythm}
-
-The 40 stream-aligned teams build and run their own services, and a platform group of 5–10% of engineering gives them ground to stand on. Its best-known product is the **golden path**, the supported route from template to production, which hands a new service its provisioning, registry entry, telemetry and scorecard ([Architecture book, 15.2](https://oleksiyp.github.io/arch-book/#golden-paths-on-a-self-service-control-plane)). Within the platform group sits the **Reliability team**, ten engineers led by a staff SRE, who own the SLO tooling, the incident process, the on-sale readiness review and the game days. They do not run other teams' services; they consult, embed for big launches and carry the pager only for platform planes. On-call belongs to each team, and one incident commander rotation draws senior engineers from across the company.
-
-The on-sales set Encore's rhythm. Big ones are scheduled, usually for 10:00 CET on a Friday, and the **on-sale readiness review** on the Wednesday before walks through capacity, dependencies and who will be on call. On the morning, the **curtain-up** workflow pre-warms the purchase path, and from two hours before the on-sale until it ends a **change freeze** forbids non-emergency changes to the purchase path. In the incident channel sits **Cue**, an operations assistant built on Encore's internal Model Context Protocol (MCP) server, which reads telemetry, deploy history, runbooks and past postmortems, answers questions and drafts timelines. It is read-only, except for a few runbook actions a person may approve in the channel. The rhythm is a stage manager's (rehearsal, the half-hour call, curtain up), and like any rhythm kept for years it has begun to drift in ways nobody chose.
-
-Figure 1.5 gathers this section's vocabulary, with where the Architecture book explains each design and which chapter puts it to work.
-
-| Term | What it is | Where to read more |
-|---|---|---|
-| **On-sale** | The scheduled moment a tour's tickets go on sale, usually 10:00 CET on a Friday; traffic rises 500× in minutes | [Architecture book, 1.1](https://oleksiyp.github.io/arch-book/#encore-our-running-example); Chapter 6 |
-| **Sale Gate** | On-Sale Admission: the virtual waiting room and admission controller in front of the purchase path; a serverless edge, pre-warmed | [Architecture book, 2.4](https://oleksiyp.github.io/arch-book/#24-choosing-a-style); Chapter 9 |
-| **Admission rate** | Fans per second per event the Gate lets through, about 1,200, sized to keep Seat Inventory below 80% load | [Architecture book, 4.5](https://oleksiyp.github.io/arch-book/#45-degradation-and-chaos); Chapters 6 and 12 |
-| **Bot Screening** | Decides per session whether it is a fan, from rented edge signals and velocity rules; risk data in its own cloud account | [Architecture book, 10.4](https://oleksiyp.github.io/arch-book/#blast-radius-is-a-design-variable); Chapter 11 |
-| **Seat Inventory** | The core domain and sole authority on whether a seat is free; event-sourced with CQRS | [Architecture book, 3.1](https://oleksiyp.github.io/arch-book/#31-strategic-design), [6.2](https://oleksiyp.github.io/arch-book/#cqrs-two-models-one-truth); Chapter 6 |
-| **Hold** | A seat reserved for one fan by `POST /holds` for 5 minutes, lapsing by itself if checkout does not finish | [Architecture book, 3.2](https://oleksiyp.github.io/arch-book/#aggregates-consistency-has-a-size); Chapter 10 |
-| **Shard and home region** | Four shards per large event by `event_id`, each with a fenced leader; each event's writes pinned to one region | [Architecture book, 4.2](https://oleksiyp.github.io/arch-book/#42-state--replication-partitioning-consistency); Chapters 3 and 10 |
-| **Orders & Payments saga** | The orchestrated purchase, each step paired with a compensation, within a 3 s checkout budget | [Architecture book, 5.2](https://oleksiyp.github.io/arch-book/#the-saga-transactions-without-the-transaction); Chapter 4 |
-| **PSP** | The external payment service provider, behind an anti-corruption layer; about 800 ms of the budget; Encore holds no card numbers | [Architecture book, 4.4](https://oleksiyp.github.io/arch-book/#anatomy-of-a-self-inflicted-outage); Chapters 2 and 9 |
-| **Finance ledger** | The relational record of money, fed by `SaleCompleted`, reconciled daily and closed nightly | [Architecture book, 9.1](https://oleksiyp.github.io/arch-book/#91-data-ownership-in-distributed-systems); Chapter 10 |
-| **Seat-map geometry** | The shape of a hall, served by Catalog from a cache; availability is never cached | [Architecture book, 1.3](https://oleksiyp.github.io/arch-book/#13-modularity-and-logical-components); Chapters 6 and 13 |
-| **`ticket-sales.v2`** | The event stream carrying `SeatSold`, `TicketIssued`, `SaleCompleted` and their kin to every consumer | [Architecture book, 6.5](https://oleksiyp.github.io/arch-book/#65-flow--streams-as-products); Chapter 5 |
-| **Tenants and cells** | Venues using Encore as a service: an Enterprise silo, Professional Kubernetes cells, pooled serverless self-service cells | [Architecture book, 14.1](https://oleksiyp.github.io/arch-book/#two-planes-three-models); Chapters 7 and 9 |
-| **Golden path** | The platform's supported route from template to production, with provisioning, registry entry and scorecard | [Architecture book, 15.2](https://oleksiyp.github.io/arch-book/#golden-paths-on-a-self-service-control-plane); Chapter 7 |
-| **Curtain-up** | The self-service workflow that pre-warms the purchase path on an on-sale morning | [Architecture book, 11.1](https://oleksiyp.github.io/arch-book/#the-spectrum-priced-in-responsibility); Chapter 3 |
-| **Readiness review and freeze** | The Wednesday review before a big on-sale, and no non-emergency purchase-path changes from two hours before it | [Architecture book, 11.3](https://oleksiyp.github.io/arch-book/#from-is-it-up-to-why-is-it-weird); Chapters 8 and 13 |
-| **Reliability team** | Ten engineers in the platform group who own SLO tooling, the incident process, readiness reviews and game days | [Architecture book, 15.4](https://oleksiyp.github.io/arch-book/#the-inversion-the-preface-promised); Chapter 15 |
-| **Cue** | A read-only operations assistant on the internal MCP server; acts only with a person's approval | [Architecture book, 12.3](https://oleksiyp.github.io/arch-book/#the-loop-that-acts); Chapters 3 and 12 |
-| **AI gateway** | Routes the assistant's and agent's model calls, about 80% to a model a tenth the price | [Architecture book, 12.1](https://oleksiyp.github.io/arch-book/#121-ai-in-the-system-topology); Chapter 14 |
-
-*Figure 1.5 — Encore's vocabulary. Each term is used without explanation from here on; the Architecture book explains why it was designed that way, and the named chapter shows what it takes to run.*
+Ahead lies a Friday the whole book circles: the on-sale for Vesper Hale, a fictional artist whose 12-date European tour will bring about 1.1 million fans to the Gate in the same minute. Chapter 12 fights it and Chapter 13 learns from it, and the chapters before them keep noticing small, reasonable decisions that will matter that morning. Everything else in Encore, from its tenants and cells to the change freeze and the assistant in the incident channel, is introduced in the chapter where it first does something, and [the appendix](/prodsys-book/#encore-glance) keeps a glossary for the reader who wants it all on one page.
 
 ### 1.1 Production as a Sociotechnical System
 
@@ -226,11 +157,11 @@ As software moved onto the web, a structural problem hardened. Developers were r
 
 Two answers emerged. In 2003 Benjamin Treynor (now Ben Treynor Sloss) joined Google and was put in charge of a production team of seven engineers. He staffed it, and the organization that grew from it, with software engineers who treated operations as a software problem: automate the repetitive work, cap the manual share of each engineer's time, and govern the trade between change and stability with measurements rather than seniority. In Google's *Site Reliability Engineering* (2016) he put it in a line quoted ever since: "SRE is what happens when you ask a software engineer to design an operations team." The other answer came from web companies that could not afford a large operations staff. In 2009 John Allspaw and Paul Hammond described Flickr's practice of deploying more than 10 times a day, through cooperation between developers and operations, and later that year Patrick Debois organized the first DevOpsDays in Ghent. Where SRE built a new kind of operations team, DevOps tried to take down the wall, and Amazon's "you build it, you run it", which [the Architecture book discussed](https://oleksiyp.github.io/arch-book/#115-operability-by-design), pushed the pager all the way to the team that wrote the code.
 
-Encore has inherited all three answers: stream-aligned teams run their own services, a small Reliability team works in the SRE tradition, and the incident commander rotation borrows senior engineers from everywhere. The forms are new; the question is the closed shop's. How do people safely run software whose authors are not in the room? With a coding agent as author, the author may not be anywhere at all, which sharpens the old question without making it new. Figure 1.6 sets the whole lineage on one line.
+Encore has inherited all three answers: stream-aligned teams run their own services, a small Reliability team works in the SRE tradition, and the incident commander rotation borrows senior engineers from everywhere. The forms are new; the question is the closed shop's. How do people safely run software whose authors are not in the room? With a coding agent as author, the author may not be anywhere at all, which sharpens the old question without making it new. Figure 1.4 sets the whole lineage on one line.
 
-{% include diagrams/fig-1-6.svg %}
+{% include diagrams/fig-1-4.svg %}
 
-*Figure 1.6 — Who has stood between the code and its users, from the 1947 logbook to today. Each era absorbed the last one's routine work into software; notice that the question at the counter never changed, only who stands behind it.*
+*Figure 1.4 — Who has stood between the code and its users, from the 1947 logbook to today. Each era absorbed the last one's routine work into software; notice that the question at the counter never changed, only who stands behind it.*
 
 **Recap.** Operators have always run code they did not write, and the job has always relied on a contract between authors and operators plus judgment for the unwritten cases. Each era moved the operator's knowledge into automation, and each left a residue of judgment behind. SRE and DevOps are two answers to the wall between change and stability, and modern organizations usually combine them.
 
@@ -242,11 +173,11 @@ Encore has inherited all three answers: stream-aligned teams run their own servi
 
 The reliability engineers of the 1950s, working on military electronics that failed at alarming rates, gave us a definition that has held up well: **reliability** is the probability that a system performs its intended function, under stated conditions, for a stated period. Every part of that sentence does work. *Intended function* means that a system can be running and still be failing; *stated conditions* means that reliability on a quiet Tuesday says nothing about reliability during an on-sale; *stated period* means that reliability is always measured over a window, never at an instant.
 
-**Availability** is narrower: the fraction of time, or of requests, for which the system is able to serve. The classical formula divides the mean time between failures by the sum of that and the mean time to repair, and its arithmetic carries a lesson: availability rises either by failing less often or by recovering faster, and for most modern systems the second is far cheaper. Figure 1.7 draws the arithmetic.
+**Availability** is narrower: the fraction of time, or of requests, for which the system is able to serve. The classical formula divides the mean time between failures by the sum of that and the mean time to repair, and its arithmetic carries a lesson: availability rises either by failing less often or by recovering faster, and for most modern systems the second is far cheaper. Figure 1.5 draws the arithmetic.
 
-{% include diagrams/fig-1-7.svg %}
+{% include diagrams/fig-1-5.svg %}
 
-*Figure 1.7 — Availability as mean time between failures over the sum of that and mean time to repair, with lines of equal availability. Halving the time to recover buys exactly what doubling the time between failures buys, and it is usually far easier to get.* Chapter 4 turns availability into targets and budgets.
+*Figure 1.5 — Availability as mean time between failures over the sum of that and mean time to repair, with lines of equal availability. Halving the time to recover buys exactly what doubling the time between failures buys, and it is usually far easier to get.* Chapter 4 turns availability into targets and budgets.
 
 A third property, often left out of such lists, matters most to Encore. **Correctness** is the property that the system's answers are right: that a seat sold is sold once, that a charged fan receives a ticket, and that a ticket is delivered once. Availability measures whether the system answered; users judge what it said. The duplicate ticket the rewrite nearly shipped would have appeared nowhere in availability; the dashboard would have been greenest just as fans found two copies of one seat in their wallets.
 
@@ -262,7 +193,7 @@ Medicine offers the right analogy for what operators usually measure. A hospital
 | Sale Gate p99 latency 40 ms | I have been in the queue 25 minutes and the position hasn't moved |
 | Bot Screening blocked 2% of sessions | I am a real fan and I was told I am a robot |
 
-*Figure 1.8 — Vital signs against the patient's account. Each left-hand statement can be true while the right-hand one is also true.*
+*Figure 1.6 — Vital signs against the patient's account. Each left-hand statement can be true while the right-hand one is also true.*
 
 Two features of user experience shape the rest of the book. Failure is usually partial: some fans on some shard see errors while the rest proceed, so the useful questions are "for whom?" and "how many?" And users feel their own latency, never the median, so in a purchase touching a dozen services someone will meet the slow tail of nearly every one, as [the Architecture book's tail-at-scale argument](https://oleksiyp.github.io/arch-book/#tails-not-averages) showed.
 
@@ -270,7 +201,7 @@ Reliability, finally, is a promise made to people who cannot see inside the syst
 
 **Recap.** Reliability is the probability of doing the intended job under stated conditions over a stated period; availability is narrower, and correctness is a third property that availability cannot see. Operational vital signs are necessary but are not the user's experience. Failure is partial and felt individually, so the useful questions are always for whom, how many and how slowly.
 
-**Exercise 1.3.** For one user journey you own, write five rows of Figure 1.8: a metric your dashboards show, beside a user experience that could coexist with it. Which of the right-hand column could you detect today, and how?
+**Exercise 1.3.** For one user journey you own, write five rows of Figure 1.6: a metric your dashboards show, beside a user experience that could coexist with it. Which of the right-hand column could you detect today, and how?
 
 ### 1.4 The Modern Production Stack
 
@@ -278,7 +209,7 @@ Reliability, finally, is a promise made to people who cannot see inside the syst
 
 A touring concert production is organized in layers. Riggers hang the structure, a power crew brings in electricity, the sound and lighting desks run their systems, and the stage manager calls the cues. Each layer has its own specialists, tools and failure modes, each depends on the ones beneath it, and the show is what they produce together on the night.
 
-The modern production stack is organized the same way, for the same reason. Hierarchy is how we master a whole too complex to hold at once: each layer hides detail from the ones above and offers them a simpler surface to rely on. Figure 1.9 names each layer by the question it answers and maps it to Encore and to the chapter that treats it, which makes it a reading map for the book.
+The modern production stack is organized the same way, for the same reason. Hierarchy is how we master a whole too complex to hold at once: each layer hides detail from the ones above and offers them a simpler surface to rely on. Figure 1.7 names each layer by the question it answers and maps it to Encore and to the chapter that treats it, which makes it a reading map for the book.
 
 At the bottom sits the **runtime and its control plane**: clusters, functions and managed services, declared as code and continuously reconciled toward that declaration. Above it, **delivery** carries change into production through pipelines, canaries and flags. **Telemetry** reports what the system is doing, and **SLOs** judge whether that is good enough for users and turn the judgment into decisions about risk. The **incident process** takes over when users are hurting now, and **learning** decides what changes afterwards. Alongside them all runs the **platform**, which packages the lower layers into paved paths so that 40 teams need not each rebuild them.
 
@@ -298,21 +229,21 @@ At the bottom sits the **runtime and its control plane**: clusters, functions an
 | AI workloads | How do we run components that don't repeat themselves? | Support assistant, refund agent, AI gateway | 14 |
 | Platform and organization | Who owns what, and how do teams get it for free? | Golden paths, the Reliability team | 7, 15 |
 
-*Figure 1.9 — The production stack as Encore runs it, and where this book treats each layer. Read top to bottom for the book's order; read it against your own system to find the layer you have been neglecting.*
+*Figure 1.7 — The production stack as Encore runs it, and where this book treats each layer. Read top to bottom for the book's order; read it against your own system to find the layer you have been neglecting.*
 
 #### What the stack hides, and what it cannot {#what-the-stack-hides}
 
-Layers help only while their surfaces hold, and production is where they do not. A node drain in the runtime shows up as a latency spike in telemetry, an SLO burn, a page, an incident and, if we are diligent, a change to delivery; the whole stack takes part in one bad minute. Here the touring analogy breaks: a tour hires one stage manager to call every cue, whereas a cloud system's cues are called by hundreds of control loops, many automated and none aware of all the others. The stack organizes knowledge and ownership but offers no single vantage point, and the incident process exists partly to assemble one when it is needed. Figure 1.10 follows one such minute through the stack.
+Layers help only while their surfaces hold, and production is where they do not. A node drain in the runtime shows up as a latency spike in telemetry, an SLO burn, a page, an incident and, if we are diligent, a change to delivery; the whole stack takes part in one bad minute. Here the touring analogy breaks: a tour hires one stage manager to call every cue, whereas a cloud system's cues are called by hundreds of control loops, many automated and none aware of all the others. The stack organizes knowledge and ownership but offers no single vantage point, and the incident process exists partly to assemble one when it is needed. Figure 1.8 follows one such minute through the stack.
 
-{% include diagrams/fig-1-10.svg %}
+{% include diagrams/fig-1-8.svg %}
 
-*Figure 1.10 — One node drain, as each layer of the stack sees it. Every layer holds a piece of the event and none holds all of it, which is why an incident needs someone to assemble the whole.*
+*Figure 1.8 — One node drain, as each layer of the stack sees it. Every layer holds a piece of the event and none holds all of it, which is why an incident needs someone to assemble the whole.*
 
 Seen from the morning after the Notification rewrite, not one layer required the on-call engineer to have read the 40 files. The runtime would restart the service if it crashed, delivery could roll it back, telemetry would show its behavior, and the SLO would say whether that behavior was acceptable. What the stack could not do was tell anyone whether "acceptable" had been defined correctly, which is why the missing check was a specification of behavior, written by a person who understood what a ticket is for.
 
-**Recap.** The production stack is a hierarchy of layers, each answering one question and hiding detail from the layers above. Figure 1.9 is the book's map. The layers organize knowledge and ownership but give no single vantage point, and in an incident the whole stack takes part at once.
+**Recap.** The production stack is a hierarchy of layers, each answering one question and hiding detail from the layers above. Figure 1.7 is the book's map. The layers organize knowledge and ownership but give no single vantage point, and in an incident the whole stack takes part at once.
 
-**Exercise 1.4.** Fill in Figure 1.9's "Encore today" column for your own system. Mark each row as strong, adequate or missing, and pick the weakest row that sits on your most important user journey.
+**Exercise 1.4.** Fill in Figure 1.7's "Encore today" column for your own system. Mark each row as strong, adequate or missing, and pick the weakest row that sits on your most important user journey.
 
 ### 1.5 Principles for Operable Systems
 
@@ -350,8 +281,8 @@ I have come to believe that this is the right answer to the question with which 
 
 1. **Sociotechnical map** — the people, teams, automated systems and external parties involved in a storm rebooking, with who knows what about each part.
 2. **Operations history** — where Tideway sits in the lineage of Section 1.2, where its counter between authors and operators is, and what crosses it.
-3. **User-felt reliability** — a Figure 1.8 table for storm rebooking, with at least two rows where availability looks healthy and residents are failed.
-4. **Stack map** — a Figure 1.9 table for Tideway, rated strong, adequate or missing, with the three weakest layers chosen for investment.
+3. **User-felt reliability** — a Figure 1.6 table for storm rebooking, with at least two rows where availability looks healthy and residents are failed.
+4. **Stack map** — a Figure 1.7 table for Tideway, rated strong, adequate or missing, with the three weakest layers chosen for investment.
 5. **Operability review** — the five principles scored for the rebooking service, an owner named for the contractor's code, and a 90-day plan.
 
 **Rubric:**
@@ -3547,3 +3478,42 @@ You began this book with a computer operator at a console and end it in a room f
 - Karl E. Weick, Kathleen M. Sutcliffe — [*Managing the Unexpected*, 3rd ed.](https://www.wiley.com/en-us/Managing+the+Unexpected%3A+Sustained+Performance+in+a+Complex+World%2C+3rd+Edition-p-9781118862414). Wiley, 2015.
 - Betsy Beyer, Chris Jones, Jennifer Petoff, Niall Richard Murphy (eds.) — [*Site Reliability Engineering*](https://sre.google/sre-book/table-of-contents/). O'Reilly/Google, 2016 — free online.
 - Atul Gawande — [*The Checklist Manifesto*](https://atulgawande.com/book/the-checklist-manifesto/). Metropolitan Books, 2009.
+
+---
+
+## Appendix: Encore at a Glance {#encore-glance}
+
+Each chapter introduces the parts of Encore it needs at the moment it needs them, which suits a reader going front to back and frustrates one dipping in at Chapter 9. This glossary gathers the whole company on one page, with where the Architecture book explains why each part was designed that way and which chapter of this book shows what it takes to run.
+
+| Term | What it is | Where to read more |
+|---|---|---|
+| **Encore** | Concert tickets across the EU, in euros, also sold as software as a service (SaaS) to venues; traffic rises 500× in minutes when a tour goes on sale, every seat is sold exactly once, and the bots arrive before the fans do | [Architecture book, 1.1](https://oleksiyp.github.io/arch-book/#encore-our-running-example); Chapter 1 |
+| **Organization** | 400 engineers in 40 stream-aligned teams that build and run their own services, and a platform group of 5–10% of engineering; on-call per team, with one incident commander rotation drawn from senior engineers | [Architecture book, 5.5](https://oleksiyp.github.io/arch-book/#conways-law-is-a-design-tool); Chapters 12 and 15 |
+| **Customers** | Fans, event organizers, partners on the public API at `api.encore.com`, and SaaS tenants | [Architecture book, 7.3](https://oleksiyp.github.io/arch-book/#the-gateway-earns-its-place-at-the-edge); Chapter 11 |
+| **On-sale** | The scheduled moment a tour's tickets go on sale, usually 10:00 CET on a Friday | [Architecture book, 1.1](https://oleksiyp.github.io/arch-book/#encore-our-running-example); Chapter 6 |
+| **Sale Gate** | On-Sale Admission: the virtual waiting room and admission controller in front of the purchase path; a serverless edge, pre-warmed, scaling to 400 instances | [Architecture book, 2.4](https://oleksiyp.github.io/arch-book/#24-choosing-a-style); Chapter 9 |
+| **Admission rate** | Fans per second per event the Gate lets through, about 1,200, sized to keep Seat Inventory below 80% load | [Architecture book, 4.5](https://oleksiyp.github.io/arch-book/#45-degradation-and-chaos); Chapters 6 and 12 |
+| **Bot Screening** | Decides per session whether it is a fan, from rented edge signals and velocity rules; risk data in its own cloud account | [Architecture book, 10.4](https://oleksiyp.github.io/arch-book/#blast-radius-is-a-design-variable); Chapter 11 |
+| **Seat Inventory** | The core domain and sole authority on whether a seat is free; event-sourced with command–query responsibility segregation (CQRS) | [Architecture book, 3.1](https://oleksiyp.github.io/arch-book/#31-strategic-design), [6.2](https://oleksiyp.github.io/arch-book/#cqrs-two-models-one-truth); Chapter 6 |
+| **Hold** | A seat reserved for one fan by `POST /holds` for 5 minutes, lapsing by itself if checkout does not finish | [Architecture book, 3.2](https://oleksiyp.github.io/arch-book/#aggregates-consistency-has-a-size); Chapter 10 |
+| **Shard and home region** | Four shards per large event by `event_id`, each with a fenced leader handling about 10,000 reads and 1,500 ordered writes a second; each event's writes pinned to one region | [Architecture book, 4.2](https://oleksiyp.github.io/arch-book/#42-state--replication-partitioning-consistency); Chapters 3 and 10 |
+| **Orders & Payments saga** | The orchestrated purchase, each step paired with a compensation, within a 3 s checkout budget; when the PSP is down, orders are accepted and charged later | [Architecture book, 5.2](https://oleksiyp.github.io/arch-book/#the-saga-transactions-without-the-transaction); Chapter 4 |
+| **PSP** | The external payment service provider, behind an anti-corruption layer; about 800 ms of the budget; Encore holds no card numbers | [Architecture book, 4.4](https://oleksiyp.github.io/arch-book/#anatomy-of-a-self-inflicted-outage); Chapters 2 and 9 |
+| **The first big outage** | The PSP slowed from 200 ms to 8 s, retries stormed and autoscaling made it worse; fixed with retry budgets and a single retry layer | [Architecture book, 4.4](https://oleksiyp.github.io/arch-book/#anatomy-of-a-self-inflicted-outage); Chapter 2 |
+| **Finance ledger** | The relational record of money, fed by `SaleCompleted`, reconciled daily and closed nightly | [Architecture book, 9.1](https://oleksiyp.github.io/arch-book/#91-data-ownership-in-distributed-systems); Chapter 10 |
+| **Seat-map geometry** | The shape of a hall, served by Catalog from a cache; availability is never cached | [Architecture book, 1.3](https://oleksiyp.github.io/arch-book/#13-modularity-and-logical-components); Chapters 6 and 13 |
+| **Notifications** | Delivers tickets by email and to phone wallets; rebuilt overnight by a coding agent in the scene that opens Chapter 1 | [Architecture book, 15.4](https://oleksiyp.github.io/arch-book/#the-inversion-the-preface-promised); Chapters 1 and 8 |
+| **`ticket-sales.v2`** | The event stream carrying `SeatSold`, `TicketIssued`, `SaleCompleted` and their kin to every consumer | [Architecture book, 6.5](https://oleksiyp.github.io/arch-book/#65-flow--streams-as-products); Chapter 5 |
+| **Tenants and cells** | Venues using Encore as a service: one Enterprise silo (`venue-chain-a`), Professional tenants in Kubernetes cells with a database per tenant, about 500 self-service venues pooled in serverless cells of about 50 | [Architecture book, 14.1](https://oleksiyp.github.io/arch-book/#two-planes-three-models); Chapters 7 and 9 |
+| **Regions** | EU-1 and EU-2: reads served from both, writes in each event's home region, the seat ledger committed synchronously to a standby in the other (RPO zero, RTO of minutes) | [Architecture book, 11.5](https://oleksiyp.github.io/arch-book/#surviving-a-region); Chapter 10 |
+| **Golden path** | The platform's supported route from template to production, with provisioning, registry entry and scorecard | [Architecture book, 15.2](https://oleksiyp.github.io/arch-book/#golden-paths-on-a-self-service-control-plane); Chapter 7 |
+| **Curtain-up** | The self-service workflow that pre-warms the purchase path on an on-sale morning | [Architecture book, 11.1](https://oleksiyp.github.io/arch-book/#the-spectrum-priced-in-responsibility); Chapter 3 |
+| **Readiness review and freeze** | The Wednesday review before a big on-sale, and no non-emergency purchase-path changes from two hours before it until it ends | [Architecture book, 11.3](https://oleksiyp.github.io/arch-book/#from-is-it-up-to-why-is-it-weird); Chapters 8 and 13 |
+| **Reliability team** | Ten engineers in the platform group, led by a staff SRE, who own SLO tooling, the incident process, readiness reviews and game days | [Architecture book, 15.1](https://oleksiyp.github.io/arch-book/#cognitive-load-is-the-resource-being-architected); Chapter 15 |
+| **Published numbers** | Seat map ≤ 800 ms for 99.9% of requests over 28 days; tenant SLOs 99.9% self-service and 99.95% Professional; cost per ticket drifted from €0.11 to €0.19 and is now about €0.12 | [Architecture book, 11.3](https://oleksiyp.github.io/arch-book/#from-is-it-up-to-why-is-it-weird); Chapters 4 and 6 |
+| **Cue** | A read-only operations assistant on the internal Model Context Protocol (MCP) server; acts only with a person's approval | [Architecture book, 12.3](https://oleksiyp.github.io/arch-book/#the-loop-that-acts); Chapters 3 and 12 |
+| **AI gateway** | Routes the assistant's and agent's model calls, about 80% to a model a tenth the price | [Architecture book, 12.1](https://oleksiyp.github.io/arch-book/#121-ai-in-the-system-topology); Chapter 14 |
+| **Support assistant and refund agent** | A retrieval-augmented assistant for fans, and an agent that approves refunds under €80 with more than 48 h to showtime and sends everything else to a person | [Architecture book, 12.1](https://oleksiyp.github.io/arch-book/#121-ai-in-the-system-topology); Chapter 14 |
+| **The Vesper Hale on-sale** | A fictional artist's 12-date European tour, about 1.1 million fans in the Gate, 47 minutes of degraded checkout and no seat sold twice | Chapters 12 and 13 |
+
+*Figure A.1 — Encore at a glance. The Architecture book explains why each part was designed as it was; the named chapter shows what it takes to run.*

@@ -1,107 +1,73 @@
-<div class="dg-figure" data-fig="fig-1-4" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 548" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-1-4-title fig-1-4-desc">
-<title id="fig-1-4-title">Where Encore runs</title>
-<desc id="fig-1-4-desc">Two EU regions, EU-1 and EU-2, each with a core Kubernetes cluster, six Professional tenant cells with a database per tenant, a serverless Sale Gate edge and serverless self-service cells of about 50 venues. Fans and partners read from either region. Each event&#x27;s writes are pinned to a home region; the seat ledger there commits synchronously to a standby in the other region. Both regions reconcile toward the encore-deploy Git repository.</desc>
+<div class="dg-figure" data-fig="fig-1-4" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 344" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-1-4-title fig-1-4-desc">
+<title id="fig-1-4-title">Who runs the software, 1945 to today</title>
+<desc id="fig-1-4-desc">A timeline of running software: the computer operator of the closed shop from the 1950s, the system administrator from the 1980s, site reliability engineering and DevOps from 2003 and 2009, and today coding agents as authors. Events marked: the 1947 Mark II logbook, GM-NAA I/O in 1956, System/360 in 1964, ITIL in the late 1980s, Google&#x27;s first SRE team in 2003, Flickr and the first DevOpsDays in 2009, and coding agents today.</desc>
 <defs><marker id="fig-1-4-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-1-4-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-1-4-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
 <rect class="dg-paper" width="100%" height="100%" rx="8"/>
-<rect class="dg-zone" x="24" y="120" width="392" height="288" rx="8"/><rect class="dg-mask" x="36" y="114" width="80" height="12" rx="2"/><text class="dg-eyebrow" x="76" y="123">EU-1 · REGION</text>
-<rect class="dg-zone" x="36" y="228" width="368" height="60" rx="8"/><rect class="dg-mask" x="48" y="222" width="260" height="12" rx="2"/><text class="dg-eyebrow" x="178" y="231">SIX PROFESSIONAL CELLS · A DATABASE PER TENANT</text>
-<rect class="dg-zone" x="448" y="120" width="392" height="288" rx="8"/><rect class="dg-mask" x="460" y="114" width="80" height="12" rx="2"/><text class="dg-eyebrow" x="500" y="123">EU-2 · REGION</text>
-<rect class="dg-zone" x="460" y="228" width="368" height="60" rx="8"/><rect class="dg-mask" x="472" y="222" width="260" height="12" rx="2"/><text class="dg-eyebrow" x="602" y="231">SIX PROFESSIONAL CELLS · A DATABASE PER TENANT</text>
-<path class="dg-a dg-a-muted" d="M 392,72 L 392,88 Q 392,96 384,96 L 320,96 Q 312,96 312,104 L 312,148" marker-end="url(#fig-1-4-m-muted)"/>
-<path class="dg-a dg-a-muted" d="M 472,72 L 472,88 Q 472,96 480,96 L 544,96 Q 552,96 552,104 L 552,148" marker-end="url(#fig-1-4-m-muted)"/>
-<path class="dg-a dg-a-accent" d="M 312,360 L 312,372 Q 312,380 320,380 L 544,380 Q 552,380 552,372 L 552,360" marker-end="url(#fig-1-4-m-accent)"/>
-<path class="dg-a dg-a-muted dg-dash" d="M 392,448 L 392,436 Q 392,428 384,428 L 228,428 Q 220,428 220,420 L 220,408" marker-end="url(#fig-1-4-m-muted)"/>
-<path class="dg-a dg-a-muted dg-dash" d="M 472,448 L 472,436 Q 472,428 480,428 L 636,428 Q 644,428 644,420 L 644,408" marker-end="url(#fig-1-4-m-muted)"/>
-<rect class="dg-mask" x="356" y="388" width="152" height="12" rx="2"/><text class="dg-label dg-l-accent" x="432" y="397">SYNCHRONOUS COMMIT · RPO 0</text>
-<rect class="dg-mask" x="276" y="436" width="60" height="12" rx="2"/><text class="dg-label" x="306" y="445">RECONCILE</text>
-<rect class="dg-mask" x="528" y="436" width="60" height="12" rx="2"/><text class="dg-label" x="558" y="445">RECONCILE</text>
-<rect class="dg-mask" x="44" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="44" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="70" y="262">P1</text>
-<rect class="dg-mask" x="104" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="104" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="130" y="262">P2</text>
-<rect class="dg-mask" x="164" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="164" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="190" y="262">P3</text>
-<rect class="dg-mask" x="224" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="224" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="250" y="262">P4</text>
-<rect class="dg-mask" x="284" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="284" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="310" y="262">P5</text>
-<rect class="dg-mask" x="344" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="344" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="370" y="262">P6</text>
-<rect class="dg-mask" x="40" y="148" width="176" height="56" rx="6"/>
-<rect class="dg-n dg-n-backend" x="40" y="148" width="176" height="56" rx="6"/>
-<text class="dg-name" x="128" y="178">Core cluster</text>
-<text class="dg-sub" x="128" y="193">Kubernetes, the services</text>
-<rect class="dg-mask" x="224" y="148" width="176" height="56" rx="6"/>
-<rect class="dg-n dg-n-optional" x="224" y="148" width="176" height="56" rx="6" stroke-dasharray="4,3"/>
-<text class="dg-name" x="312" y="178">Sale Gate edge</text>
-<text class="dg-sub" x="312" y="193">serverless, pre-warmed</text>
-<rect class="dg-mask" x="40" y="304" width="176" height="56" rx="6"/>
-<rect class="dg-n dg-n-optional" x="40" y="304" width="176" height="56" rx="6" stroke-dasharray="4,3"/>
-<text class="dg-name" x="128" y="334">Self-service cells</text>
-<text class="dg-sub" x="128" y="349">serverless, ~50 venues</text>
-<rect class="dg-mask" x="224" y="304" width="176" height="56" rx="6"/>
-<rect class="dg-n dg-n-store" x="224" y="304" width="176" height="56" rx="6"/>
-<text class="dg-name" x="312" y="334">Seat ledger</text>
-<text class="dg-sub" x="312" y="349">event A&#x27;s writes land here</text>
-<rect class="dg-mask" x="468" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="468" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="494" y="262">P7</text>
-<rect class="dg-mask" x="528" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="528" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="554" y="262">P8</text>
-<rect class="dg-mask" x="588" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="588" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="614" y="262">P9</text>
-<rect class="dg-mask" x="648" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="648" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="674" y="262">P10</text>
-<rect class="dg-mask" x="708" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="708" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="734" y="262">P11</text>
-<rect class="dg-mask" x="768" y="240" width="52" height="36" rx="6"/>
-<rect class="dg-n dg-n-backend" x="768" y="240" width="52" height="36" rx="6"/>
-<text class="dg-name" x="794" y="262">P12</text>
-<rect class="dg-mask" x="648" y="148" width="176" height="56" rx="6"/>
-<rect class="dg-n dg-n-backend" x="648" y="148" width="176" height="56" rx="6"/>
-<text class="dg-name" x="736" y="178">Core cluster</text>
-<text class="dg-sub" x="736" y="193">Kubernetes, the services</text>
-<rect class="dg-mask" x="464" y="148" width="176" height="56" rx="6"/>
-<rect class="dg-n dg-n-optional" x="464" y="148" width="176" height="56" rx="6" stroke-dasharray="4,3"/>
-<text class="dg-name" x="552" y="178">Sale Gate edge</text>
-<text class="dg-sub" x="552" y="193">serverless, pre-warmed</text>
-<rect class="dg-mask" x="648" y="304" width="176" height="56" rx="6"/>
-<rect class="dg-n dg-n-optional" x="648" y="304" width="176" height="56" rx="6" stroke-dasharray="4,3"/>
-<text class="dg-name" x="736" y="334">Self-service cells</text>
-<text class="dg-sub" x="736" y="349">serverless, ~50 venues</text>
-<rect class="dg-mask" x="464" y="304" width="176" height="56" rx="6"/>
-<rect class="dg-n dg-n-store" x="464" y="304" width="176" height="56" rx="6"/>
-<text class="dg-name" x="552" y="334">Seat ledger standby</text>
-<text class="dg-sub" x="552" y="349">event A, in step</text>
-<rect class="dg-mask" x="348" y="24" width="168" height="48" rx="6"/>
-<rect class="dg-n dg-n-input" x="348" y="24" width="168" height="48" rx="6"/>
-<text class="dg-name" x="432" y="50">Fans and partners</text>
-<text class="dg-sub" x="432" y="65">public API, apps</text>
-<rect class="dg-mask" x="348" y="448" width="168" height="48" rx="6"/>
-<rect class="dg-n dg-n-store" x="348" y="448" width="168" height="48" rx="6"/>
-<text class="dg-name" x="432" y="474">encore-deploy</text>
-<text class="dg-sub" x="432" y="489">Git: desired state</text>
-<text class="dg-note" x="528" y="44" text-anchor="start">reads: either region</text>
-<text class="dg-note" x="528" y="57" text-anchor="start">writes: the event&#x27;s home region</text>
-<line class="dg-rule" x1="24" y1="508" x2="840" y2="508"/>
-<rect class="dg-n dg-n-backend" x="24" y="519" width="16" height="10" rx="2"/>
-<text class="dg-legend" x="46" y="527">Kubernetes cluster</text>
-<rect class="dg-n dg-n-optional" x="174" y="519" width="16" height="10" rx="2" stroke-dasharray="4,3"/>
-<text class="dg-legend" x="196" y="527">Serverless</text>
-<rect class="dg-n dg-n-store" x="280" y="519" width="16" height="10" rx="2"/>
-<text class="dg-legend" x="302" y="527">Ledger or repository</text>
-<line class="dg-a dg-a-accent" x1="442" y1="524" x2="466" y2="524" marker-end="url(#fig-1-4-m-accent)"/>
-<text class="dg-legend" x="474" y="527">Synchronous commit</text>
-<line class="dg-a dg-a-muted dg-dash" x1="602" y1="524" x2="626" y2="524" marker-end="url(#fig-1-4-m-muted)"/>
-<text class="dg-legend" x="634" y="527">GitOps pull</text>
+<line class="dg-axis" x1="48" y1="168" x2="813" y2="168"/>
+<line class="dg-axis" x1="93" y1="164" x2="93" y2="172"/>
+<text class="dg-tick" x="93" y="158" text-anchor="middle">1950</text>
+<line class="dg-axis" x1="183" y1="164" x2="183" y2="172"/>
+<text class="dg-tick" x="183" y="158" text-anchor="middle">1960</text>
+<line class="dg-axis" x1="273" y1="164" x2="273" y2="172"/>
+<text class="dg-tick" x="273" y="158" text-anchor="middle">1970</text>
+<line class="dg-axis" x1="363" y1="164" x2="363" y2="172"/>
+<text class="dg-tick" x="363" y="158" text-anchor="middle">1980</text>
+<line class="dg-axis" x1="453" y1="164" x2="453" y2="172"/>
+<text class="dg-tick" x="453" y="158" text-anchor="middle">1990</text>
+<line class="dg-axis" x1="543" y1="164" x2="543" y2="172"/>
+<text class="dg-tick" x="543" y="158" text-anchor="middle">2000</text>
+<line class="dg-axis" x1="633" y1="164" x2="633" y2="172"/>
+<text class="dg-tick" x="633" y="158" text-anchor="middle">2010</text>
+<line class="dg-axis" x1="723" y1="164" x2="723" y2="172"/>
+<text class="dg-tick" x="723" y="158" text-anchor="middle">2020</text>
+<line class="dg-axis" x1="813" y1="164" x2="813" y2="172"/>
+<text class="dg-tick" x="813" y="158" text-anchor="middle">2030</text>
+<line class="dg-ill-soft" x1="66" y1="168" x2="66" y2="286"/>
+<circle class="dg-dot dg-dot-ink" cx="66" cy="168" r="4"/>
+<line class="dg-ill-soft" x1="147" y1="168" x2="147" y2="238"/>
+<circle class="dg-dot dg-dot-ink" cx="147" cy="168" r="4"/>
+<line class="dg-ill-soft" x1="219" y1="168" x2="219" y2="190"/>
+<circle class="dg-dot dg-dot-ink" cx="219" cy="168" r="4"/>
+<line class="dg-ill-soft" x1="444" y1="168" x2="444" y2="190"/>
+<circle class="dg-dot dg-dot-ink" cx="444" cy="168" r="4"/>
+<line class="dg-ill-soft" x1="570" y1="168" x2="570" y2="286"/>
+<circle class="dg-dot dg-dot-ink" cx="570" cy="168" r="4"/>
+<line class="dg-ill-soft" x1="624" y1="168" x2="624" y2="238"/>
+<circle class="dg-dot dg-dot-ink" cx="624" cy="168" r="4"/>
+<line class="dg-ill-soft" x1="777" y1="168" x2="777" y2="190"/>
+<circle class="dg-dot dg-dot-accent" cx="777" cy="168" r="4"/>
+<rect class="dg-n dg-n-store" x="95" y="64" width="266" height="48" rx="6"/>
+<text class="dg-name" x="228" y="86">Computer operator</text>
+<text class="dg-sub" x="228" y="101">the closed shop</text>
+<rect class="dg-n dg-n-store" x="365" y="64" width="203" height="48" rx="6"/>
+<text class="dg-name" x="466.5" y="86">System administrator</text>
+<text class="dg-sub" x="466.5" y="101">scripts and config files</text>
+<rect class="dg-n dg-n-store" x="572" y="64" width="185" height="48" rx="6"/>
+<text class="dg-name" x="664.5" y="86">SRE and DevOps</text>
+<text class="dg-sub" x="664.5" y="101">ops as a software problem</text>
+<rect class="dg-n dg-n-focal" x="761" y="64" width="52" height="48" rx="6"/>
+<text class="dg-label dg-l-accent" x="787" y="91">AGENTS</text>
+<text class="dg-eyebrow" x="48" y="48" style="text-anchor:start">WHO STANDS BETWEEN THE CODE AND ITS USERS</text>
+<text class="dg-label" x="68" y="296" style="text-anchor:start">1947</text>
+<text class="dg-note" x="68" y="309" text-anchor="start">Mark II logbook:</text>
+<text class="dg-note" x="68" y="321" text-anchor="start">the first bug, taped in</text>
+<text class="dg-label" x="149" y="248" style="text-anchor:start">1956</text>
+<text class="dg-note" x="149" y="261" text-anchor="start">GM-NAA I/O cuts</text>
+<text class="dg-note" x="149" y="273" text-anchor="start">setup time between jobs</text>
+<text class="dg-label" x="221" y="200" style="text-anchor:start">1964</text>
+<text class="dg-note" x="221" y="213" text-anchor="start">IBM System/360</text>
+<text class="dg-note" x="221" y="225" text-anchor="start">spreads the operator&#x27;s job</text>
+<text class="dg-label" x="446" y="200" style="text-anchor:start">LATE 1980S</text>
+<text class="dg-note" x="446" y="213" text-anchor="start">ITIL: change boards,</text>
+<text class="dg-note" x="446" y="225" text-anchor="start">and the wall between</text>
+<text class="dg-label" x="572" y="296" style="text-anchor:start">2003</text>
+<text class="dg-note" x="572" y="309" text-anchor="start">Google&#x27;s first SRE team,</text>
+<text class="dg-note" x="572" y="321" text-anchor="start">seven engineers</text>
+<text class="dg-label" x="626" y="248" style="text-anchor:start">2009</text>
+<text class="dg-note" x="626" y="261" text-anchor="start">Flickr&#x27;s 10 deploys a day;</text>
+<text class="dg-note" x="626" y="273" text-anchor="start">first DevOpsDays, Ghent</text>
+<text class="dg-label dg-l-accent" x="783" y="200" style="text-anchor:end">TODAY</text>
+<text class="dg-note" x="783" y="213" text-anchor="end">the author may not</text>
+<text class="dg-note" x="783" y="225" text-anchor="end">be a person at all</text>
+
 </svg></div></div>

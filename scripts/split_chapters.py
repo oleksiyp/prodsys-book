@@ -16,10 +16,19 @@ def describe(m):
 
 open("llms-full.txt", "w").write(re.sub(r"\{% include diagrams/([\w-]+)\.svg %\}", describe, readme))
 
-parts = re.split(r'\n(?=## Chapter (?:\d+):)', readme)
+parts = re.split(r'\n(?=## (?:Chapter \d+:|Appendix:))', readme)
 os.makedirs("chapters", exist_ok=True)
 urls = [f"{BASE}/", f"{BASE}/llms.txt", f"{BASE}/llms-full.txt"]
 for part in parts[1:]:
+    if part.startswith("## Appendix:"):
+        m = re.match(r'## Appendix: (.*?) \{#([\w-]+)\}', part)
+        title, anchor = m.group(1), m.group(2)
+        body = re.sub(r"\n+---\s*$", "", part.rstrip())
+        page = (f"---\nlayout: default\ntitle: \"Appendix: {title}\"\npermalink: /appendix/encore/\n---\n\n"
+                f"*[← the whole book on one page](/prodsys-book/#{anchor})*\n\n{body}\n")
+        open("chapters/appendix-encore.md", "w").write(page)
+        urls.append(f"{BASE}/appendix/encore/")
+        continue
     m = re.match(r'## Chapter (\d+): (.*?) \{#ch\d+\}', part)
     n, title = int(m.group(1)), m.group(2)
     safe_title = title.replace('"', "'")

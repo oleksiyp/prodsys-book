@@ -1,7 +1,7 @@
-<div class="dg-figure" data-fig="fig-1-10" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 452" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-1-10-title fig-1-10-desc">
-<title id="fig-1-10-title">One bad minute crosses the stack</title>
-<desc id="fig-1-10-desc">Six layers of Encore&#x27;s production stack as horizontal bands. A node drain in the runtime appears as a latency spike in telemetry, a burning error budget in the SLO layer, a page and an incident, a review in learning, and finally a change shipped through delivery. Each layer sees only its own part of the event.</desc>
-<defs><marker id="fig-1-10-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-1-10-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-1-10-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<div class="dg-figure" data-fig="fig-1-8" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 452" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-1-8-title fig-1-8-desc">
+<title id="fig-1-8-title">One bad minute crosses the stack</title>
+<desc id="fig-1-8-desc">Six layers of Encore&#x27;s production stack as horizontal bands. A node drain in the runtime appears as a latency spike in telemetry, a burning error budget in the SLO layer, a page and an incident, a review in learning, and finally a change shipped through delivery. Each layer sees only its own part of the event.</desc>
+<defs><marker id="fig-1-8-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-1-8-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-1-8-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
 <rect class="dg-paper" width="100%" height="100%" rx="8"/>
 <rect class="dg-zone" x="24" y="32" width="816" height="48" rx="6"/>
 <rect class="dg-zone" x="24" y="88" width="816" height="48" rx="6"/>
@@ -13,11 +13,11 @@
 <line class="dg-axis" x1="204" y1="372" x2="204" y2="380"/>
 <line class="dg-axis" x1="412" y1="372" x2="412" y2="380"/>
 <line class="dg-axis" x1="620" y1="372" x2="620" y2="380"/>
-<path class="dg-a dg-a-muted" d="M 324,336 L 360,336 Q 368,336 368,328 L 368,244" marker-end="url(#fig-1-10-m-muted)"/>
-<path class="dg-a dg-a-muted" d="M 428,224 L 464,224 Q 472,224 472,216 L 472,188" marker-end="url(#fig-1-10-m-muted)"/>
-<path class="dg-a dg-a-muted" d="M 532,168 L 568,168 Q 576,168 576,160 L 576,132" marker-end="url(#fig-1-10-m-muted)"/>
-<path class="dg-a dg-a-muted" d="M 636,112 L 672,112 Q 680,112 680,104 L 680,76" marker-end="url(#fig-1-10-m-muted)"/>
-<path class="dg-a dg-a-muted" d="M 740,56 L 772,56 Q 780,56 780,64 L 780,260" marker-end="url(#fig-1-10-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 324,336 L 360,336 Q 368,336 368,328 L 368,244" marker-end="url(#fig-1-8-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 428,224 L 464,224 Q 472,224 472,216 L 472,188" marker-end="url(#fig-1-8-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 532,168 L 568,168 Q 576,168 576,160 L 576,132" marker-end="url(#fig-1-8-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 636,112 L 672,112 Q 680,112 680,104 L 680,76" marker-end="url(#fig-1-8-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 740,56 L 772,56 Q 780,56 780,64 L 780,260" marker-end="url(#fig-1-8-m-muted)"/>
 <rect class="dg-mask" x="204" y="316" width="120" height="40" rx="6"/>
 <rect class="dg-n dg-n-focal" x="204" y="316" width="120" height="40" rx="6"/>
 <text class="dg-name" x="264" y="338">Node drain</text>
@@ -56,6 +56,6 @@
 <text class="dg-legend" x="46" y="431">Where it starts</text>
 <rect class="dg-n dg-n-backend" x="158" y="423" width="16" height="10" rx="2"/>
 <text class="dg-legend" x="180" y="431">What each layer sees</text>
-<line class="dg-a dg-a-muted" x1="320" y1="428" x2="344" y2="428" marker-end="url(#fig-1-10-m-muted)"/>
+<line class="dg-a dg-a-muted" x1="320" y1="428" x2="344" y2="428" marker-end="url(#fig-1-8-m-muted)"/>
 <text class="dg-legend" x="352" y="431">How it shows up next</text>
 </svg></div></div>

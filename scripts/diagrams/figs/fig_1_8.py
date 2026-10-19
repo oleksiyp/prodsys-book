@@ -1,4 +1,4 @@
-"""Figure 1.10 — one bad minute crosses every layer of the stack."""
+"""Figure 1.8 — one bad minute crosses every layer of the stack."""
 from html import escape
 
 from dg import Diagram
@@ -6,8 +6,8 @@ from registry import figure
 
 
 @figure
-def fig_1_10():
-    d = Diagram("fig-1-10", 864, 452, "One bad minute crosses the stack",
+def fig_1_8():
+    d = Diagram("fig-1-8", 864, 452, "One bad minute crosses the stack",
                 "Six layers of Encore's production stack as horizontal bands. A node drain in the runtime appears "
                 "as a latency spike in telemetry, a burning error budget in the SLO layer, a page and an incident, "
                 "a review in learning, and finally a change shipped through delivery. Each layer sees only its "

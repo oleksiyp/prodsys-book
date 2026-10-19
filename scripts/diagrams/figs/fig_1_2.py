@@ -1,57 +1,50 @@
-"""Figure 1.2 — Encore's system map: people, the edge, the services, the stream and the outside parties."""
+"""Figure 1.2 — one fan's purchase on an on-sale morning, as eight numbered steps."""
 from dg import Diagram
 from registry import figure
 
 
 @figure
 def fig_1_2():
-    d = Diagram("fig-1-2", 864, 596, "Encore's system map",
-                "Fans, organizers, partners and tenants enter through the API gateway. The purchase path runs "
-                "from the Sale Gate through Bot Screening and Seat Inventory to Orders & Payments and the "
-                "external payment provider. Catalog uses a bought search product; Support uses the AI gateway "
-                "to reach model providers and asks Orders for refunds. Seat Inventory and Orders publish to "
-                "the ticket-sales.v2 stream, which Notifications, the Finance ledger and Sales Analytics consume.")
-    T, H = 56, 56
-    rows = [T, T + 88, T + 176, T + 264]          # 56, 144, 232, 320
-    P, GX, A, B, C = 24, 192, 336, 520, 704
-    # connectors first
-    for y in rows:                                 # people enter at the edge
-        d.path([(P + 128, y + 28), (GX, y + 28)])
-    d.path([(244, T), (244, 36), (596, 36), (596, T)], label="BROWSE, SEARCH, SEAT MAPS", at=1)
-    d.path([(GX + 104, T + 28), (412, T + 28), (412, rows[3])], kind="accent")   # the purchase path
-    d.path([(A + 152, rows[3] + 28), (B, rows[3] + 28)], kind="accent")
-    d.path([(B + 152, T + 28), (C, T + 28)])
-    d.path([(B + 152, rows[1] + 28), (C, rows[1] + 28)])
-    d.path([(772, rows[1] + H), (772, rows[2])])
-    d.path([(560, rows[1] + H), (560, 304), (464, 304), (464, rows[3])], label="REFUNDS", at=0, side="right")
-    d.path([(A, rows[2] + 28), (320, rows[2] + 28), (320, 416)], dashed=True)
-    d.path([(412, rows[3] + H), (412, 416)], dashed=True)
-    for cx in (412, 596, 772):
-        d.path([(cx, 456), (cx, 492)], dashed=True)
-    # people
-    d.node(P, rows[0], 128, H, "Fans", "queue, seats, wallet", "input")
-    d.node(P, rows[1], 128, H, "Organizers", "events, payouts", "input")
-    d.node(P, rows[2], 128, H, "Partners", "venues, resale apps", "input")
-    d.node(P, rows[3], 128, H, "Tenants", "venues on SaaS cells", "input")
-    # the edge
-    d.node(GX, T, 104, 320, "API gateway", "api.encore.com")
-    # services
-    d.node(A, rows[0], 152, H, "Sale Gate", "waiting room, admission")
-    d.node(A, rows[1], 152, H, "Bot Screening", "rented edge signals")
-    d.node(A, rows[2], 152, H, "Seat Inventory", "4 shards, 5-min holds", "store")
-    d.node(A, rows[3], 152, H, "Orders & Payments", "purchase saga, 3 s")
-    d.node(B, rows[0], 152, H, "Catalog", "events, seat geometry")
-    d.node(B, rows[1], 152, H, "Support", "assistant, refund agent")
-    d.node(B, rows[3], 152, H, "PSP", "cards, ~800 ms", "external")
-    d.node(C, rows[0], 136, H, "Search", "a bought product", "external")
-    d.node(C, rows[1], 136, H, "AI gateway", "routes model turns")
-    d.node(C, rows[2], 136, H, "Model providers", "frontier, cheap tier", "external")
-    d.node(312, 416, 528, 40, "ticket-sales.v2",
-           "SeatReserved · SeatSold · TicketIssued · SaleCompleted", "store")
-    d.node(A, 492, 152, 52, "Notifications", "email, wallet passes")
-    d.node(B, 492, 152, 52, "Finance ledger", "daily reconcile", "store")
-    d.node(C, 492, 136, 52, "Sales Analytics", "a consumer only")
-    d.legend([("input", "People"), ("backend", "Encore service"), ("store", "Holds the record"),
-              ("external", "Bought or outside"), ("arrow:accent", "Purchase path"),
-              ("arrow:muted:dashed", "Event, not a call")])
+    d = Diagram("fig-1-2", 864, 376, "One fan's purchase, step by step",
+                "Eight steps in two rows. The fan waits in the Sale Gate's room, is admitted at no more than about "
+                "1,200 fans a second per event, passes Bot Screening, sees a seat map whose geometry comes from "
+                "Catalog's cache and whose availability comes from Seat Inventory, holds seats for five minutes "
+                "with POST /holds, completes a checkout saga within a 3-second budget of which about 800 ms is the "
+                "payment provider, after which SeatSold and TicketIssued are published and Notifications delivers "
+                "the ticket to the fan's wallet.")
+    W, H = 180, 72
+    xs = [24, 236, 448, 660]
+    R1, R2 = 56, 216
+    d.extra.append('<text class="dg-eyebrow" x="24" y="36" style="text-anchor:start">'
+                   'ONE FAN, ON-SALE MORNING · READ ALONG THE ARROWS</text>')
+    # connectors
+    for a, b in zip(xs, xs[1:]):
+        d.path([(a + W, R1 + 36), (b, R1 + 36)])
+    d.path([(824, R1 + H), (824, R2)])
+    for a, b in zip(xs[::-1], xs[::-1][1:]):
+        d.path([(a, R2 + 36), (b + W, R2 + 36)])
+    steps = [
+        (xs[0], R1, "1 · SALE GATE", "Wait in the room", "queue position, in order", "backend",
+         "minutes, sometimes an hour;", "the room absorbs the 500×"),
+        (xs[1], R1, "2 · SALE GATE", "Admitted", "≤ ~1,200 fans/s per event", "focal",
+         "the dial that keeps every", "shard under 80% load"),
+        (xs[2], R1, "3 · BOT SCREENING", "Screened", "edge signals, velocity rules", "backend",
+         "the bots arrive first;", "real fans must pass"),
+        (xs[3], R1, "4 · CATALOG + SEAT INVENTORY", "Seat map", "shape cached, seats live", "backend",
+         "geometry: Catalog's cache", "availability: Inventory"),
+        (xs[3], R2, "5 · SEAT INVENTORY", "Hold", "POST /holds · 5-min TTL", "backend",
+         "on one of four shards, in", "the event's home region"),
+        (xs[2], R2, "6 · ORDERS & PAYMENTS", "Checkout saga", "3 s budget, ~800 ms at PSP", "focal",
+         "Idempotency-Key on the buy;", "PSP down: charge later"),
+        (xs[1], R2, "7 · TICKET-SALES.V2", "Facts published", "SeatSold, TicketIssued", "backend",
+         "SaleCompleted feeds", "Finance and Analytics"),
+        (xs[0], R2, "8 · NOTIFICATIONS", "Ticket in the wallet", "email and wallet pass", "backend",
+         "one ticket, delivered once:", "the rewrite's lesson"),
+    ]
+    for x, y, tag, name, sub, kind, n1, n2 in steps:
+        d.node(x, y, W, H, name, sub, kind, tag=tag)
+        d.note(x + 4, y + H + 20, n1)
+        d.note(x + 4, y + H + 33, n2)
+    d.legend([("backend", "Step, tagged with the service that owns it"),
+              ("focal", "The two numbers that bound the rush"), ("arrow:muted", "The fan moves on")])
     return d
