@@ -1,4 +1,4 @@
-"""Figure 15.2 — SRE team models on the context–reach trade-off."""
+"""Figure 7.2 — SRE team models on the context–reach trade-off."""
 from html import escape
 
 from dg import Diagram, label_width
@@ -14,8 +14,8 @@ MODELS = [  # name, reach, context, label side
 
 
 @figure
-def fig_15_2():
-    d = Diagram("fig-15-2", 864, 400, "SRE team models: context against reach",
+def fig_7_2():
+    d = Diagram("fig-7-2", 864, 400, "SRE team models: context against reach",
                 "A chart with reach, the number of teams a reliability engineer touches, across, and context, "
                 "depth of knowledge of one system, up. Embedded sits high on context and low on reach; central "
                 "and platform-aligned sit in the middle; consulting reaches far with little context. The four lie "

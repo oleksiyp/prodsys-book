@@ -1,7 +1,7 @@
 {
-  "name": "Running Production Systems in the AI & Cloud Era",
-  "short_name": "Prod Book",
-  "description": "A free online book on running modern production systems.",
+  "name": "Operating Production Systems in the AI & Cloud Era",
+  "short_name": "Ops Book",
+  "description": "A free online book on operating production systems: how people and machines run software, see it, respond when it fails and learn from it.",
   "start_url": "/prodsys-book/",
   "scope": "/prodsys-book/",
   "display": "standalone",

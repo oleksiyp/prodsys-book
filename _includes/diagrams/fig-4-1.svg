@@ -1,19 +1,19 @@
-<div class="dg-figure" data-fig="fig-5-1" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 408" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-5-1-title fig-5-1-desc">
-<title id="fig-5-1-title">Encore&#x27;s telemetry pipeline</title>
-<desc id="fig-5-1-desc">Gate functions, Kubernetes services and the service mesh emit telemetry through OpenTelemetry SDKs to agent collectors, which batch and forward it, keyed by trace ID, to a gateway tier. The gateway redacts what must not be stored, routes security events to their own account and tail-samples traces, keeping errors, checkouts slower than 2 s and a 10% baseline. Metrics are kept 13 months, wide events 14 days and sampled traces 30 days.</desc>
-<defs><marker id="fig-5-1-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-5-1-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-5-1-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<div class="dg-figure" data-fig="fig-4-1" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 408" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-4-1-title fig-4-1-desc">
+<title id="fig-4-1-title">Encore&#x27;s telemetry pipeline</title>
+<desc id="fig-4-1-desc">Gate functions, Kubernetes services and the service mesh emit telemetry through OpenTelemetry SDKs to agent collectors, which batch and forward it, keyed by trace ID, to a gateway tier. The gateway redacts what must not be stored, routes security events to their own account and tail-samples traces, keeping errors, checkouts slower than 2 s and a 10% baseline. Metrics are kept 13 months, wide events 14 days and sampled traces 30 days.</desc>
+<defs><marker id="fig-4-1-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-4-1-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-4-1-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
 <rect class="dg-paper" width="100%" height="100%" rx="8"/>
 <rect class="dg-zone" x="416" y="24" width="232" height="248" rx="8"/><rect class="dg-mask" x="428" y="18" width="76" height="12" rx="2"/><text class="dg-eyebrow" x="466" y="27">GATEWAY TIER</text>
-<path class="dg-a dg-a-muted" d="M 168,68 L 216,68" marker-end="url(#fig-5-1-m-muted)"/>
-<path class="dg-a dg-a-muted" d="M 168,148 L 216,148" marker-end="url(#fig-5-1-m-muted)"/>
-<path class="dg-a dg-a-muted" d="M 168,228 L 216,228" marker-end="url(#fig-5-1-m-muted)"/>
-<path class="dg-a dg-a-muted" d="M 344,68 L 432,68" marker-end="url(#fig-5-1-m-muted)"/>
-<path class="dg-a dg-a-muted" d="M 532,96 L 532,120" marker-end="url(#fig-5-1-m-muted)"/>
-<path class="dg-a dg-a-muted" d="M 532,176 L 532,200" marker-end="url(#fig-5-1-m-muted)"/>
-<path class="dg-a dg-a-muted" d="M 632,68 L 696,68" marker-end="url(#fig-5-1-m-muted)"/>
-<path class="dg-a dg-a-link" d="M 632,148 L 696,148" marker-end="url(#fig-5-1-m-link)"/>
-<path class="dg-a dg-a-accent" d="M 632,228 L 696,228" marker-end="url(#fig-5-1-m-accent)"/>
-<path class="dg-a dg-a-accent" d="M 532,256 L 532,316 Q 532,324 540,324 L 696,324" marker-end="url(#fig-5-1-m-accent)"/>
+<path class="dg-a dg-a-muted" d="M 168,68 L 216,68" marker-end="url(#fig-4-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 168,148 L 216,148" marker-end="url(#fig-4-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 168,228 L 216,228" marker-end="url(#fig-4-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 344,68 L 432,68" marker-end="url(#fig-4-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 532,96 L 532,120" marker-end="url(#fig-4-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 532,176 L 532,200" marker-end="url(#fig-4-1-m-muted)"/>
+<path class="dg-a dg-a-muted" d="M 632,68 L 696,68" marker-end="url(#fig-4-1-m-muted)"/>
+<path class="dg-a dg-a-link" d="M 632,148 L 696,148" marker-end="url(#fig-4-1-m-link)"/>
+<path class="dg-a dg-a-accent" d="M 632,228 L 696,228" marker-end="url(#fig-4-1-m-accent)"/>
+<path class="dg-a dg-a-accent" d="M 532,256 L 532,316 Q 532,324 540,324 L 696,324" marker-end="url(#fig-4-1-m-accent)"/>
 <rect class="dg-mask" x="352" y="48" width="72" height="12" rx="2"/><text class="dg-label" x="388" y="57">BY TRACE ID</text>
 <rect class="dg-mask" x="24" y="40" width="144" height="56" rx="6"/>
 <rect class="dg-n dg-n-input" x="24" y="40" width="144" height="56" rx="6"/>
@@ -70,6 +70,6 @@
 <text class="dg-legend" x="436" y="387">Backend · retention</text>
 <rect class="dg-n dg-n-external" x="570" y="379" width="16" height="10" rx="2"/>
 <text class="dg-legend" x="592" y="387">Isolated</text>
-<line class="dg-a dg-a-accent" x1="664" y1="384" x2="688" y2="384" marker-end="url(#fig-5-1-m-accent)"/>
+<line class="dg-a dg-a-accent" x1="664" y1="384" x2="688" y2="384" marker-end="url(#fig-4-1-m-accent)"/>
 <text class="dg-legend" x="696" y="387">Sampled</text>
 </svg></div></div>

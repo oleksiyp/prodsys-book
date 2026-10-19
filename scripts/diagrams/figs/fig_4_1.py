@@ -1,11 +1,11 @@
-"""Figure 5.1: Encore's OpenTelemetry pipeline, from SDKs through two collector tiers to backends."""
+"""Figure 4.1: Encore's OpenTelemetry pipeline, from SDKs through two collector tiers to backends."""
 from dg import Diagram
 from registry import figure
 
 
 @figure
-def fig_5_1():
-    d = Diagram("fig-5-1", 864, 408, "Encore's telemetry pipeline",
+def fig_4_1():
+    d = Diagram("fig-4-1", 864, 408, "Encore's telemetry pipeline",
                 "Gate functions, Kubernetes services and the service mesh emit telemetry through OpenTelemetry "
                 "SDKs to agent collectors, which batch and forward it, keyed by trace ID, to a gateway tier. The "
                 "gateway redacts what must not be stored, routes security events to their own account and tail-"

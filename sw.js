@@ -1,4 +1,4 @@
-const CACHE = 'prodsys-book-v1';
+const CACHE = 'prodsys-book-v2';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(

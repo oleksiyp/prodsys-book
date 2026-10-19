@@ -1,4 +1,4 @@
-"""Figure 15.5 — the Friday of the added dates, from curtain-up to sold out."""
+"""Figure 7.5 — the Friday of the added dates, from curtain-up to sold out."""
 from dg import Diagram, label_width
 from chartkit import Plot
 from registry import figure
@@ -18,8 +18,8 @@ def budget(t):
 
 
 @figure
-def fig_15_5():
-    d = Diagram("fig-15-5", 864, 424, "The added dates' Friday morning",
+def fig_7_5():
+    d = Diagram("fig-7-5", 864, 424, "The added dates' Friday morning",
                 "A timeline of the Friday, with the morning before 10:00 compressed: curtain-up at 07:30, the "
                 "freeze at 08:00 with two exceptions registered, and at 09:40 a pre-warm check that timed out and "
                 "was rerun by hand. From 10:00 the Gate is open; at 10:09 a Dutch bank's card authentication "

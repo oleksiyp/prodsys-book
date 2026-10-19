@@ -1,4 +1,4 @@
-"""Figure 13.5 — the hierarchy of controls, with Encore's actions placed on it."""
+"""Figure 6.5 — the hierarchy of controls, with Encore's actions placed on it."""
 from dg import Diagram
 from registry import figure
 
@@ -17,8 +17,8 @@ BANDS = [
 
 
 @figure
-def fig_13_5():
-    d = Diagram("fig-13-5", 864, 412, "The hierarchy of controls at Encore",
+def fig_6_5():
+    d = Diagram("fig-6-5", 864, 412, "The hierarchy of controls at Encore",
                 "An inverted pyramid of five kinds of remedy, from the most reliable at the top to the least at "
                 "the bottom: eliminate the hazard, substitute something safer, engineer a barrier, add procedure "
                 "and training, and remind people. Beside each level sits the Encore change from the Vesper Hale "

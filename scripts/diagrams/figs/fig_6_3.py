@@ -1,4 +1,4 @@
-"""Figure 13.3 — freeze exceptions per quarter, and the running total nobody kept."""
+"""Figure 6.3 — freeze exceptions per quarter, and the running total nobody kept."""
 from dg import Diagram
 from chartkit import Plot
 from registry import figure
@@ -7,8 +7,8 @@ Q = [3, 11, 13, 14]
 
 
 @figure
-def fig_13_3():
-    d = Diagram("fig-13-3", 864, 352, "Freeze exceptions in the year before Vesper Hale",
+def fig_6_3():
+    d = Diagram("fig-6-3", 864, 352, "Freeze exceptions in the year before Vesper Hale",
                 "Bar chart of change-freeze exceptions granted in chat per quarter over the year before the "
                 "Vesper Hale on-sale: 3, 11, 13 and 14, with a running total that reaches 41. None was followed "
                 "by an incident, and no one was counting.")

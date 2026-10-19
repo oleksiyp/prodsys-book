@@ -79,12 +79,12 @@ const Lab = (() => {
   };
   const SERIF = 'Source Serif 4', MONO = 'IBM Plex Mono';
   const TEXT = {
-    t1: 'RUNNING', t2: 'PRODUCTION SYSTEMS', t3: 'in the AI & Cloud Era',
-    sub: 'How people and machines keep software running',
+    t1: 'OPERATING', t2: 'PRODUCTION SYSTEMS', t3: 'in the AI & Cloud Era',
+    sub: 'When production fails',
     author: 'OLEKSIY PYLYPENKO', authorShort: 'PYLYPENKO',
     hook: 'Every system leaves the hands of its designers and enters a world they cannot fully foresee.',
-    p1: 'The techniques of running software have changed almost completely in fifteen years: cloud runtimes, SLOs, observability, infrastructure as code, progressive delivery, chaos engineering, blameless review, and now AI that reads our telemetry and writes our changes. The problems beneath them have not changed at all.',
-    p2: 'Fifteen chapters root each modern technique in the older lessons that explain it: safety science, the ironies of automation, control theory and queueing. One concert-ticketing company, one incident that runs through the book, and a kata in every chapter.',
+    p1: 'Production is run by people and machines together, and when it fails it fails in ways no single part explains. This book is about the operators: how they see a system, how automation and AI agents change their work, how they respond under pressure, and how organizations learn.',
+    p2: 'Seven chapters root modern operations in the lessons of safety science, from Three Mile Island to Challenger and Apollo. One concert-ticketing company, one incident fought live and analysed, and a kata in every chapter.',
     foot: 'oleksiyp.github.io/prodsys-book',
   };
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');

@@ -1,7 +1,7 @@
-<div class="dg-figure" data-fig="fig-13-3" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 352" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-13-3-title fig-13-3-desc">
-<title id="fig-13-3-title">Freeze exceptions in the year before Vesper Hale</title>
-<desc id="fig-13-3-desc">Bar chart of change-freeze exceptions granted in chat per quarter over the year before the Vesper Hale on-sale: 3, 11, 13 and 14, with a running total that reaches 41. None was followed by an incident, and no one was counting.</desc>
-<defs><marker id="fig-13-3-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-13-3-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-13-3-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<div class="dg-figure" data-fig="fig-6-3" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 352" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-6-3-title fig-6-3-desc">
+<title id="fig-6-3-title">Freeze exceptions in the year before Vesper Hale</title>
+<desc id="fig-6-3-desc">Bar chart of change-freeze exceptions granted in chat per quarter over the year before the Vesper Hale on-sale: 3, 11, 13 and 14, with a running total that reaches 41. None was followed by an incident, and no one was counting.</desc>
+<defs><marker id="fig-6-3-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-6-3-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-6-3-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
 <rect class="dg-paper" width="100%" height="100%" rx="8"/>
 <line class="dg-grid" x1="72" y1="256.0" x2="816" y2="256.0"/>
 <line class="dg-grid" x1="72" y1="209.8" x2="816" y2="209.8"/>
@@ -48,6 +48,6 @@
 <line class="dg-rule" x1="24" y1="312" x2="840" y2="312"/>
 <rect class="dg-n dg-n-backend" x="24" y="323" width="16" height="10" rx="2"/>
 <text class="dg-legend" x="46" y="331">Exceptions that quarter</text>
-<line class="dg-a dg-a-accent" x1="202" y1="328" x2="226" y2="328" marker-end="url(#fig-13-3-m-accent)"/>
+<line class="dg-a dg-a-accent" x1="202" y1="328" x2="226" y2="328" marker-end="url(#fig-6-3-m-accent)"/>
 <text class="dg-legend" x="234" y="331">Running total, kept by nobody</text>
 </svg></div></div>

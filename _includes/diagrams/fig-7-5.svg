@@ -1,7 +1,7 @@
-<div class="dg-figure" data-fig="fig-15-5" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 424" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-15-5-title fig-15-5-desc">
-<title id="fig-15-5-title">The added dates&#x27; Friday morning</title>
-<desc id="fig-15-5-desc">A timeline of the Friday, with the morning before 10:00 compressed: curtain-up at 07:30, the freeze at 08:00 with two exceptions registered, and at 09:40 a pre-warm check that timed out and was rerun by hand. From 10:00 the Gate is open; at 10:09 a Dutch bank&#x27;s card authentication slows, the slow burn-rate alert fires and the commander decides not to act; the window&#x27;s error budget spent climbs to about 22%, and all four dates sell out within the hour.</desc>
-<defs><marker id="fig-15-5-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-15-5-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-15-5-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<div class="dg-figure" data-fig="fig-7-5" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 424" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-7-5-title fig-7-5-desc">
+<title id="fig-7-5-title">The added dates&#x27; Friday morning</title>
+<desc id="fig-7-5-desc">A timeline of the Friday, with the morning before 10:00 compressed: curtain-up at 07:30, the freeze at 08:00 with two exceptions registered, and at 09:40 a pre-warm check that timed out and was rerun by hand. From 10:00 the Gate is open; at 10:09 a Dutch bank&#x27;s card authentication slows, the slow burn-rate alert fires and the commander decides not to act; the window&#x27;s error budget spent climbs to about 22%, and all four dates sell out within the hour.</desc>
+<defs><marker id="fig-7-5-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-7-5-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-7-5-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
 <rect class="dg-paper" width="100%" height="100%" rx="8"/>
 <line class="dg-axis" x1="72" y1="328" x2="344" y2="328"/>
 <line class="dg-axis" x1="72" y1="328" x2="72" y2="96"/>
@@ -50,8 +50,8 @@
 <line class="dg-series dg-s-soft" x1="442.0" y1="96" x2="442.0" y2="328" stroke-dasharray="5 4"/>
 <path class="dg-ill-soft" d="M 350,333 L 356,323 M 358,333 L 364,323"/>
 <line class="dg-rule" x1="24" y1="384" x2="840" y2="384"/>
-<line class="dg-a dg-a-accent" x1="24" y1="400" x2="48" y2="400" marker-end="url(#fig-15-5-m-accent)"/>
+<line class="dg-a dg-a-accent" x1="24" y1="400" x2="48" y2="400" marker-end="url(#fig-7-5-m-accent)"/>
 <text class="dg-legend" x="56" y="403">Window error budget spent</text>
-<line class="dg-a dg-a-muted" x1="224" y1="400" x2="248" y2="400" marker-end="url(#fig-15-5-m-muted)"/>
+<line class="dg-a dg-a-muted" x1="224" y1="400" x2="248" y2="400" marker-end="url(#fig-7-5-m-muted)"/>
 <text class="dg-legend" x="256" y="403">Event (dashed line)</text>
 </svg></div></div>

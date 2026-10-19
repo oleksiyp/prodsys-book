@@ -10,7 +10,7 @@
     <meta name="theme-color" content="#f3f1ec" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#1b1f3b" media="(prefers-color-scheme: dark)">
     <meta property="og:image" content="{{ '/assets/og-banner.png' | absolute_url }}?v=3"/>
-    <meta property="og:image:alt" content="The book cover of Running Production Systems in the AI &amp; Cloud Era: rows of telemetry traces drawn as outlined lines, one vermilion trace spiking"/>
+    <meta property="og:image:alt" content="The book cover of Operating Production Systems in the AI &amp; Cloud Era: rows of telemetry traces drawn as outlined lines, one vermilion trace spiking"/>
     <meta property="og:image:width" content="1200"/>
     <meta property="og:image:height" content="630"/>
     <meta name="twitter:card" content="summary_large_image"/>
@@ -22,7 +22,7 @@
     <link rel="apple-touch-icon" href="{{ '/assets/icons/apple-touch-icon.png' | relative_url }}?v=3">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Prod Book">
+    <meta name="apple-mobile-web-app-title" content="Ops Book">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     {% if site.google_analytics != "" %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css"/>
@@ -107,7 +107,7 @@
     <div class="book-hero__text">
         <h1 class="project-name"><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
         <h2 class="project-tagline">{{ site.tag_line | default: site.description }}</h2>
-        {% if is_home %}<p class="book-hero__meta">15 chapters · free to read online · by Oleksiy Pylypenko</p>
+        {% if is_home %}<p class="book-hero__meta">7 chapters · free to read online · by Oleksiy Pylypenko</p>
         <p class="book-hero__actions"><a class="book-hero__cta" href="#preface">Start reading</a>{% if site.newsletter_api != "" %}<button type="button" class="book-hero__digest" data-newsletter-open hidden><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.5 3h13v10h-13V3zm1.2 1.2v.3L8 8.3l5.3-3.8v-.3H2.7zm10.6 1.8L8 9.8 2.7 6v5.8h10.6V6z"/></svg><span>Weekly digest</span></button>{% endif %}<button type="button" class="book-hero__share"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .8l3.2 3.2-.75.75L8.5 2.8V10h-1V2.8L5.55 4.75 4.8 4 8 .8z"/><path d="M3 6.5h2.5v1H4v6.5h8V7.5h-1.5v-1H13v8.5H3V6.5z"/></svg><span>Share</span></button><span class="book-hero__hint">Tap the book to open it, drag to turn it</span></p>
         {% else %}<button type="button" class="book-hero__share book-hero__share--compact" aria-label="Share this chapter"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .8l3.2 3.2-.75.75L8.5 2.8V10h-1V2.8L5.55 4.75 4.8 4 8 .8z"/><path d="M3 6.5h2.5v1H4v6.5h8V7.5h-1.5v-1H13v8.5H3V6.5z"/></svg><span>Share</span></button>{% endif %}
     </div>
@@ -118,7 +118,7 @@
 </section>
 {% if site.newsletter_api != "" %}
 <section class="nl-inline" hidden aria-labelledby="nl-inline-title">
-    <h2 id="nl-inline-title">Prod Book weekly</h2>
+    <h2 id="nl-inline-title">Ops Book weekly</h2>
     <div class="nl-box"></div>
 </section>
 {% endif %}
@@ -136,8 +136,8 @@
         <div class="footer-section">
             <div class="footer-brand">{{ site.title }}</div>
             <p class="footer-description">
-                A free online book on running modern production systems — from safety
-                science to the incident review, one running example all the way.
+                A free online book on operating production systems — how people
+                and machines run software, respond when it fails, and learn.
             </p>
         </div>
 
@@ -242,8 +242,8 @@
     function shareBook(feedbackEl) {
         if (window.gtag) window.gtag('event', 'share_click');
         var data = {
-            title: 'Running Production Systems in the AI & Cloud Era',
-            text: 'A free online book on running modern production systems.',
+            title: 'Operating Production Systems in the AI & Cloud Era',
+            text: 'A free online book on operating production systems: how people and machines run software, see it, respond when it fails and learn from it.',
             url: location.origin + location.pathname
         };
         if (navigator.share) {
@@ -1001,9 +1001,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var wrap = { url: el.dataset.cover, W: 1295, H: 925,
         back: { x: 12.5, y: 12.5, w: 600, h: 900 }, spine: { x: 612.5, y: 12.5, w: 70, h: 900 }, front: { x: 682.5, y: 12.5, w: 600, h: 900 } };
     var titlePage = '<div class="book-tp"><div class="book-tp__kicker">A free online book</div>' +
-        '<div class="book-tp__title">Running Production Systems <span>in the AI &amp; Cloud Era</span></div>' +
-        '<div class="book-tp__sub">Reliability is something people and machines keep producing together</div>' +
-        '<ol class="book-tp__arc"><li>Foundations &amp; safety science</li><li>Knowing, running, changing</li><li>Withstanding, responding, learning</li><li>AI workloads &amp; the organization</li></ol>' +
+        '<div class="book-tp__title">Operating Production Systems <span>in the AI &amp; Cloud Era</span></div>' +
+        '<div class="book-tp__sub">When production fails</div>' +
+        '<ol class="book-tp__arc"><li>What production is</li><li>Safety science &amp; automation</li><li>Seeing &amp; responding</li><li>Learning &amp; the organization</li></ol>' +
         '<a class="book-tp__go" href="#preface">Start reading &rarr;</a><div class="book-tp__author">Oleksiy Pylypenko</div></div>';
     el.classList.add('is-live');
     // Installed app (no browser chrome): show the header's Share button. iOS reports this via navigator.standalone.

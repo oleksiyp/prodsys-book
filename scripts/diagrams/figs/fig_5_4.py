@@ -1,4 +1,4 @@
-"""Figure 12.4: the Vesper Hale on-sale as a chart: admission rate, the degraded window and the canonical events."""
+"""Figure 5.4: the Vesper Hale on-sale as a chart: admission rate, the degraded window and the canonical events."""
 from dg import Diagram, label_width
 from chartkit import Plot
 from html import escape
@@ -12,7 +12,7 @@ EVENTS = [(-8, "09:52 CATALOG DEPLOY"), (0, "10:00 GATE OPENS"), (2, "10:02 DRAI
 
 
 @figure
-def fig_12_4():
+def fig_5_4():
     # x in minutes after 10:00
     p_x, p_w, xr = 72, 744, (-10, 80)
     px = lambda m: p_x + (m - xr[0]) / (xr[1] - xr[0]) * p_w
@@ -26,7 +26,7 @@ def fig_12_4():
     nrows = max(rows.values()) + 1
     lane = 292
     height = lane + nrows * 18 + 16
-    d = Diagram("fig-12-4", 864, height, "The Vesper Hale on-sale, 09:50 to 11:20",
+    d = Diagram("fig-5-4", 864, height, "The Vesper Hale on-sale, 09:50 to 11:20",
                 "The Sale Gate's admission rate per event: 1,500 fans per second from 10:00, lowered to 900 at "
                 "10:19 and returned to 1,200 at 11:10. Checkout was degraded from 10:00 to 10:47. Below the "
                 "chart, the events of the response at their logged times; the incident was resolved at 12:00.")

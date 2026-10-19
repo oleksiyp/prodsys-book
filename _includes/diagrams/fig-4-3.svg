@@ -1,0 +1,82 @@
+<div class="dg-figure" data-fig="fig-4-3" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 364" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-4-3-title fig-4-3-desc">
+<title id="fig-4-3-title">One fan&#x27;s purchase as a waterfall</title>
+<desc id="fig-4-3-desc">The trace of Figure 4.2 drawn to scale against the 3 s checkout budget. The checkout takes 1,140 ms; inside the purchase saga the PSP authorization takes 640 ms of its 800 ms share. Ticket issuance starts 4.2 s after the checkout began, in its own trace, joined by a span link from the SeatSold write rather than as a child.</desc>
+<defs><marker id="fig-4-3-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-4-3-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-4-3-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
+<rect class="dg-paper" width="100%" height="100%" rx="8"/>
+<rect class="dg-area dg-ar-soft" x="272.0" y="182" width="128.0" height="24"/>
+<line class="dg-axis" x1="248" y1="272" x2="744.0" y2="272"/>
+<line class="dg-axis" x1="752" y1="272" x2="840" y2="272"/>
+<path class="dg-ill-soft" d="M 740.0,277 l 8,-10 M 748,277 l 8,-10"/>
+<line class="dg-axis" x1="248.0" y1="272" x2="248.0" y2="276"/>
+<text class="dg-tick" x="248.0" y="288" text-anchor="middle">0</text>
+<line class="dg-axis" x1="328.0" y1="272" x2="328.0" y2="276"/>
+<text class="dg-tick" x="328.0" y="288" text-anchor="middle">500</text>
+<line class="dg-axis" x1="408.0" y1="272" x2="408.0" y2="276"/>
+<text class="dg-tick" x="408.0" y="288" text-anchor="middle">1,000</text>
+<line class="dg-axis" x1="488.0" y1="272" x2="488.0" y2="276"/>
+<text class="dg-tick" x="488.0" y="288" text-anchor="middle">1,500</text>
+<line class="dg-axis" x1="568.0" y1="272" x2="568.0" y2="276"/>
+<text class="dg-tick" x="568.0" y="288" text-anchor="middle">2,000</text>
+<line class="dg-axis" x1="648.0" y1="272" x2="648.0" y2="276"/>
+<text class="dg-tick" x="648.0" y="288" text-anchor="middle">2,500</text>
+<line class="dg-axis" x1="728.0" y1="272" x2="728.0" y2="276"/>
+<text class="dg-tick" x="728.0" y="288" text-anchor="middle">3,000</text>
+<line class="dg-axis" x1="768.0" y1="272" x2="768.0" y2="276"/>
+<text class="dg-tick" x="768.0" y="288" text-anchor="middle">+4.2 s</text>
+<line class="dg-axis" x1="832.0" y1="272" x2="832.0" y2="276"/>
+<text class="dg-tick" x="832.0" y="288" text-anchor="middle">+4.6 s</text>
+<text class="dg-axis-label" x="728.0" y="304" text-anchor="end">MILLISECONDS SINCE THE FAN PRESSED BUY</text>
+<line class="dg-grid" x1="24" y1="68" x2="840" y2="68"/>
+<line class="dg-grid" x1="24" y1="96" x2="840" y2="96"/>
+<line class="dg-grid" x1="24" y1="124" x2="840" y2="124"/>
+<line class="dg-grid" x1="24" y1="152" x2="840" y2="152"/>
+<line class="dg-grid" x1="24" y1="180" x2="840" y2="180"/>
+<line class="dg-grid" x1="24" y1="208" x2="840" y2="208"/>
+<line class="dg-grid" x1="24" y1="236" x2="840" y2="236"/>
+<line class="dg-grid" x1="24" y1="264" x2="840" y2="264"/>
+<path class="dg-a dg-a-link dg-dash" d="M 384,229 L 384,242 Q 384,250 392,250 L 766,250" marker-end="url(#fig-4-3-m-link)"/>
+<rect class="dg-mask" x="444" y="188" width="184" height="12" rx="2"/><text class="dg-label" x="536" y="197">PSP SHARE OF THE BUDGET · 800 MS</text>
+<rect class="dg-mask" x="608" y="42" width="112" height="12" rx="2"/><text class="dg-label" x="664" y="51">3 S CHECKOUT BUDGET</text>
+<rect class="dg-mask" x="507" y="230" width="136" height="12" rx="2"/><text class="dg-label dg-l-link" x="575" y="239">SPAN LINK · NOT A CHILD</text>
+<line class="dg-series dg-s-soft" x1="728.0" y1="32" x2="728.0" y2="272" stroke-dasharray="5 4"/>
+<rect class="dg-n dg-n-backend" x="248.0" y="47" width="182.4" height="14" rx="2"/>
+<rect class="dg-n dg-n-backend" x="248.6" y="75" width="2.0" height="14" rx="2"/>
+<rect class="dg-n dg-n-backend" x="250.9" y="103" width="5.6" height="14" rx="2"/>
+<rect class="dg-n dg-n-backend" x="257.0" y="131" width="7.7" height="14" rx="2"/>
+<rect class="dg-n dg-n-backend" x="265.3" y="159" width="163.2" height="14" rx="2"/>
+<rect class="dg-n dg-n-focal" x="272.0" y="187" width="102.4" height="14" rx="2"/>
+<rect class="dg-n dg-n-backend" x="380.8" y="215" width="5.0" height="14" rx="2"/>
+<rect class="dg-n dg-n-optional" x="768.0" y="243" width="60.8" height="14" rx="2" stroke-dasharray="4,3"/>
+<text class="dg-note" x="24" y="57" text-anchor="start">POST /checkout</text>
+<text class="dg-tick" x="236" y="57" text-anchor="end">API gateway</text>
+<text class="dg-tick" x="436.4" y="57" text-anchor="start">1,140 ms</text>
+<text class="dg-note" x="36" y="85" text-anchor="start">admission.verify</text>
+<text class="dg-tick" x="236" y="85" text-anchor="end">Sale Gate</text>
+<text class="dg-tick" x="256.6" y="85" text-anchor="start">12 ms</text>
+<text class="dg-note" x="36" y="113" text-anchor="start">bot.score</text>
+<text class="dg-tick" x="236" y="113" text-anchor="end">Bot Screening</text>
+<text class="dg-tick" x="262.5" y="113" text-anchor="start">35 ms</text>
+<text class="dg-note" x="36" y="141" text-anchor="start">inventory.Hold</text>
+<text class="dg-tick" x="236" y="141" text-anchor="end">Seat Inventory</text>
+<text class="dg-tick" x="270.6" y="141" text-anchor="start">48 ms</text>
+<text class="dg-note" x="36" y="169" text-anchor="start">saga.purchase</text>
+<text class="dg-tick" x="236" y="169" text-anchor="end">Orders</text>
+<text class="dg-tick" x="434.5" y="169" text-anchor="start">1,020 ms</text>
+<text class="dg-note" x="48" y="197" text-anchor="start">psp.authorize</text>
+<text class="dg-tick" x="236" y="197" text-anchor="end">Orders · PSP</text>
+<text class="dg-tick" x="380.4" y="197" text-anchor="start">640 ms</text>
+<text class="dg-note" x="48" y="225" text-anchor="start">inventory.Sell</text>
+<text class="dg-tick" x="236" y="225" text-anchor="end">Seat Inventory</text>
+<text class="dg-tick" x="391.8" y="225" text-anchor="start">31 ms</text>
+<text class="dg-note" x="24" y="253" text-anchor="start">ticket.issue</text>
+<text class="dg-tick" x="236" y="253" text-anchor="end">Notification</text>
+<line class="dg-rule" x1="24" y1="324" x2="840" y2="324"/>
+<rect class="dg-n dg-n-backend" x="24" y="335" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="46" y="343">Span</text>
+<rect class="dg-n dg-n-focal" x="96" y="335" width="16" height="10" rx="2"/>
+<text class="dg-legend" x="118" y="343">The PSP call</text>
+<rect class="dg-n dg-n-optional" x="213" y="335" width="16" height="10" rx="2" stroke-dasharray="4,3"/>
+<text class="dg-legend" x="235" y="343">Its own trace, linked</text>
+<line class="dg-a dg-a-link dg-dash" x1="380" y1="340" x2="404" y2="340" marker-end="url(#fig-4-3-m-link)"/>
+<text class="dg-legend" x="412" y="343">Span link</text>
+</svg></div></div>
