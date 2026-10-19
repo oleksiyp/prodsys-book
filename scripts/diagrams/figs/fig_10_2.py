@@ -34,9 +34,9 @@ def fig_10_2():
     for (name, sub), y in zip(rows, ys):
         d.extra.append(f'<text class="dg-name" x="104" y="{y + 10}">{name}</text>'
                        f'<text class="dg-sub" x="104" y="{y + 23}">{sub}</text>')
-    # seat ledger: RPO 0, RTO minutes (promotion took about 4 min at the game day)
+    # seat ledger: RPO 0, RTO minutes (election and re-routing took about 4 min at the game day)
     bar(ys[0], 0, 4 / 60, "backend")
-    d.note(int(p.px(2.2)), ys[0] + 16, "RPO 0 (synchronous) · RTO minutes")
+    d.note(int(p.px(2.2)), ys[0] + 16, "RPO 0 (majority commit) · RTO minutes")
     # Finance promise
     bar(ys[1], -0.25, 0, "store")
     bar(ys[1], 0, 2, "backend")

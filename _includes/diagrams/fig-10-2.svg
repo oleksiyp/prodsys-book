@@ -34,7 +34,7 @@
 <text class="dg-name" x="104" y="134">Finance ledger</text><text class="dg-sub" x="104" y="147">promised</text>
 <text class="dg-name" x="104" y="186">Finance, drill 1</text><text class="dg-sub" x="104" y="199">spring · 4.2 TB</text>
 <text class="dg-name" x="104" y="238">Finance, drill 2</text><text class="dg-sub" x="104" y="251">current year first</text>
-<text class="dg-note" x="386" y="88" text-anchor="start">RPO 0 (synchronous) · RTO minutes</text>
+<text class="dg-note" x="386" y="88" text-anchor="start">RPO 0 (majority commit) · RTO minutes</text>
 <text class="dg-note" x="386" y="140" text-anchor="start">RPO 15 min · RTO 2 h</text>
 <text class="dg-note" x="773" y="192" text-anchor="end">~9 h: approvals, I/O, verification</text>
 <text class="dg-note" x="386" y="244" text-anchor="start">1 h 50 min · history follows, within a day →</text>

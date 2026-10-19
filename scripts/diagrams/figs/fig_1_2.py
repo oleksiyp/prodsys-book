@@ -35,7 +35,7 @@ def fig_1_2():
         (xs[3], R2, "5 · SEAT INVENTORY", "Hold", "POST /holds · 5-min TTL", "backend",
          "on one of four shards, in", "the event's home region"),
         (xs[2], R2, "6 · ORDERS & PAYMENTS", "Checkout saga", "3 s budget, ~800 ms at PSP", "focal",
-         "Idempotency-Key on the buy;", "PSP down: charge later"),
+         "Idempotency-Key on the buy;", "PSP down: the second PSP"),
         (xs[1], R2, "7 · TICKET-SALES.V2", "Facts published", "SeatSold, TicketIssued", "backend",
          "SaleCompleted feeds", "Finance and Analytics"),
         (xs[0], R2, "8 · NOTIFICATIONS", "Ticket in the wallet", "email and wallet pass", "backend",

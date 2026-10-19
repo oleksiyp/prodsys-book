@@ -89,7 +89,7 @@ The honest answer is that people have always run code they did not write. How to
 
 Encore is our companion again, as it was throughout [the Architecture book](https://oleksiyp.github.io/arch-book/#encore-our-running-example), which followed it from nine engineers to 400. For most of the week it could pass for an ordinary online shop, selling seats at concerts across Europe, in euros. Then a famous artist's tour goes on sale, nearly always at 10:00 on a Friday, and within minutes the traffic stands at 500 times its weekday level. A million people want a few thousand seats; every seat must be sold exactly once, never lost and never sold twice in a race; and the bots arrive before the fans do, because a reseller's scripts are faster and more numerous than any person. Nearly every structure in Encore exists to answer one of those demands, and most of this book's trouble is found where they pull against one another.
 
-A box office on such a morning has a crowd problem before it has a ticketing problem, and Encore is built accordingly. Figure 1.1 is the map, and the part of it that matters most is short. The fan's **purchase path** begins at the **Sale Gate**, Encore's virtual waiting room, where fans meet a queue instead of a seat map and are let through at a metered rate, about 1,200 a second per event, chosen so that nothing behind the Gate runs hot. That makes the Gate an **admission controller**, a component that protects a scarce resource by deciding how much work may reach it, and its rate is the most powerful single control Encore has. Beside the door stands **Bot Screening**, judging session by session whether it faces a fan or a script. Past them, **Seat Inventory** is the one authority on whether a seat is free: it holds a fan's chosen seats for five minutes and sells each one once, whatever else is failing. **Orders & Payments** turns the hold into a sale within a 3 s checkout budget, calling an external payment service provider (PSP) whose slowness once took the whole site down, a story [the Architecture book](https://oleksiyp.github.io/arch-book/#anatomy-of-a-self-inflicted-outage) told and Chapter 2 reads again.
+A box office on such a morning has a crowd problem before it has a ticketing problem, and Encore is built accordingly. Figure 1.1 is the map, and the part of it that matters most is short. The fan's **purchase path** begins at the **Sale Gate**, Encore's virtual waiting room, where fans meet a queue instead of a seat map and are let through at a metered rate, about 1,200 a second per event, chosen so that nothing behind the Gate runs hot. That makes the Gate an **admission controller**, a component that protects a scarce resource by deciding how much work may reach it, and its rate is the most powerful single control Encore has. Beside the door stands **Bot Screening**, judging session by session whether it faces a fan or a script. Past them, **Seat Inventory** is the one authority on whether a seat is free: it holds a fan's chosen seats for five minutes and sells each one once, whatever else is failing. **Orders & Payments** turns the hold into a sale within a 3 s checkout budget, calling an external payment service provider (PSP), with a second provider ready to take new payments if the first falters; the PSP's slowness once took the whole site down, a story [the Architecture book](https://oleksiyp.github.io/arch-book/#anatomy-of-a-self-inflicted-outage) told and Chapter 2 reads again.
 
 {% include diagrams/fig-1-1.svg %}
 
@@ -105,7 +105,7 @@ Forty teams build these services and carry their own pagers, standing on a platf
 
 {% include diagrams/fig-1-3.svg %}
 
-*Figure 1.3 — Where Encore runs: two EU regions of Kubernetes cells and serverless edges, reconciled from one Git repository. The single synchronous line between the regions is why losing one loses no sale.*
+*Figure 1.3 — Where Encore runs: two EU regions of Kubernetes cells and serverless edges, reconciled from one Git repository. The seat ledger commits each write to a majority of five replicas in three locations, two in each region and a witness in a third, which is why losing a region loses no sale.*
 
 Ahead lies a Friday the whole book circles: the on-sale for Vesper Hale, a fictional artist whose 12-date European tour will bring about 1.1 million fans to the Gate in the same minute. Chapter 12 fights it and Chapter 13 learns from it, and the chapters before them keep noticing small, reasonable decisions that will matter that morning. Everything else in Encore, from its tenants and cells to the change freeze and the assistant in the incident channel, is introduced in the chapter where it first does something, and [the appendix](/prodsys-book/#encore-glance) keeps a glossary for the reader who wants it all on one page.
 
@@ -356,7 +356,7 @@ His most uncomfortable observation concerned safety devices. Every alarm, interl
 
 Encore's first big outage, told in [the Architecture book](https://oleksiyp.github.io/arch-book/#anatomy-of-a-self-inflicted-outage), looks different through Perrow's eyes. The external payment service provider (PSP) slowed from 200 ms to 8 s. Each request held its connection 40 times longer, so connection pools ran dry; health checks sharing those pools began to fail; healthy instances were restarted, and the autoscaler, reading the failures as a need for capacity, added instances that opened still more connections to a provider that could not serve them. Retries at several layers multiplied the load on everything.
 
-Every element there was a safety device. Health checks remove sick instances, autoscalers absorb load, retries ride out transient faults; each was sensible alone, and their interaction through shared pools appeared on no diagram, which is interactive complexity in its purest form. The purchase path was also tightly coupled to the PSP: a synchronous call, with no buffer between a fan's click and a bank's reply, inside a 3 s checkout budget. Accepting orders when the PSP is down and charging later was therefore not a bug fix. It moved the purchase path out of the top-right cell by loosening a coupling, buying time with a durable queue, while retry budgets and a single retry layer reduced the interactions. Neither made failure impossible, and neither was meant to.
+Every element there was a safety device. Health checks remove sick instances, autoscalers absorb load, retries ride out transient faults; each was sensible alone, and their interaction through shared pools appeared on no diagram, which is interactive complexity in its purest form. The purchase path was also tightly coupled to the PSP: a synchronous call, with no buffer between a fan's click and a bank's reply, inside a 3 s checkout budget. Giving Orders & Payments a second PSP, to which new payments move when the first falters, was therefore not a bug fix. It moved the purchase path out of the top-right cell by loosening a coupling, since Perrow counted substitutable supplies among the marks of a loosely coupled system, and when both providers falter a verified fan's seats are held while payment is pending rather than lost; retry budgets and a single retry layer, meanwhile, reduced the interactions. Neither made failure impossible, and neither was meant to.
 
 What I take from Perrow is not his pessimism, which the high-reliability school later challenged with studies of aircraft carriers and air traffic control. It is his diagnostic: before asking who failed, ask which cell of the chart the system was in. A system in the top-right cell will surprise its operators, and our job is to design for the surprise.
 
@@ -827,7 +827,7 @@ A **service level indicator (SLI)** is a measurement of service, expressed as th
 
 That test points away from components and toward **user journeys**, the sequences of steps a user takes to get something done: join the waiting room, see the seat map, hold seats, check out, receive tickets. Each indicator for a journey must define what counts as an event, what counts as good and where it is measured.
 
-Take checkout. A naive SLI counts HTTP 5xx responses from the Orders service, which runs the purchase saga and calls the payment provider, and gets two cases wrong. When a fan's card is declined, the system has worked correctly, and the event is good, however unhappy the fan. When the payment service provider (PSP) is down and Encore accepts the order and charges later, the fan has a ticket, and that event is good too. So Encore's checkout SLO reads: *of checkout attempts by admitted fans, 99.9% end in a confirmed order or a correctly explained decline within 3 s, measured at the gateway over a rolling 28 days.*
+Take checkout. A naive SLI counts HTTP 5xx responses from the Orders service, which runs the purchase saga and calls the payment provider, and gets two cases wrong. When a fan's card is declined, the system has worked correctly, and the event is good, however unhappy the fan. When both of Encore's payment service providers (PSPs) are degraded and a verified fan's seats are held while payment is pending, the fan has been told the truth and keeps the seats, and that event is good too; whether the fan later completes the payment is a separate indicator, owned by Orders. So Encore's checkout SLO reads: *of checkout attempts by admitted fans, 99.9% end in a confirmed order, a hold pending payment or a correctly explained decline within 3 s, measured at the gateway over a rolling 28 days.*
 
 Medicine knows the distinction well. A doctor reads vital signs, but the outcome that matters is whether the patient can climb the stairs at home, and a ward can have excellent vitals and miserable patients. SLIs are vital signs chosen because they predict the outcome. The analogy breaks where software is kinder: we can often measure the outcome directly, so we should, and keep component metrics for diagnosis.
 
@@ -846,7 +846,7 @@ Encore's peculiarity is that fans do not remember months. They remember 10:00 on
 | Journey | SLI (good ÷ valid) | Where measured | Objective and window |
 |---|---|---|---|
 | See seat map | requests served in ≤ 800 ms | gateway | 99.9%, rolling 28 days |
-| Check out | attempts ending in confirmed order or explained decline within 3 s | gateway | 99.9%, rolling 28 days |
+| Check out | attempts ending in confirmed order, pending-payment hold or explained decline within 3 s | gateway | 99.9%, rolling 28 days |
 | Major on-sale | admitted fans completing without an error page | Gate and gateway, joined per fan | 99%, first 60 min of the sale |
 | Receive tickets | orders with ticket in wallet within 5 min | Notifications, confirmed by wallet receipt | 99.5%, rolling 28 days |
 
@@ -947,17 +947,17 @@ No service meets its SLO alone. Checkout depends on the Gate, Seat Inventory, Or
 
 A sound engineer knows this instinctively: the audience hears the whole chain of microphone, desk, amplifiers and speakers, and a perfect desk cannot redeem a crackling cable. The analogy breaks where it saves us: a sound system cannot sing without its speakers, but a service can often keep its promise when a dependency fails, if it was designed to.
 
-Encore uses two remedies. The first is the rule Ben Treynor and his co-authors set out in "The Calculus of Service Availability" (2017): critical dependencies should be roughly one nine more reliable than the service itself. Encore holds its internal purchase-path services to 99.99%, so three of them multiply to about 99.97%, leaving room inside a 99.9% promise. The second is to make a hard dependency soft. The PSP's contract promises 99.9% per calendar month, which alone would pull a hard-wired checkout below its objective. But since the first outage Encore accepts orders when the PSP is down and charges them later, so a PSP failure no longer fails the fan; the price, a few charges that fail afterwards, is one Finance has agreed to carry. Figure 4.6 shows the result.
+Encore uses two remedies. The first is the rule Ben Treynor and his co-authors set out in "The Calculus of Service Availability" (2017): critical dependencies should be roughly one nine more reliable than the service itself. Encore holds its internal purchase-path services to 99.99%, so three of them multiply to about 99.97%, leaving room inside a 99.9% promise. The second is to make a hard dependency soft. The PSP's contract promises 99.9% per calendar month, which alone would pull a hard-wired checkout below its objective. So Orders & Payments integrates two PSPs and routes each new payment to a healthy one, as large merchants do; two providers that fail independently are both down far less often than either alone, though independence is an assumption to test rather than to trust, since both may lean on the same card networks. When both are degraded, a verified fan's seats stay held for up to 20 minutes, and the fan completes the payment, with the strong customer authentication that European rules require, once a provider recovers; unpaid holds lapse and the seats return to sale. What Encore never does is issue a ticket without an authorized payment. The price, a second integration to maintain and some held seats that go back on sale late, is one the On-Sale team and Finance have agreed to carry. Figure 4.6 shows the result.
 
 | Dependency | Its objective | Hard or soft for checkout | What Encore does when it fails |
 |---|---|---|---|
 | Sale Gate (admission) | 99.99% internal | hard | admitted fans continue; new admissions pause |
 | Seat Inventory (writes) | 99.99% internal | hard | holds fail fast with a clear message |
 | Orders & Payments | 99.99% internal | hard | saga resumes from its last step |
-| PSP | 99.9% per calendar month, contractual | soft | accept the order, charge later |
+| PSPs (two) | 99.9% each per calendar month, contractual | soft | route new payments to the other PSP; if both are degraded, hold verified fans' seats pending payment |
 | Notifications | 99.9% internal | soft | ticket delivered late, order confirmed now |
 
-*Figure 4.6 — Composing checkout. Hard dependencies multiply and need an extra nine; soft ones are designed out of the product. The PSP row is why the checkout SLO is achievable at all.*
+*Figure 4.6 — Composing checkout. Hard dependencies multiply and need an extra nine; soft ones are designed out of the product. The PSP row, two providers and a pending-payment hold, is why the checkout SLO is achievable at all.*
 
 An SLO thereby becomes part of a service's interface. It tells consumers how much to trust a service, as a type signature tells them what to pass, and Encore's service registry shows each service's SLOs beside its API contracts. This is information hiding, in the sense [the Architecture book](https://oleksiyp.github.io/arch-book/#13-modularity-and-logical-components) took from Parnas, extended to reliability: depend on the promise, because observed behavior is only a coincidence that has lasted so far.
 
@@ -1151,13 +1151,13 @@ A good dashboard has a thesis too. Encore's on-sale dashboard answers one questi
 
 #### What deserves a page {#what-deserves-a-page}
 
-Chapter 4 built the mechanics of alerting on burn rate; what remains is the discipline around it. An alert is a request for a human being's attention, and attention is the one resource no autoscaler can add. Every page should be urgent, affect users or be about to, and need a human judgment. [The Architecture book](https://oleksiyp.github.io/arch-book/#from-is-it-up-to-why-is-it-weird) stated the rule as paging on symptoms, not causes, with narrow exceptions for causes that make harm certain. In practice the rule needs one refinement: a cause is worth a page when it predicts a symptom more reliably and earlier than the symptom itself could be measured. A certificate expiring in six hours qualifies, and so does the seat ledger's cross-region standby becoming unreachable during an on-sale, since every seat write depends on it. CPU at 85% does not, because it predicts nothing on its own.
+Chapter 4 built the mechanics of alerting on burn rate; what remains is the discipline around it. An alert is a request for a human being's attention, and attention is the one resource no autoscaler can add. Every page should be urgent, affect users or be about to, and need a human judgment. [The Architecture book](https://oleksiyp.github.io/arch-book/#from-is-it-up-to-why-is-it-weird) stated the rule as paging on symptoms, not causes, with narrow exceptions for causes that make harm certain. In practice the rule needs one refinement: a cause is worth a page when it predicts a symptom more reliably and earlier than the symptom itself could be measured. A certificate expiring in six hours qualifies, and so does the seat ledger losing one of its three locations during an on-sale, since one more loss would leave no majority to commit a seat write. CPU at 85% does not, because it predicts nothing on its own.
 
 | Signal | Destination | Example at Encore |
 |---|---|---|
 | SLO fast burn | Page, immediately | Checkout error budget burning at 14× its sustainable rate |
 | SLO slow burn | Ticket, business hours | Seat-map latency budget 40% spent in 10 days |
-| Predictive cause, harm certain | Page | Certificate expiry under 24 h; ledger standby unreachable |
+| Predictive cause, harm certain | Page | Certificate expiry under 24 h; a ledger replica or witness unreachable |
 | Ordinary cause | Dashboard only | CPU, pod restarts, queue depth within capacity |
 | Business anomaly | Owning team's channel | Sales for one event far below forecast |
 
@@ -1404,7 +1404,7 @@ Unit economics then need care about denominators. Cost per ticket on a quiet Tue
 | Line item | Variable cost per ticket | Notes |
 |---|---|---|
 | Purchase-path compute (Gate, Inventory, Orders) | €0.041 | pre-scaled peaks billed while warm |
-| Data stores and replication | €0.029 | includes the seat ledger's synchronous standby |
+| Data stores and replication | €0.029 | includes the seat ledger's replicas in both regions and its witness in a third |
 | Telemetry (metrics, logs, traces) | €0.022 | sampling policy reviewed quarterly |
 | Network egress | €0.011 | wallet delivery and partner API |
 | AI gateway tokens (support assistant, refund agent) | €0.006 | about 80% of turns routed to the smaller model |
@@ -1956,7 +1956,7 @@ A **timeout** is a promise a caller makes to itself about how long it will wait 
 
 *Figure 9.2 — The 3 s checkout budget, divided. Each timeout sits above the dependency's normal p99 and below its share of the budget. The large margin is deliberate: on an on-sale morning, queues are where the time goes.*
 
-Two practices make the table real. With **deadline propagation**, the caller sends the absolute time by which it needs an answer, and each callee works only while that deadline lies in the future; Encore's internal gRPC calls carry deadlines natively, so a hold confirmation arriving with 40 ms left is refused at once. And a timed-out side effect is *unknown* until reconciled. A PSP charge that timed out may have succeeded, so Orders records it as pending and reconciles it later with the same idempotency key.
+Two practices make the table real. With **deadline propagation**, the caller sends the absolute time by which it needs an answer, and each callee works only while that deadline lies in the future; Encore's internal gRPC calls carry deadlines natively, so a hold confirmation arriving with 40 ms left is refused at once. And a timed-out side effect is *unknown* until reconciled. A PSP charge that timed out may have succeeded, so Orders records it as unknown and reconciles it later with the same provider, under the same idempotency key.
 
 #### Retries with jitter and a budget {#retries-with-jitter}
 
@@ -1986,13 +1986,13 @@ The breaker's three states are familiar: *closed*, where calls flow and failures
 
 *Figure 9.4 — The circuit breaker's tuning surface. The slow-call threshold is the row most often missing, and it is the one the PSP outage needed.*
 
-A breaker also needs a fallback, a defined thing to do when open, or it merely produces errors faster; for the PSP, Encore's fallback is the degraded mode already designed, accepting the order and charging later. Breaker transitions belong on the service dashboard, and a breaker that has not opened in a quarter is either guarding a perfect dependency or misconfigured. The second is likelier.
+A breaker also needs a fallback, a defined thing to do when open, or it merely produces errors faster. For payments, Encore's fallback is a ladder of degraded modes, each rung entered only when the one above is exhausted. First the breaker on the primary PSP opens and moves *new* payment attempts to the secondary, which Orders & Payments integrates for exactly this case; attempts already in flight finish or fail where they started, because idempotency keys belong to one provider, and a payment half in each would be reconciled by nobody. If both providers are degraded, verified fans' seats are held as a **pending payment**, a hold extended from the usual 5 minutes to as many as 20 and capped per fan, and the fan is told the seats are held and sent a link to complete payment, with strong customer authentication, when a provider recovers; unpaid holds lapse and the seats return to sale. Below that, for fans who are not verified or have reached their cap, Orders sheds: checkout fails fast with an honest message, and the Gate slows admission behind it. No rung issues a ticket without an authorized payment. European rules require the fan to authenticate a card payment while it happens, and Encore holds no card data with which to charge anyone afterwards. A degraded mode may shrink what we promise; it may never make the promise false. Breaker transitions belong on the service dashboard, and a breaker that has not opened in a quarter is either guarding a perfect dependency or misconfigured. The second is likelier.
 
 #### Backpressure {#backpressure}
 
 **Backpressure** is the means by which a component that cannot keep up tells its upstream to slow down before it accepts work it cannot finish. Without it, work piles up in unbounded queues and the system fails late and messily instead of early and cleanly; with it, queues are bounded and callers honor a "retry after" signal. A busy port works this way, sending ships to anchor offshore when the berths are full. The image breaks on patience: a ship will wait a week, but a request has a deadline, so backpressure that moves the queue upstream must also bound the wait. At Encore the chain ends at the Sale Gate, the one place where waiting is the product.
 
-**Recap.** Timeouts come from the user's budget and travel as deadlines, and a timed-out side effect is unknown until reconciled. Retries need jitter in time and a budget in volume, and the human retry needs designing for too. Breakers are state machines whose parameters decide whether they protect or harm, and backpressure keeps the queue where someone can see it.
+**Recap.** Timeouts come from the user's budget and travel as deadlines, and a timed-out side effect is unknown until reconciled. Retries need jitter in time and a budget in volume, and the human retry needs designing for too. Breakers are state machines whose parameters decide whether they protect or harm, their fallbacks are ladders of smaller but honest promises, and backpressure keeps the queue where someone can see it.
 
 **Exercise 9.2.** Build Figure 9.2 for one user-facing operation you run. Where does a timeout exceed its budget share, and where does a dependency's normal p99 sit uncomfortably close to its timeout?
 
@@ -2065,7 +2065,7 @@ Within a pooled cell, one noisy tenant can still harm its 49 neighbors. Shuffle 
 
 A system is **statically stable** when its data plane keeps working, unchanged, while its control plane is impaired, so that recovery never depends on creating, scaling or reconfiguring anything during the failure. The term comes from AWS, and its lesson is that the control plane is likeliest to be overwhelmed exactly when everyone needs it.
 
-Encore applies it in three places. The tenant-to-cell routing table is pushed to every edge node and cached, so routing continues from the last good copy if its control plane fails. Each tier carries enough capacity that losing a zone needs no scaling. And the seat ledger's standby in the second region is already running, so failover promotes a running copy and builds nothing, though its minutes of recovery time objective (RTO) belong to Chapter 10. Static stability costs idle capacity, and in return it removes the most dangerous step from every recovery: asking a struggling system to do something new.
+Encore applies it in three places. The tenant-to-cell routing table is pushed to every edge node and cached, so routing continues from the last good copy if its control plane fails. Each tier carries enough capacity that losing a zone needs no scaling. And the seat ledger's replicas in the other region and in the third-region witness are already running and already hold every committed write, so a region failover elects a leader among running copies and builds nothing, though its minutes of recovery time objective (RTO) belong to Chapter 10. Static stability costs idle capacity, and in return it removes the most dangerous step from every recovery: asking a struggling system to do something new.
 
 **Recap.** Bulkheads come in sizes, so we choose the rung by the failure we fear. Cells contain bad deploys only because change reaches them at different times, shuffle sharding isolates tenants through combinatorics, and static stability keeps recovery independent of a control plane under stress.
 
@@ -2095,11 +2095,11 @@ Last quarter's rehearsal combined two failures Encore had only drilled separatel
 experiment: psp-latency-during-shard-failover
 hypothesis: >
   Synthetic checkout success stays at or above 97% within the 3 s budget;
-  the PSP breaker opens within 15 s; orders are accepted and charged later;
+  the primary PSP breaker opens within 15 s; new payments move to the secondary;
   shard 2 failover rejects writes for under 60 s; no seat is sold twice.
 target: test event only (tenant: encore-internal), home region
 injections:
-  - at: T+0     psp_latency: { added: 2s, share: 60% }   # mesh fault injection
+  - at: T+0     psp_latency: { psp: primary, added: 2s, share: 60% } # mesh fault
   - at: T+5m    shard_failover: { event: test, shard: 2 } # runbook step, by hand
 abort_if:
   - real-event checkout SLO burn rate > 2x for 5m
@@ -2107,7 +2107,7 @@ abort_if:
 duration: 30m
 ```
 
-Much went as hoped. The PSP breaker opened in 9 s, orders were accepted under "your card will be charged shortly", and the charge-later queue drained within four minutes of the injection ending. The fenced failover on shard 2 rejected writes for 38 s, and no seat was sold twice. Two findings were unwelcome. Jonas, the Seat Inventory engineer performing the failover, had never done one by hand, and the runbook named a flag removed two releases earlier, so the step took 11 minutes instead of 3: Chapter 3's deskilling, precisely. And the fan app turned out to retry each rejected hold three times at fixed one-second intervals, a retry layer the mesh's budget never saw; the app team added jitter and a client-side budget the next sprint.
+Much went as hoped. The primary PSP's breaker opened in 9 s and new payments moved to the secondary; the attempts caught in flight on the primary finished or failed there, and the last of the unknown ones was reconciled within four minutes of the injection ending. No hold needed to become a pending payment. The fenced failover on shard 2 rejected writes for 38 s, and no seat was sold twice. Two findings were unwelcome. Jonas, the Seat Inventory engineer performing the failover, had never done one by hand, and the runbook named a flag removed two releases earlier, so the step took 11 minutes instead of 3: Chapter 3's deskilling, precisely. And the fan app turned out to retry each rejected hold three times at fixed one-second intervals, a retry layer the mesh's budget never saw; the app team added jitter and a client-side budget the next sprint.
 
 One more line in the observers' log deserves recording. While the synthetic buyers retried their rejected holds, Bot Screening's velocity rule quarantined several of them. The log marked it as expected, since synthetic traffic looks synthetic, and the item was closed. Nobody asked what the same rule would make of a large crowd of real fans retrying in the same way, and on that Tuesday nobody had a reason to.
 
@@ -2170,7 +2170,7 @@ The story every operations engineer eventually hears took place at Pixar in 1998
 
 Its lessons are precise. The deletion was ordinary, a routine command in the wrong place, of the kind Jim Gray had in mind in 1985 when he studied failures of Tandem's fault-tolerant systems and found that administration and software caused far more outages than hardware did. The formal plan had decayed silently. The recovery came from a copy independent of the system in every way that mattered: another building, another machine, another reason for existing. And the people restoring it were improvising, because no one had ever practiced a restore.
 
-Encore stands this morning with better machinery than Pixar had and much the same exposure. Its seat ledger, the event log in which Seat Inventory sells each seat exactly once, commits synchronously to a second region. Its Finance ledger, the relational books fed by every completed sale, is backed up every night and has never been restored in full. Its holds store, where a fan's chosen seats wait five minutes for payment, is about to change shape under live traffic. Its game days have exercised shard failovers (Chapter 9) but never a whole region. By the end of the chapter all four will have been tested, and one will have failed instructively. (Chapter 1's [map of Encore](/prodsys-book/ch/1/#encore) shows where each piece sits.)
+Encore stands this morning with better machinery than Pixar had and much the same exposure. Its seat ledger, the event log in which Seat Inventory sells each seat exactly once, commits every write to a majority of three EU locations. Its Finance ledger, the relational books fed by every completed sale, is backed up every night and has never been restored in full. Its holds store, where a fan's chosen seats wait five minutes for payment, is about to change shape under live traffic. Its game days have exercised shard failovers (Chapter 9) but never a whole region. By the end of the chapter all four will have been tested, and one will have failed instructively. (Chapter 1's [map of Encore](/prodsys-book/ch/1/#encore) shows where each piece sits.)
 
 ### 10.1 Why Stateful Systems Are Different
 
@@ -2189,8 +2189,8 @@ The first operational act for state is an inventory. Encore's is short, because 
 | State | Store | System of record? | Loss means | RPO | RTO |
 |---|---|---|---|---|---|
 | Seat ledger (event log) | Seat Inventory, event-sourced, four shards per large event | Yes | A seat sold twice or a fan charged for nothing | 0 | Minutes |
-| Seat holds | Holds store, 5-minute expiry | Yes, briefly | Fans lose seats mid-checkout | Minutes | Minutes |
-| Orders and payments | Orders, with the payment service provider (PSP) as external record | Yes | Charges without tickets, reconcilable against the PSP | Seconds | 30 min |
+| Seat holds | Holds store, 5-minute expiry (up to 20 for a pending payment) | Yes, briefly | Fans lose seats mid-checkout | Minutes | Minutes |
+| Orders and payments | Orders, with the two payment service providers (PSPs) as external records | Yes | Charges without tickets, reconcilable against the PSPs | Seconds | 30 min |
 | Finance ledger | Relational, fed by `SaleCompleted` | Yes, for accounting | A failed nightly close; regulatory exposure | 15 min | 2 h |
 | Catalog | Managed database | Yes | Stale listings, lost edits | Minutes | 1 h |
 | Seat-map cache, search index, analytics | Derived | No | Slowness while rebuilt | n/a | Rebuild time |
@@ -2217,7 +2217,7 @@ We picture a region burning down, which cloud providers have made rare. The comm
 
 | Mechanism | Protects against | Restores | Weakness |
 |---|---|---|---|
-| Synchronous replica | Machine, zone or region loss | Seconds (promotion) | Copies every logical error instantly |
+| Synchronous or quorum replica | Machine, zone or region loss | Seconds to minutes (promotion or election) | Copies every logical error instantly |
 | Physical backup plus write-ahead log | Deletion, corruption, region loss | Hours for terabytes | Whole database at once |
 | Logical dump | Loss of one table or one tenant | Slow, but granular | Slow to take, slower to restore at size |
 | Immutable copy in a separate account | Ransomware, insiders, compromised automation | As above, plus access delay | Must be designed in |
@@ -2283,7 +2283,17 @@ The dual writes were the real hazard, and the teams treated them as such. Withou
 
 **Replication lag** is the delay between a write being acknowledged on the leader and being applied on a replica; under asynchronous replication it is exactly the data a failover would lose. It tends to be largest at the worst moment, because the events that raise write volume (an on-sale, a backfill) are the ones most likely to precede trouble; GitLab's outage began with a replica too far behind to catch up. Lag that threatens an RPO is one of the few causes that earns a page.
 
-Encore chose synchronous replication for the seat ledger precisely to take lag out of the RPO. Each write commits to a standby in its home region and to one in the second region before the fan's hold is confirmed. The price is a cross-region round trip of about 18 ms on every seat write, which the 3 s checkout budget absorbs easily. What synchronous replication cannot buy is protection from Encore itself: a bad write reaches three copies in 18 ms. So the ledger, despite its zero RPO, still has point-in-time backups, and its event-sourced design earns its keep: corrupted projections can be rebuilt by replaying a log that only ever grows.
+#### Zero RPO needs a third vote {#zero-rpo-needs-a-third-vote}
+
+The seat ledger is the one store at Encore whose RPO is zero, because a lost write there is a seat sold twice, and the only way to lose nothing is to acknowledge nothing until it is durable outside the region that wrote it. The obvious design is a synchronous standby in the second region, and it fails in a way worth understanding. With two sites, the moment the link between them breaks, the home region must choose. It can wait for a peer it cannot reach, and writes stop; or it can stop waiting, and the next write exists in one place only, so the zero RPO is abandoned at exactly the moment it was bought for. The standby, for its part, cannot tell a dead primary from a severed link, so whoever promotes it is guessing, and a wrong guess is the split brain of the next subsection. Two sites have no way to break a tie, because a tie is all two sites can ever have.
+
+So each shard of the seat ledger is a **consensus group**: a set of replicas that commits a write only once a majority holds it durably, and that elects its leader by majority vote. Encore's groups are Raft-style, in the manner Diego Ongaro and John Ousterhout described in 2014, with the fenced leader terms we come to shortly. Each group has five voting members in three EU locations: two in the event's home region, EU-1 or EU-2, in different zones, where the leader normally sits; two in the other serving region; and a **witness** in a third region, EU-3, a replica that stores the replicated log and votes but serves no traffic. A write is acknowledged once three of the five have it, the two home replicas and whichever remote member answers first, so every seat write pays about one cross-region round trip, about 18 ms between nearby EU regions, and the 3 s checkout budget absorbs that easily. Throughput survives through **group commit**, which gathers the writes arriving during one round trip into a single replicated batch, so a shard still sustains its 1,500 ordered writes a second.
+
+The failure cases now resolve themselves by arithmetic rather than judgment. If a node or a zone fails, leadership moves to the other replica in the home region and the shard stays where its fans are. If the home region loses one peer location, a majority remains and fans notice nothing. If it is cut off from both, its two members are a minority of five, and its leader can no longer reach a majority; its lease lapses and it stops accepting writes, and anything it still attempts carries a superseded fencing token. The other region's two members and the witness, three of five, elect a leader in the other region. Every acknowledged write was already on a majority, so the RPO stays zero; the RTO is the election plus re-routing the Gate and Orders, a matter of minutes; and because a minority can never commit, there is no split brain to repair afterwards. A third site turns a guess into a vote.
+
+None of this is novel, which is its best recommendation. Google's Spanner offers multi-region configurations with read-write regions and a witness; Amazon DynamoDB's multi-Region strong consistency runs across three Regions, or two and a witness; Amazon Aurora DSQL spans two Regions with a witness in a third; and CockroachDB states the same trade as a survival goal. The price is the same everywhere: latency on every write and a third site to operate. Encore pays it only for the seat ledger. Catalog and the other stores keep simpler asynchronous, active–passive or active–active arrangements, because their RPOs allow it.
+
+What a majority cannot buy is protection from Encore itself: a bad write reaches all three locations in 18 ms. So the ledger, despite its zero RPO, still has point-in-time backups, and its event-sourced design earns its keep: corrupted projections can be rebuilt by replaying a log that only ever grows.
 
 Replication copies your mistakes as faithfully as your data.
 
@@ -2301,9 +2311,9 @@ That protection is **fencing**: every leadership term carries a monotonically in
 
 #### Failing over a region {#failing-over-a-region}
 
-Because Encore pins each event's writes to a home region, a regional failure becomes many small ones: for each event homed there, promote its standby, move its home and redirect its writers. Encore automated those steps as one operation but kept the trigger human, because partial regional failures are common and confusing, and a failover fired by a flapping health check is a self-inflicted outage with the largest blast radius Encore has.
+Because Encore pins each event's writes to a home region, a regional failure becomes many small ones. The ledger's part needs no one: shards whose home region is cut off lose their majority, and the survivors elect leaders in the other region. The rest, moving each event's home and redirecting the Gate and Orders to the new leaders, Encore automated as one operation but kept the trigger human, because partial regional failures are common and confusing, and a failover fired by a flapping health check is a self-inflicted outage with the largest blast radius Encore has.
 
-**Recap.** Lag is the RPO of asynchronous replication; synchronous replication removes lag but not our own mistakes. Split brain is the characteristic failure of failover, and fencing, enforced by storage rather than by leaders, is its cure. Region failover should be automated in its steps and human in its trigger.
+**Recap.** Lag is the RPO of asynchronous replication. Zero RPO needs a majority across three sites, because two can only guess on failover, and even a majority copies our own mistakes. Split brain is the characteristic failure of failover, and fencing, enforced by storage rather than by leaders, is its cure. Region failover should be automated in its steps and human in its trigger.
 
 **Exercise 10.4.** For one replicated store you run, find out what prevents an old leader from writing after a failover. If the answer is "it will notice it has been replaced," write down how long that takes and what it could write in the meantime.
 
@@ -2338,13 +2348,13 @@ Verification taught the subtlest lesson. A restore is finished not when the data
 
 #### The region failover game day {#region-failover-game-day}
 
-The largest test came on a quiet Tuesday in October, with no on-sale within a week: the Reliability team failed over every event homed in Encore's first region, EU-1, to the second, EU-2, carrying real traffic for small events and the synthetic buyers of Encore's hidden test event.
+The largest test came on a quiet Tuesday in October, with no on-sale within a week: the Reliability team isolated Encore's first region, EU-1, from EU-2 and from the witness in EU-3, and failed over every event homed there, carrying real traffic for small events and the synthetic buyers of Encore's hidden test event.
 
-The core held (Figure 10.6): standbys were promoted in about four minutes, fencing rejected a handful of late writes from EU-1 leaders that had not heard of their replacement, and no hold or sale was lost. The surprises were at the edges. The Sale Gate's provisioned concurrency had been pre-warmed only in EU-1, because every on-sale until then had been homed there, so the first synthetic buyers in EU-2 met cold starts. Bot Screening's risk data, in its separate account, reached EU-2 only by a daily copy, so the Gate there screened against yesterday's signals. And an Orders reconciliation job whose schedule named EU-1 explicitly quietly did nothing for six hours. None would have stopped a real failover; each would have made it worse, and each became a ticket with an owner.
+The core held (Figure 10.6): the EU-1 leaders lost their majority and stopped writing, new leaders were elected in EU-2 with the EU-3 witness's votes, fencing rejected a handful of late writes from deposed leaders that had not heard of their replacement, and the whole failover, election and re-routing together, took about four minutes end to end. No hold or sale was lost. The surprises were at the edges. The Sale Gate's provisioned concurrency had been pre-warmed only in EU-1, because every on-sale until then had been homed there, so the first synthetic buyers in EU-2 met cold starts. Bot Screening's risk data, in its separate account, reached EU-2 only by a daily copy, so the Gate there screened against yesterday's signals. And an Orders reconciliation job whose schedule named EU-1 explicitly quietly did nothing for six hours. None would have stopped a real failover; each would have made it worse, and each became a ticket with an owner.
 
 {% include diagrams/fig-10-6.svg %}
 
-*Figure 10.6 — The October game day, EU-1 to EU-2. The core that had been designed for failover held, while the three findings sat at the edges, in things that had quietly assumed EU-1 would always be home.*
+*Figure 10.6 — The October game day: EU-1 isolated, and EU-2 taking over with the votes of the EU-3 witness. The core that had been designed for failover held, while the three findings sat at the edges, in things that had quietly assumed EU-1 would always be home.*
 
 The drills also changed Encore's runbooks. A DR runbook is good when an engineer who has never performed the procedure can follow it at 3 a.m. against the clock, so each drill is now led by someone who has not led one before. Chapter 12 takes up how a real disaster is commanded.
 
@@ -2392,6 +2402,7 @@ You can now inventory a system's state, design backups for the threats that actu
 - Betsy Beyer, Niall Richard Murphy, David K. Rensin, Kent Kawahara, Stephen Thorne (eds.) — [*The Site Reliability Workbook*](https://sre.google/workbook/table-of-contents/). O'Reilly/Google, 2018 — free online.
 - Thomas A. Limoncelli, Strata R. Chalup, Christina J. Hogan — [*The Practice of Cloud System Administration*](https://www.informit.com/store/practice-of-cloud-system-administration-devops-and-9780321943187). Addison-Wesley, 2014.
 - Jim Gray — [*Why Do Computers Stop and What Can Be Done About It?*](https://www.cs.columbia.edu/~junfeng/08fa-e6998/sched/readings/why-do-computers-stop.pdf). Tandem Technical Report 85.7, 1985 — free online.
+- Diego Ongaro, John Ousterhout — [*In Search of an Understandable Consensus Algorithm*](https://raft.github.io/raft.pdf). USENIX ATC, 2014 — free online.
 - Cary G. Gray, David R. Cheriton — [*Leases: An Efficient Fault-Tolerant Mechanism for Distributed File Cache Consistency*](https://pages.cs.wisc.edu/~remzi/Classes/739/Fall2015/Papers/leases89.pdf). SOSP, 1989 — free online.
 
 ---
@@ -2620,7 +2631,7 @@ Software borrowed it a generation later and with less ceremony; the incident man
 
 #### What makes something an incident {#what-makes-an-incident}
 
-An **incident** is an unplanned disruption, or a credible threat of one, that needs a coordinated response beyond the routine work of a single on-call engineer. The definition turns on coordination rather than damage. A disk filling on a replica at 3 a.m. is a task; the same disk filling on the seat ledger's standby during an on-sale is an incident, because several teams must act together and someone must keep them pointed the same way.
+An **incident** is an unplanned disruption, or a credible threat of one, that needs a coordinated response beyond the routine work of a single on-call engineer. The definition turns on coordination rather than damage. A disk filling on a replica at 3 a.m. is a task; the same disk filling on a seat-ledger replica during an on-sale is an incident, because several teams must act together and someone must keep them pointed the same way.
 
 Every incident, large or small, passes through the same five phases. It is **detected**, by an alert, a customer or an engineer who notices something odd. It is **triaged and declared**, which means someone judges its severity and says out loud that it is an incident, with a name, a channel and a commander. It is **mitigated**: user harm is stopped or reduced, usually before anyone understands the cause. It is **resolved**, when the system is back to a stable state that nobody has to watch by hand. And it is **followed up**, through the review that Chapter 13 takes up. *Anatomy of an Incident*, Google's short report, frames an incident's cost as the time to detect plus the time to repair, weighed against the time between failures. The phases are not a waterfall: diagnosis runs underneath all of them, and severity is revised as the picture sharpens.
 
@@ -3497,15 +3508,15 @@ Each chapter introduces the parts of Encore it needs at the moment it needs them
 | **Seat Inventory** | The core domain and sole authority on whether a seat is free; event-sourced with command–query responsibility segregation (CQRS) | [Architecture book, 3.1](https://oleksiyp.github.io/arch-book/#31-strategic-design), [6.2](https://oleksiyp.github.io/arch-book/#cqrs-two-models-one-truth); Chapter 6 |
 | **Hold** | A seat reserved for one fan by `POST /holds` for 5 minutes, lapsing by itself if checkout does not finish | [Architecture book, 3.2](https://oleksiyp.github.io/arch-book/#aggregates-consistency-has-a-size); Chapter 10 |
 | **Shard and home region** | Four shards per large event by `event_id`, each with a fenced leader handling about 10,000 reads and 1,500 ordered writes a second; each event's writes pinned to one region | [Architecture book, 4.2](https://oleksiyp.github.io/arch-book/#42-state--replication-partitioning-consistency); Chapters 3 and 10 |
-| **Orders & Payments saga** | The orchestrated purchase, each step paired with a compensation, within a 3 s checkout budget; when the PSP is down, orders are accepted and charged later | [Architecture book, 5.2](https://oleksiyp.github.io/arch-book/#the-saga-transactions-without-the-transaction); Chapter 4 |
-| **PSP** | The external payment service provider, behind an anti-corruption layer; about 800 ms of the budget; Encore holds no card numbers | [Architecture book, 4.4](https://oleksiyp.github.io/arch-book/#anatomy-of-a-self-inflicted-outage); Chapters 2 and 9 |
+| **Orders & Payments saga** | The orchestrated purchase, each step paired with a compensation, within a 3 s checkout budget; if the primary PSP fails, new payments go to the secondary, and if both are degraded, verified fans' seats are held pending payment for up to 20 minutes; never a ticket without an authorized payment | [Architecture book, 5.2](https://oleksiyp.github.io/arch-book/#the-saga-transactions-without-the-transaction); Chapters 4 and 9 |
+| **PSP** | External payment service provider; Encore integrates two, routing each new payment to a healthy one, behind an anti-corruption layer; about 800 ms of the budget; Encore holds no card numbers | [Architecture book, 4.4](https://oleksiyp.github.io/arch-book/#anatomy-of-a-self-inflicted-outage); Chapters 2 and 9 |
 | **The first big outage** | The PSP slowed from 200 ms to 8 s, retries stormed and autoscaling made it worse; fixed with retry budgets and a single retry layer | [Architecture book, 4.4](https://oleksiyp.github.io/arch-book/#anatomy-of-a-self-inflicted-outage); Chapter 2 |
 | **Finance ledger** | The relational record of money, fed by `SaleCompleted`, reconciled daily and closed nightly | [Architecture book, 9.1](https://oleksiyp.github.io/arch-book/#91-data-ownership-in-distributed-systems); Chapter 10 |
 | **Seat-map geometry** | The shape of a hall, served by Catalog from a cache; availability is never cached | [Architecture book, 1.3](https://oleksiyp.github.io/arch-book/#13-modularity-and-logical-components); Chapters 6 and 13 |
 | **Notifications** | Delivers tickets by email and to phone wallets; rebuilt overnight by a coding agent in the scene that opens Chapter 1 | [Architecture book, 15.4](https://oleksiyp.github.io/arch-book/#the-inversion-the-preface-promised); Chapters 1 and 8 |
 | **`ticket-sales.v2`** | The event stream carrying `SeatSold`, `TicketIssued`, `SaleCompleted` and their kin to every consumer | [Architecture book, 6.5](https://oleksiyp.github.io/arch-book/#65-flow--streams-as-products); Chapter 5 |
 | **Tenants and cells** | Venues using Encore as a service: one Enterprise silo (`venue-chain-a`), Professional tenants in Kubernetes cells with a database per tenant, about 500 self-service venues pooled in serverless cells of about 50 | [Architecture book, 14.1](https://oleksiyp.github.io/arch-book/#two-planes-three-models); Chapters 7 and 9 |
-| **Regions** | EU-1 and EU-2: reads served from both, writes in each event's home region, the seat ledger committed synchronously to a standby in the other (RPO zero, RTO of minutes) | [Architecture book, 11.5](https://oleksiyp.github.io/arch-book/#surviving-a-region); Chapter 10 |
+| **Regions** | EU-1 and EU-2: reads served from both, writes in each event's home region, each seat-ledger shard a five-member consensus group, two replicas in each region and a witness in EU-3, committing on a majority (RPO zero, RTO of minutes) | [Architecture book, 11.5](https://oleksiyp.github.io/arch-book/#surviving-a-region); Chapter 10 |
 | **Golden path** | The platform's supported route from template to production, with provisioning, registry entry and scorecard | [Architecture book, 15.2](https://oleksiyp.github.io/arch-book/#golden-paths-on-a-self-service-control-plane); Chapter 7 |
 | **Curtain-up** | The self-service workflow that pre-warms the purchase path on an on-sale morning | [Architecture book, 11.1](https://oleksiyp.github.io/arch-book/#the-spectrum-priced-in-responsibility); Chapter 3 |
 | **Readiness review and freeze** | The Wednesday review before a big on-sale, and no non-emergency purchase-path changes from two hours before it until it ends | [Architecture book, 11.3](https://oleksiyp.github.io/arch-book/#from-is-it-up-to-why-is-it-weird); Chapters 8 and 13 |

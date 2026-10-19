@@ -8,7 +8,7 @@ def fig_1_1():
     d = Diagram("fig-1-1", 864, 596, "Encore's system map",
                 "Fans, organizers, partners and tenants enter through the API gateway. The purchase path runs "
                 "from the Sale Gate through Bot Screening and Seat Inventory to Orders & Payments and the "
-                "external payment provider. Catalog uses a bought search product; Support uses the AI gateway "
+                "external payment providers, two of them. Catalog uses a bought search product; Support uses the AI gateway "
                 "to reach model providers and asks Orders for refunds. Seat Inventory and Orders publish to "
                 "the ticket-sales.v2 stream, which Notifications, the Finance ledger and Sales Analytics consume.")
     T, H = 56, 56
@@ -42,7 +42,7 @@ def fig_1_1():
     d.node(A, rows[3], 152, H, "Orders & Payments", "purchase saga, 3 s")
     d.node(B, rows[0], 152, H, "Catalog", "events, seat geometry")
     d.node(B, rows[1], 152, H, "Support", "assistant, refund agent")
-    d.node(B, rows[3], 152, H, "PSP", "cards, ~800 ms", "external")
+    d.node(B, rows[3], 152, H, "PSPs", "two; cards, ~800 ms", "external")
     d.node(C, rows[0], 136, H, "Search", "a bought product", "external")
     d.node(C, rows[1], 136, H, "AI gateway", "routes model turns")
     d.node(C, rows[2], 136, H, "Model providers", "frontier, cheap tier", "external")
