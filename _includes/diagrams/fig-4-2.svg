@@ -28,7 +28,7 @@
 <text class="dg-axis-label" x="816" y="312" text-anchor="end">DAY OF THE 28-DAY WINDOW</text>
 <text class="dg-axis-label" x="72" y="30" text-anchor="start">BUDGET REMAINING (%)</text>
 <rect class="dg-mask" x="531.7" y="173.4" width="204" height="12" rx="2"/><text class="dg-label" x="633.7" y="182.4">BURN RATE 1: SPENT EXACTLY AT DAY 28</text>
-<rect class="dg-mask" x="369.28" y="200" width="164" height="12" rx="2"/><text class="dg-label" x="451.28" y="209">BELOW 25%: A SECOND REVIEWER</text>
+<rect class="dg-mask" x="381.28" y="200" width="152" height="12" rx="2"/><text class="dg-label" x="457.28" y="209">BELOW 25%: SRE PEER REVIEW</text>
 <rect class="dg-mask" x="369.28" y="260" width="164" height="12" rx="2"/><text class="dg-label" x="451.28" y="269">AT 0%: RELIABILITY WORK ONLY</text>
 <rect class="dg-mask" x="321.1" y="67.0" width="188" height="12" rx="2"/><text class="dg-label dg-l-accent" x="415.1" y="76.0">BOT SCREENING RULE: 70% IN 15 MIN</text>
 <rect class="dg-mask" x="319.1" y="233.8" width="184" height="12" rx="2"/><text class="dg-label" x="411.1" y="242.8">≈23% LEFT · ON-SALE UNDER REVIEW</text>

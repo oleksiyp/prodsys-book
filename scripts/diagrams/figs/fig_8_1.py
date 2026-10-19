@@ -41,7 +41,7 @@ def fig_8_1():
     d.note(244, 360, "97 Power Peg emails, unread", anchor="middle")
     d.note(484, 344, "new orders carry the reused flag", anchor="middle")
     d.note(724, 344, "stopped ≈ 45 min after the open", anchor="middle")
-    d.note(724, 360, "4 million+ executions · 154 stocks", anchor="middle")
+    d.note(724, 360, "4 million executions · 154 stocks", anchor="middle")
     d.legend([("backend", "New code, as intended"), ("optional", "Old code, Power Peg dormant"),
               ("focal", "Power Peg running")])
     return d

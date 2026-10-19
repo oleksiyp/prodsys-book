@@ -10,7 +10,8 @@ def fig_7_3():
                 "autoscaler's floor and CPU target; the autoscaler, watching pod CPU, writes spec.replicas; "
                 "the Deployment controller creates pods; pending pods prompt the cluster autoscaler to add "
                 "nodes, while the node-upgrade reconciler drains nodes through PodDisruptionBudgets. "
-                "A manual kubectl scale is a second owner of spec.replicas with no record, which policy now blocks.")
+                "A manual kubectl scale writes spec.replicas as a second owner and leaves no record; "
+                "a planned surge instead raises the autoscaler's floor in Git.")
     H = 56
     CX, CW = 304, 224          # loop column
     MID = CX + CW // 2         # 416

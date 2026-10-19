@@ -7,18 +7,18 @@ from registry import figure
 def fig_9_6():
     d = Diagram("fig-9-6", 864, 412, "Shuffle sharding in a cell",
                 "Eight worker lanes in one self-service cell, with each venue assigned two. Venue A's runaway "
-                "import floods lanes 2 and 5. Venues B and C share one flooded lane each and keep their other; "
-                "D and E share none; F, by chance, holds the same pair and is hit, which happens to about one "
-                "neighbor in 28.")
+                "import floods lanes 2 and 5. Venues B and C share one flooded lane each, and their consumers move "
+                "the work to their other lane; D and E share none; F, by chance, holds the same pair and is hit. "
+                "Any one neighbor has about a 1-in-28 chance of that, so in a cell of 50 one or two are hit.")
     LX, LW, Y0, RS = 216, 52, 72, 40
     lane = lambda k: LX + (k - 1) * LW + LW // 2  # noqa: E731
     flooded = (2, 5)
     rows = [("Venue A", "focal", (2, 5), "runaway import floods both"),
-            ("Venue B", "input", (2, 7), "keeps L7"),
-            ("Venue C", "input", (1, 5), "keeps L1"),
+            ("Venue B", "input", (2, 7), "work moves to L7"),
+            ("Venue C", "input", (1, 5), "work moves to L1"),
             ("Venue D", "input", (3, 8), "untouched"),
             ("Venue E", "input", (4, 6), "untouched"),
-            ("Venue F", "input", (2, 5), "same pair: hit (≈ 1 in 28)")]
+            ("Venue F", "input", (2, 5), "same pair: hit")]
     bottom = Y0 + len(rows) * RS
     shade = " ".join(f"M {lane(k) - 20},{Y0 - 8} h 40 v {bottom - Y0 + 4} h -40 z" for k in flooded)
     d.zones.append(f'<path class="dg-ill-fill-accent" d="{shade}"/>')
@@ -33,8 +33,8 @@ def fig_9_6():
         for k in lanes:
             d.extra.append(f'<circle class="dg-ill-fill" cx="{lane(k)}" cy="{y + 16}" r="7"/>')
         d.note(LX + 8 * LW + 16, y + 20, outcome)
-    d.note(24, bottom + 32, "Fixed partitions (four groups of two lanes): a runaway venue takes its whole group,")
-    d.note(24, bottom + 48, "about 12 of its 49 neighbors. Shuffled pairs (28 of them): about 2 neighbors share both lanes.")
+    d.note(24, bottom + 32, "Fixed partitions (four groups of two lanes): a runaway venue takes its whole group, about")
+    d.note(24, bottom + 48, "12 of its 49 neighbors. Shuffled pairs (28): one or two share both lanes, if work can move.")
     d.legend([("focal", "Noisy venue and its flooded lanes"), ("input", "Neighbor venue"),
               ("backend", "Lane assigned to a venue")])
     return d

@@ -1,6 +1,6 @@
 <div class="dg-figure" data-fig="fig-4-5" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 328" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-4-5-title fig-4-5-desc">
 <title id="fig-4-5-title">Serial dependencies multiply</title>
-<desc id="fig-4-5-desc">The best availability a journey can reach with one to six hard dependencies in series: at 99.95% each, two already reach the 99.9% checkout objective and four give about 99.80%; at 99.99% each, three give about 99.97%, leaving room inside the objective.</desc>
+<desc id="fig-4-5-desc">The availability of a journey with one to six hard dependencies in series, if their failures are independent: at 99.95% each, two already reach the 99.9% checkout objective and four give about 99.80%; at 99.99% each, three give about 99.97%, leaving room inside the objective.</desc>
 <defs><marker id="fig-4-5-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-4-5-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-4-5-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
 <rect class="dg-paper" width="100%" height="100%" rx="8"/>
 <line class="dg-grid" x1="72" y1="280.0" x2="816" y2="280.0"/>
@@ -28,7 +28,7 @@
 <text class="dg-tick" x="64" y="103.0" text-anchor="end">99.9%</text>
 <text class="dg-tick" x="64" y="43.0" text-anchor="end">100.0%</text>
 <text class="dg-axis-label" x="816" y="312" text-anchor="end">HARD DEPENDENCIES IN SERIES</text>
-<text class="dg-axis-label" x="72" y="30" text-anchor="start">BEST POSSIBLE AVAILABILITY</text>
+<text class="dg-axis-label" x="72" y="30" text-anchor="start">AVAILABILITY IF INDEPENDENT</text>
 <rect class="dg-mask" x="633.6" y="108" width="108" height="12" rx="2"/><text class="dg-label dg-l-accent" x="687.6" y="117">CHECKOUT SLO 99.9%</text>
 <rect class="dg-mask" x="360.0" y="166.9" width="136" height="12" rx="2"/><text class="dg-label" x="428.0" y="175.9">FOUR AT 99.95% ≈ 99.80%</text>
 <rect class="dg-mask" x="380.0" y="37.0" width="140" height="12" rx="2"/><text class="dg-label dg-l-link" x="450.0" y="46.0">THREE AT 99.99% ≈ 99.97%</text>

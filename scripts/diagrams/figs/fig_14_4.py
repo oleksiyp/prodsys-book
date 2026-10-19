@@ -11,8 +11,8 @@ def fig_14_4():
                 "and fails over to a second provider. The refund agent gets a 15-minute token by token exchange, "
                 "calls tools through the MCP server and the refund workflow, which sends some refunds to a human "
                 "review queue. Beside the path, a 3% daily sample of conversations and the nightly golden set "
-                "pass through the same evaluators, whose quality SLI can pull the gateway's degradation ladder, "
-                "and production failures become new golden cases.")
+                "pass through the same evaluators, whose quality SLI pages the on-call engineer who can pull the "
+                "gateway's degradation ladder, and production failures become new golden cases.")
     H = 56
     # --- request path
     d.path([(152, 124), (176, 124), (176, 68), (200, 68)])
@@ -31,7 +31,7 @@ def fig_14_4():
     d.path([(520, 208), (520, 292), (616, 292)], label="CONVERSATIONS", at=1, side="above")
     d.path([(728, 320), (728, 352)], label="3% DAILY", side="right")
     d.path([(728, 440), (728, 408)], label="NIGHTLY", side="right")
-    d.path([(616, 380), (472, 380), (472, 208)], kind="link", label="QUALITY SLI 98%", at=0, side="above")
+    d.path([(616, 380), (472, 380), (472, 208)], kind="link", label="SLI 98% · PAGES", at=0, side="above")
     d.path([(840, 396), (848, 396), (848, 468), (840, 468)], kind="accent", label=None)
     d.label_at("NEW CASES", 848, 432, horizontal=False, side="left", kind="accent")
     # --- nodes

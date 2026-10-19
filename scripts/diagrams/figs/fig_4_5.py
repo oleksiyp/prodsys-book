@@ -7,12 +7,12 @@ from registry import figure
 @figure
 def fig_4_5():
     d = Diagram("fig-4-5", 864, 328, "Serial dependencies multiply",
-                "The best availability a journey can reach with one to six hard dependencies in series: at 99.95% "
-                "each, two already reach the 99.9% checkout objective and four give about 99.80%; at 99.99% each, "
+                "The availability of a journey with one to six hard dependencies in series, if their failures are "
+                "independent: at 99.95% each, two already reach the 99.9% checkout objective and four give about 99.80%; at 99.99% each, "
                 "three give about 99.97%, leaving room inside the objective.")
     p = Plot(d, x=72, y=40, w=744, h=240, xr=(0.5, 6.5), yr=(99.6, 100.0))
     p.axes(xticks=[1, 2, 3, 4, 5, 6], yticks=[99.6, 99.7, 99.8, 99.9, 100.0],
-           xlabel="HARD DEPENDENCIES IN SERIES", ylabel="BEST POSSIBLE AVAILABILITY",
+           xlabel="HARD DEPENDENCIES IN SERIES", ylabel="AVAILABILITY IF INDEPENDENT",
            yfmt=lambda t: f"{t:.1f}%")
     p.hline(99.9, "CHECKOUT SLO 99.9%", kind="accent", side="below", at=0.9)
     lo = [(n, 100 * 0.9995 ** n) for n in range(1, 7)]

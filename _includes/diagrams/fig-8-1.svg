@@ -58,7 +58,7 @@
 <text class="dg-note" x="244" y="360" text-anchor="middle">97 Power Peg emails, unread</text>
 <text class="dg-note" x="484" y="344" text-anchor="middle">new orders carry the reused flag</text>
 <text class="dg-note" x="724" y="344" text-anchor="middle">stopped ≈ 45 min after the open</text>
-<text class="dg-note" x="724" y="360" text-anchor="middle">4 million+ executions · 154 stocks</text>
+<text class="dg-note" x="724" y="360" text-anchor="middle">4 million executions · 154 stocks</text>
 <line class="dg-rule" x1="24" y1="392" x2="840" y2="392"/>
 <rect class="dg-n dg-n-backend" x="24" y="403" width="16" height="10" rx="2"/>
 <text class="dg-legend" x="46" y="411">New code, as intended</text>

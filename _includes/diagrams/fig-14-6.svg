@@ -1,6 +1,6 @@
 <div class="dg-figure" data-fig="fig-14-6" style="--dg-w:864px"><div class="dg-scroll"><svg class="dg" viewBox="0 0 864 384" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-14-6-title fig-14-6-desc">
 <title id="fig-14-6-title">The degradation ladder</title>
-<desc id="fig-14-6-desc">Four rungs stepping down from the normal state, frontier and cheap tiers, to a pinned fallback provider, to retrieval only, to human handoff. The gateway&#x27;s circuit breakers, tripped by errors, latency or rate-limit exhaustion, pull the ladder to the fallback; a sustained burn of the refund-explanation quality SLI drops refund intents straight to retrieval only, because a model that is available but wrong never trips a breaker.</desc>
+<desc id="fig-14-6-desc">Four rungs stepping down from the normal state, frontier and cheap tiers, to a pinned fallback provider, to retrieval only, to human handoff. The gateway&#x27;s circuit breakers, tripped by errors, latency or rate-limit exhaustion, pull the ladder to the fallback automatically; a sustained burn of the refund-explanation quality SLI pages the on-call engineer, who may flip a prepared switch that drops refund intents to retrieval only, because a model that is available but wrong never trips a breaker and a noisy judge-based signal is not trusted to act alone.</desc>
 <defs><marker id="fig-14-6-m-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-muted" points="0 0, 8 3, 0 6"/></marker><marker id="fig-14-6-m-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-accent" points="0 0, 8 3, 0 6"/></marker><marker id="fig-14-6-m-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="dg-head dg-head-link" points="0 0, 8 3, 0 6"/></marker></defs>
 <rect class="dg-paper" width="100%" height="100%" rx="8"/>
 <path class="dg-a dg-a-muted" d="M 216,68 L 264,68 Q 272,68 272,76 L 272,88" marker-end="url(#fig-14-6-m-muted)"/>
@@ -9,7 +9,7 @@
 <path class="dg-a dg-a-muted" d="M 328,264 L 328,144" marker-end="url(#fig-14-6-m-muted)"/>
 <path class="dg-a dg-a-accent" d="M 536,264 L 536,192" marker-end="url(#fig-14-6-m-accent)"/>
 <rect class="dg-mask" x="336" y="198" width="40" height="12" rx="2"/><text class="dg-label" x="356" y="207">TRIPS</text>
-<rect class="dg-mask" x="544" y="222" width="88" height="12" rx="2"/><text class="dg-label dg-l-accent" x="588" y="231">REFUND INTENTS</text>
+<rect class="dg-mask" x="544" y="222" width="88" height="12" rx="2"/><text class="dg-label dg-l-accent" x="588" y="231">ON-CALL SWITCH</text>
 <rect class="dg-mask" x="24" y="40" width="192" height="56" rx="6"/>
 <rect class="dg-n dg-n-focal" x="24" y="40" width="192" height="56" rx="6"/>
 <rect class="dg-tagbox dg-t-focal" x="32" y="46" width="88" height="12" rx="2"/>
@@ -41,7 +41,7 @@
 <rect class="dg-mask" x="440" y="264" width="192" height="56" rx="6"/>
 <rect class="dg-n dg-n-input" x="440" y="264" width="192" height="56" rx="6"/>
 <text class="dg-name" x="536" y="294">Refund quality SLI</text>
-<text class="dg-sub" x="536" y="309">sustained burn below 98%</text>
+<text class="dg-sub" x="536" y="309">burn pages on-call</text>
 <text class="dg-note" x="448" y="64" text-anchor="start">EVERY RUNG DECIDED IN ADVANCE</text>
 <text class="dg-note" x="448" y="78" text-anchor="start">AND EXERCISED ON GAME DAYS</text>
 <line class="dg-rule" x1="24" y1="344" x2="840" y2="344"/>

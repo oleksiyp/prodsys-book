@@ -16,7 +16,7 @@ def fig_4_2():
            xlabel="DAY OF THE 28-DAY WINDOW", ylabel="BUDGET REMAINING (%)", yfmt=lambda t: f"{t}%")
     p.line([(0, 100), (28, 0)], kind="soft", dashed=True)
     p.annotate(17, 39, "BURN RATE 1: SPENT EXACTLY AT DAY 28", dx=8, dy=-4)
-    p.hline(25, "BELOW 25%: A SECOND REVIEWER", side="above", at=0.62)
+    p.hline(25, "BELOW 25%: SRE PEER REVIEW", side="above", at=0.62)
     p.hline(0, "AT 0%: RELIABILITY WORK ONLY", side="above", at=0.62, dashed=False)
     p.line([(0, 100), (3, 98), (6, 95.5), (9, 93), (9.01, 23), (12, 22), (15, 21), (18, 19.5), (21, 18.5),
             (24, 17.5), (28, 16)], kind="accent")
