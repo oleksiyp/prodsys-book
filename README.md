@@ -1,6 +1,6 @@
 # Operating Production Systems in the AI & Cloud Era
 
-*When Production Fails*
+*Keeping Systems Running*
 
 <small>© 2026 Oleksiy Pylypenko · Licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) — share and adapt freely, non-commercially, with attribution. Source on [GitHub](https://github.com/oleksiyp/prodsys-book). Also in the series: [*Software Architecture in the AI & Cloud Era*](https://oleksiyp.github.io/arch-book/) and [*Building Resilient Systems in the AI & Cloud Era*](https://oleksiyp.github.io/resilienteng-book/).</small>
 

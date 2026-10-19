@@ -1,5 +1,5 @@
 title: "Operating Production Systems in the AI & Cloud Era"
-tag_line: "when production fails"
+tag_line: "keeping systems running"
 description: "A free online book on operating production systems: how people and machines run software, see it, respond when it fails and learn from it."
 theme: jekyll-theme-cayman
 # GA4 measurement ID (G-XXXXXXXXXX); empty disables analytics entirely. Shared with the arch book; filter by path.

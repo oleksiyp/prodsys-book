@@ -80,7 +80,7 @@ const Lab = (() => {
   const SERIF = 'Source Serif 4', MONO = 'IBM Plex Mono';
   const TEXT = {
     t1: 'OPERATING', t2: 'PRODUCTION SYSTEMS', t3: 'in the AI & Cloud Era',
-    sub: 'When production fails',
+    sub: 'Keeping systems running',
     author: 'OLEKSIY PYLYPENKO', authorShort: 'PYLYPENKO',
     hook: 'Every system leaves the hands of its designers and enters a world they cannot fully foresee.',
     p1: 'Production is run by people and machines together, and when it fails it fails in ways no single part explains. This book is about the operators: how they see a system, how automation and AI agents change their work, how they respond under pressure, and how organizations learn.',
