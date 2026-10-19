@@ -64,6 +64,7 @@ The seven chapters fall into four parts. They move from understanding what produ
 7. [The Production Organization and the Capstone](#ch7)
 
 [Appendix: Encore at a Glance](#encore-glance)
+{: .toc-appendix}
 
 ---
 
