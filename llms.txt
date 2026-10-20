@@ -1,6 +1,6 @@
 # Operating Production Systems in the AI & Cloud Era
 
-> A free online book on operating production systems — what production is, how complex systems fail, automation and operations agents, observability, incident response, learning from incidents and the production organization. 7 chapters, one running example (Encore, a concert-ticketing company), a kata per chapter. Book 4 of the AI & Cloud Era series; it follows "Building Resilient Systems" (the Resilience book).
+> A free online book on operating production systems — what production is, how complex systems fail, automation and operations agents, observability, incident response, learning from incidents and the production organization. 7 chapters, one running example (Encore, a concert-ticketing company), a kata per chapter. Book 5 of the AI & Cloud Era series; it follows "Building Resilient Systems" (the Resilience book).
 
 - [Full book, single page](https://oleksiyp.github.io/prodsys-book/)
 - [Full book as raw markdown](https://oleksiyp.github.io/prodsys-book/llms-full.txt)
